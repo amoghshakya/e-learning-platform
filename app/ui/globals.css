@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  @apply bg-background text-text;
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+
+  }
+} */
+
+body {
+  @apply bg-background;
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 700;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.menu {
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: max-content;
+  height: fit-content;
+}
+
+.menu::after,
+.menu::before {
+  content: "";
+  display: block;
+  height: 1.5px;
+  width: 22px;
+  background-color: #000;
+  transition: transform 0.15s ease;
+}
+
+.menu::before {
+  transform: translateX(22px) translateY(-5px) rotate(0deg);
+}
+.menu::after {
+  transform: translateX(0px) translateY(5px) rotate(0deg);
+}
+
+.menu-expanded::before {
+  transform: translateX(22px) rotate(45deg);
+}
+.menu-expanded::after {
+  transform: translateY(0) rotate(-45deg);
+}
+
+.join-input {
+  @apply block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500;
+}

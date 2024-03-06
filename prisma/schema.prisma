@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  admin_id   String @id @default(uuid()) @db.Uuid
+  username   String
+  email      String @unique
+  first_name String
+  last_name  String
+  password   String
+}
+
+model User {
+  user_id           String       @id @default(uuid()) @db.Uuid
+  username          String       @unique
+  password          String?
+  email             String       @unique
+  first_name        String
+  last_name         String
+  isInstructor      Boolean
+  acc_creation_date DateTime     @default(now())
+  Instructor        Instructor[]
+  Enrollment        Enrollment[]
+}
+
+model Course {
+  course_id     String       @id @default(uuid()) @db.Uuid
+  title         String
+  description   String
+  instructor    Instructor   @relation(fields: [instructor_id], references: [instructor_id])
+  instructor_id String       @db.Uuid
+  category      Category?    @relation(fields: [category_id], references: [category_id])
+  category_id   String       @db.Uuid
+  price         Decimal
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
+  Lesson        Lesson[]
+  Enrollment    Enrollment[]
+}
+
+model Lesson {
+  lesson_id  String   @id @default(uuid()) @db.Uuid
+  title      String
+  content    String
+  video_url  String?
+  course     Course   @relation(fields: [course_id], references: [course_id])
+  course_id  String   @db.Uuid
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Category {
+  category_id String   @id @default(uuid()) @db.Uuid
+  name        String
+  courses     Course[]
+}
+
+model Instructor {
+  instructor_id String   @id @default(uuid()) @db.Uuid
+  user          User     @relation(fields: [user_id], references: [user_id])
+  user_id       String   @db.Uuid
+  courses       Course[]
+}
+
+model Enrollment {
+  enrollment_id String    @id @default(uuid()) @db.Uuid
+  user          User      @relation(fields: [user_id], references: [user_id])
+  user_id       String    @db.Uuid
+  course        Course    @relation(fields: [course_id], references: [course_id])
+  course_id     String    @db.Uuid
+  enrolled_at   DateTime  @default(now())
+  progress      Int       @default(0)
+  completed_at  DateTime?
+}
