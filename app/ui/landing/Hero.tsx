@@ -1,6 +1,6 @@
 import { bricolage } from "@/app/ui/fonts";
 import clsx from "clsx";
-import heroIllustration from "@/public/hero_illu.svg";
+import heroIllustration from "@/public/static/hero_illu.svg";
 import Image from "next/image";
 import { SearchBar } from "../Search";
 

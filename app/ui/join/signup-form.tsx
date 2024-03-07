@@ -14,14 +14,14 @@ import { createUser } from "@/lib/actions";
 
 export function SignUpForm() {
   const initialState = {
-    errors: {},
-    message: null,
+    fieldErrors: {},
+    successMessage: null,
+    failureMessage: null,
   };
   const [errorMessage, dispatch] = useFormState(createUser, initialState);
 
   return (
     <form action={dispatch}>
-      {errorMessage.message}
       <div className="flex flex-1 flex-col rounded-lg bg-gray-50 px-6 pb-4 pt-8">
         <h1 className={`text-3xl ${bricolage.className}`}>Create an account</h1>
 
@@ -47,8 +47,8 @@ export function SignUpForm() {
             <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
           </div>
           <div id="email-error" aria-live="polite" aria-atomic="true">
-            {errorMessage.errors?.email &&
-              errorMessage.errors.email.map((error: string) => (
+            {errorMessage.fieldErrors?.email &&
+              errorMessage.fieldErrors.email.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
@@ -118,8 +118,8 @@ export function SignUpForm() {
             <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
           </div>
           <div id="username-error" aria-live="polite" aria-atomic="true">
-            {errorMessage.errors?.username &&
-              errorMessage.errors.username.map((error: string) => (
+            {errorMessage.fieldErrors?.username &&
+              errorMessage.fieldErrors.username.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
@@ -148,8 +148,8 @@ export function SignUpForm() {
             <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
           </div>
           <div id="password-error" aria-live="polite" aria-atomic="true">
-            {errorMessage.errors?.password &&
-              errorMessage.errors.password.map((error: string) => (
+            {errorMessage.fieldErrors?.password &&
+              errorMessage.fieldErrors.password.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>

@@ -25,12 +25,13 @@ const SignUpSchema = z.object({
 });
 
 export type State = {
-  errors?: {
+  fieldErrors?: {
     email?: string[];
     username?: string[];
     password?: string[];
   };
-  message?: string | null;
+  successMessage?: string | null;
+  failureMessage?: string | null;
 };
 
 export async function createUser(
@@ -48,8 +49,8 @@ export async function createUser(
 
   if (!validatedFields.success) {
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing fields. Failed to create an account.",
+      fieldErrors: validatedFields.error.flatten().fieldErrors,
+      failureMessage: "Missing fields. Failed to create an account.",
     };
   }
 
@@ -64,7 +65,7 @@ export async function createUser(
 
     if (emailExists) {
       return {
-        errors: {
+        fieldErrors: {
           email: ["Email already in use."],
         },
       };
@@ -75,7 +76,7 @@ export async function createUser(
 
     if (usernameExists) {
       return {
-        errors: {
+        fieldErrors: {
           username: ["Username already in use."],
         },
       };
@@ -103,11 +104,11 @@ export async function createUser(
     }
 
     return {
-      message: "Account created succesfully.",
+      successMessage: "Account created succesfully.",
     };
   } catch (err) {
     return {
-      message: "Failed to create an account.",
+      failureMessage: "Failed to create an account.",
     };
   }
 }

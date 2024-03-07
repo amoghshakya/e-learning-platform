@@ -1,7 +1,9 @@
+import { Button } from "@/app/ui/Button";
 import { CourseCard } from "@/app/ui/dashboard/CourseCard";
 import { bricolage } from "@/app/ui/fonts";
+import { signOut } from "@/auth";
 
-export default  function Dashboard() {
+export default function Dashboard() {
   return (
     <div>
       <h1

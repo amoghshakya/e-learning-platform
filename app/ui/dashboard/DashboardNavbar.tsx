@@ -18,7 +18,7 @@ export function DNavbar() {
     >
       <Link href="/" draggable="false">
         <Image
-          src="./logo.svg"
+          src="/static/logo.svg"
           className="ml-3 w-8 md:ml-0 md:w-fit md:px-6"
           width={100}
           height={100}
