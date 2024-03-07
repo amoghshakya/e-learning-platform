@@ -13,7 +13,7 @@ export default function NavBar() {
     <nav
       className={clsx(
         "z-30 grid h-fit w-screen grid-cols-2 grid-rows-1 items-center gap-4 overflow-clip p-4 shadow md:grid-cols-[max-content,1fr,max-content] md:px-12",
-        {},
+        {}
       )}
     >
       <Link href="/" draggable="false">
