@@ -13,36 +13,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Admin {
-  admin_id   String @id @default(uuid()) @db.Uuid
-  username   String
-  email      String @unique
-  first_name String
-  last_name  String
-  password   String
+enum Role {
+  USER
+  ADMIN
 }
 
 model User {
-  user_id           String       @id @default(uuid()) @db.Uuid
+  user_id           String       @id @default(cuid())
   username          String       @unique
   password          String?
   email             String       @unique
-  first_name        String
-  last_name         String
+  name              String
   isInstructor      Boolean
+  role              Role         @default(USER)
   acc_creation_date DateTime     @default(now())
   Instructor        Instructor[]
   Enrollment        Enrollment[]
 }
 
 model Course {
-  course_id     String       @id @default(uuid()) @db.Uuid
+  course_id     String       @id @default(cuid())
   title         String
   description   String
-  instructor    Instructor   @relation(fields: [instructor_id], references: [instructor_id])
-  instructor_id String       @db.Uuid
+  instructor    Instructor?  @relation(fields: [instructor_id], references: [instructor_id], onDelete: Cascade)
+  instructor_id String
   category      Category?    @relation(fields: [category_id], references: [category_id])
-  category_id   String       @db.Uuid
+  category_id   String
   price         Decimal
   created_at    DateTime     @default(now())
   updated_at    DateTime     @updatedAt
@@ -51,35 +47,35 @@ model Course {
 }
 
 model Lesson {
-  lesson_id  String   @id @default(uuid()) @db.Uuid
+  lesson_id  String   @id @default(cuid())
   title      String
   content    String
   video_url  String?
-  course     Course   @relation(fields: [course_id], references: [course_id])
-  course_id  String   @db.Uuid
+  course     Course   @relation(fields: [course_id], references: [course_id], onDelete: Cascade)
+  course_id  String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
 
 model Category {
-  category_id String   @id @default(uuid()) @db.Uuid
+  category_id String   @id @default(cuid())
   name        String
   courses     Course[]
 }
 
 model Instructor {
-  instructor_id String   @id @default(uuid()) @db.Uuid
-  user          User     @relation(fields: [user_id], references: [user_id])
-  user_id       String   @db.Uuid
+  instructor_id String   @id @default(cuid())
+  user          User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  user_id       String
   courses       Course[]
 }
 
 model Enrollment {
-  enrollment_id String    @id @default(uuid()) @db.Uuid
+  enrollment_id String    @id @default(cuid())
   user          User      @relation(fields: [user_id], references: [user_id])
-  user_id       String    @db.Uuid
-  course        Course    @relation(fields: [course_id], references: [course_id])
-  course_id     String    @db.Uuid
+  user_id       String
+  course        Course    @relation(fields: [course_id], references: [course_id], onDelete: Cascade)
+  course_id     String
   enrolled_at   DateTime  @default(now())
   progress      Int       @default(0)
   completed_at  DateTime?

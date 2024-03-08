@@ -7,7 +7,7 @@ export function CourseCard() {
     <div className="flex h-fit flex-wrap gap-2 rounded-md bg-slate-200 p-3 shadow md:grid md:w-full md:grid-cols-[fit-content,1fr,1fr] md:grid-rows-[min-content,max-content,min-content] md:flex-nowrap">
       {/* Course thumbnail */}
       <Image
-        src="/snoopy.jpg"
+        src="/static/snoopy.jpg"
         width={100}
         height={100}
         alt="thumbnail"
@@ -43,7 +43,7 @@ export function CourseCard() {
 
       <div className="col-start-3 row-span-3 hidden border-l-[1px] border-slate-400 p-3 md:mx-2 md:block">
         <Link href="">
-          <h3 className="text-sm peer ">Next up</h3>
+          <h3 className="peer text-sm ">Next up</h3>
           <p className="text-sm peer-hover:underline">Next lesson</p>
         </Link>
       </div>

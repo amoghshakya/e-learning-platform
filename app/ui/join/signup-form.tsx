@@ -9,20 +9,47 @@ import {
   KeyIcon,
   IdentificationIcon,
   UserIcon,
+  CheckCircleIcon,
+  XCircleIcon,
 } from "@heroicons/react/24/outline";
 import { createUser } from "@/lib/actions";
+import Link from "next/link";
+import React, { useEffect } from "react";
+
+import { redirect, useRouter } from "next/navigation";
 
 export function SignUpForm() {
+  const router = useRouter();
   const initialState = {
     fieldErrors: {},
     successMessage: null,
     failureMessage: null,
   };
-  const [errorMessage, dispatch] = useFormState(createUser, initialState);
+  const [messages, dispatch] = useFormState(createUser, initialState);
+
+  useEffect(() => {
+    if (messages.successMessage) {
+      const form = document.getElementById(
+        "sign-up-form",
+      ) as HTMLFormElement | null;
+
+      if (form) {
+        form.reset();
+      }
+
+      setTimeout(() => {
+        router.push("/join/login");
+      }, 1500);
+    }
+  }, [messages.successMessage]);
 
   return (
-    <form action={dispatch}>
-      <div className="flex flex-1 flex-col rounded-lg bg-gray-50 px-6 pb-4 pt-8">
+    <form
+      id="sign-up-form"
+      action={dispatch}
+      className="flex h-2/3 flex-col items-center justify-around drop-shadow *:transition-all"
+    >
+      <div className="flex flex-col gap-4 rounded-lg bg-gray-50 p-12">
         <h1 className={`text-3xl ${bricolage.className}`}>Create an account</h1>
 
         {/* Email */}
@@ -44,11 +71,11 @@ export function SignUpForm() {
               required
             />
             {/* an icon maybe */}
-            <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            <AtSymbolIcon className="join-icon" />
           </div>
           <div id="email-error" aria-live="polite" aria-atomic="true">
-            {errorMessage.fieldErrors?.email &&
-              errorMessage.fieldErrors.email.map((error: string) => (
+            {messages.fieldErrors?.email &&
+              messages.fieldErrors.email.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
@@ -56,43 +83,25 @@ export function SignUpForm() {
           </div>
         </div>
 
+        {/* name */}
         <div>
-          {/* First name */}
-          <div>
-            <label htmlFor="first_name">
-              First name
-              <span className="text-xs text-gray-600" aria-disabled>
-                *
-              </span>
-            </label>
-            <div className="relative">
-              <input
-                className="join-input peer"
-                type="text"
-                name="first_name"
-                id="first_name"
-                placeholder="First name"
-                required
-              />
-              {/* an icon maybe */}
-              <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div>
-
-          {/* Last name */}
-          <div>
-            <label htmlFor="last_name">Last name</label>
-            <div className="relative">
-              <input
-                className="join-input peer"
-                type="text"
-                name="last_name"
-                id="last_name"
-                placeholder="Last name"
-              />
-              {/* an icon maybe */}
-              <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
+          <label htmlFor="name">
+            Name
+            <span className="text-xs text-gray-600" aria-disabled>
+              *
+            </span>
+          </label>
+          <div className="relative">
+            <input
+              className="join-input peer"
+              type="text"
+              name="name"
+              id="name"
+              placeholder="Name"
+              required
+            />
+            {/* an icon maybe */}
+            <IdentificationIcon className="join-icon" />
           </div>
         </div>
 
@@ -115,11 +124,11 @@ export function SignUpForm() {
               required
             />
             {/* an icon maybe */}
-            <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            <UserIcon className="join-icon" />
           </div>
           <div id="username-error" aria-live="polite" aria-atomic="true">
-            {errorMessage.fieldErrors?.username &&
-              errorMessage.fieldErrors.username.map((error: string) => (
+            {messages.fieldErrors?.username &&
+              messages.fieldErrors.username.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
@@ -145,11 +154,11 @@ export function SignUpForm() {
               required
             />
             {/* an icon maybe */}
-            <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            <KeyIcon className="join-icon" />
           </div>
           <div id="password-error" aria-live="polite" aria-atomic="true">
-            {errorMessage.fieldErrors?.password &&
-              errorMessage.fieldErrors.password.map((error: string) => (
+            {messages.fieldErrors?.password &&
+              messages.fieldErrors.password.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
@@ -158,11 +167,36 @@ export function SignUpForm() {
         </div>
 
         {/* Also sign up as an instructor option */}
-        <div>
+        <div className="flex items-center gap-2">
           <ToggleSwitch name="instructor" id="instructor" />
-          <label htmlFor="instructor">Sign up as instructor</label>
+          <label htmlFor="instructor" className="text-sm">
+            Sign up as instructor
+          </label>
         </div>
 
+        <p className="text-center text-sm opacity-90">
+          Already have an account?{" "}
+          <Link href="/join/login" className="text-blue-700 hover:underline">
+            Log in here
+          </Link>
+        </p>
+        {messages.failureMessage ? (
+          <div className="flex items-center justify-start gap-2 rounded border border-red-300 bg-red-200 p-3">
+            <XCircleIcon className="h-auto w-5 text-red-600" />
+            <p className="text-center text-xs text-red-600">
+              {messages.failureMessage}
+            </p>
+          </div>
+        ) : (
+          messages.successMessage && (
+            <div className="flex items-center justify-start gap-2 rounded border border-green-300 bg-green-200 p-3">
+              <CheckCircleIcon className="h-auto w-5 text-green-600" />
+              <p className="text-center text-xs text-green-600">
+                {messages.successMessage}
+              </p>
+            </div>
+          )
+        )}
         <SignUpButton />
       </div>
     </form>

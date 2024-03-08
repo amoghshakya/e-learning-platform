@@ -1,9 +1,12 @@
 import { SignUpForm } from "@/app/ui/join/signup-form";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Sign up",
+};
 export default function SignUp() {
   return (
-    <div className="w-1/2">
-      <h1>Sign up</h1>
+    <div className="flex h-full w-full flex-col items-center justify-center">
       <SignUpForm />
     </div>
   );

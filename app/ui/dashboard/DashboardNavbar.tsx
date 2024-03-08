@@ -34,7 +34,7 @@ export function DNavbar() {
       <Image
         className="hidden aspect-square w-min justify-end rounded-full bg-green-900 object-cover md:col-start-3 md:block"
         // instead of a static "snoopy file", rreplace with user.profileimage sum
-        src={"/snoopy.jpg"}
+        src={"/static/snoopy.jpg"}
         width={30}
         height={30}
         alt="Profile Image"

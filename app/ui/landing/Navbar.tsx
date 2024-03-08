@@ -6,6 +6,31 @@ import Link from "next/link";
 import { NAV_LINKS as links } from "@/constants";
 import { useState } from "react";
 import clsx from "clsx";
+import { auth } from "@/auth";
+
+async function Buttons() {
+  const session = await auth();
+
+  if (session?.user)
+    return (
+      <Link href="/dashboard">
+        <Button>Go to dashboard</Button>
+      </Link>
+    );
+
+  return (
+    <>
+      <Link href="/join/login">
+        <Button className="!bg-transparent text-text hover:!bg-zinc-300">
+          Log in
+        </Button>
+      </Link>
+      <Link href="/join/signup">
+        <Button>Sign up</Button>
+      </Link>
+    </>
+  );
+}
 
 export default function NavBar() {
   const [isClicked, setIsClicked] = useState(false);
@@ -13,7 +38,7 @@ export default function NavBar() {
     <nav
       className={clsx(
         "z-30 grid h-fit w-screen grid-cols-2 grid-rows-1 items-center gap-4 overflow-clip p-4 shadow md:grid-cols-[max-content,1fr,max-content] md:px-12",
-        {}
+        {},
       )}
     >
       <Link href="/" draggable="false">
@@ -41,14 +66,7 @@ export default function NavBar() {
       </ul>
 
       <div className="hidden justify-end gap-1 md:col-start-3 md:flex">
-        <Link href="/join/login">
-          <Button className="!bg-transparent text-text hover:!bg-zinc-300">
-            Log in
-          </Button>
-        </Link>
-        <Link href="/join/signup">
-          <Button>Sign up</Button>
-        </Link>
+        <Buttons />
       </div>
 
       {/* hamburger button */}

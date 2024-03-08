@@ -1,21 +1,18 @@
 "use server";
 
 import { z } from "zod";
-import { prisma } from "./prisma";
+import prisma from "./prisma";
 import bcrypt from "bcryptjs";
 import { User } from "@prisma/client";
-import { signIn } from "@/auth";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { auth, signIn } from "@/auth";
 import { AuthError } from "next-auth";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 const SignUpSchema = z.object({
-  email: z.string().email("Please enter a valid email"),
-  first_name: z.coerce.string(),
-  last_name: z.ostring(),
+  email: z.string().email("Please enter a valid email").toLowerCase(),
+  name: z.coerce.string(),
   username: z
     .string()
+    .toLowerCase()
     .min(6, "Please choose a username 6-20 characters long")
     .max(20, "Please choose a username 6-20 characters long"),
   password: z
@@ -40,8 +37,7 @@ export async function createUser(
 ): Promise<State> {
   const validatedFields = SignUpSchema.safeParse({
     email: formData.get("email"),
-    first_name: formData.get("first_name"),
-    last_name: formData.get("last_name"),
+    name: formData.get("name"),
     username: formData.get("username"),
     password: formData.get("password"),
     isInstructor: Boolean(formData.get("instructor")),
@@ -50,7 +46,7 @@ export async function createUser(
   if (!validatedFields.success) {
     return {
       fieldErrors: validatedFields.error.flatten().fieldErrors,
-      failureMessage: "Missing fields. Failed to create an account.",
+      failureMessage: "Invalid fields.",
     };
   }
 
@@ -86,8 +82,7 @@ export async function createUser(
     const user = await prisma.user.create({
       data: {
         email: rawFormData.email,
-        first_name: rawFormData.first_name,
-        last_name: rawFormData.last_name ?? "",
+        name: rawFormData.name,
         username: rawFormData.username,
         password: hashedPassword,
         isInstructor: rawFormData.isInstructor,
@@ -104,9 +99,10 @@ export async function createUser(
     }
 
     return {
-      successMessage: "Account created succesfully.",
+      successMessage: "Account created succesfully. Please log in.",
     };
   } catch (err) {
+    console.log(err);
     return {
       failureMessage: "Failed to create an account.",
     };
@@ -123,8 +119,6 @@ export async function getUserByUsername(
         username: username,
       },
     });
-
-    console.log(user);
 
     return user ? user : undefined;
   } catch (err) {
@@ -147,9 +141,14 @@ export async function getUserByEmail(email: string): Promise<User | undefined> {
   }
 }
 
+const loginSchema = z.object({
+  username: z.string().min(6, "Username must be greater than 6 characters."),
+  password: z.string().min(8, "Passwords must be greater than 8 characters."),
+});
+
 export type LoginState = {
-  error?: string | null;
-  message?: string | null;
+  errorMessage?: string | null;
+  successMessage?: string | null;
 };
 
 // login authentication
@@ -157,35 +156,53 @@ export async function authenticateLogin(
   prevState: LoginState,
   formData: FormData,
 ): Promise<LoginState> {
-  const { username, password } = {
+  const validatedFields = loginSchema.safeParse({
     username: formData.get("username"),
     password: formData.get("password"),
-  };
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errorMessage: "Invalid credentials.",
+    };
+  }
+
+  const userCredentials = validatedFields.data;
 
   try {
-    await signIn("credentials", {
-      username,
-      password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
-    });
+    const user = await signIn("credentials", userCredentials);
 
     return {
-      message: "Logged in successfully.",
+      successMessage: "Logged in successfully.",
     };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
           return {
-            error: "Invalid credentials.",
+            errorMessage: "Invalid credentials.",
           };
         default:
           return {
-            error: "Something went wrong.",
+            errorMessage: "Something went wrong.",
           };
       }
     }
 
     throw error;
+  }
+}
+
+export async function getUserById(id: string): Promise<User | undefined> {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        user_id: id,
+      },
+    });
+
+    return user ? user : undefined;
+  } catch (err) {
+    throw err;
   }
 }

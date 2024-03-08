@@ -27,15 +27,15 @@ export function ToggleSwitch({
         />
         <div
           className={clsx(
-            "h-4 w-10 rounded-full bg-gray-300 shadow-inner transition-colors",
+            "h-3 w-8 rounded-full bg-gray-300 shadow-inner transition-colors",
             {
-              "bg-green-300": isChecked,
+              "bg-green-200": isChecked,
             },
           )}
         >
           <div
             className={clsx(
-              "absolute -top-[2px] h-5 w-5 transform rounded-full bg-primary shadow transition",
+              "absolute -top-[2px] h-4 w-4 transform rounded-full bg-primary shadow transition hover:bg-primary",
               { "translate-x-full": isChecked },
               { "translate-x-0": !isChecked },
             )}
