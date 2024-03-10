@@ -1,10 +1,10 @@
 import { Button } from "@/app/ui/Button";
 import { auth, signOut } from "@/auth";
+import Image from "next/image";
 
 async function SettingsPage() {
   const session = await auth();
-
-  console.log(session?.user.user_id);
+  const image = session?.user.image ?? "";
 
   return (
     <div>
@@ -17,6 +17,7 @@ async function SettingsPage() {
       >
         <Button type="submit">Log out</Button>
       </form>
+      <Image src={image} width={50} height={50} alt="pfp" />
     </div>
   );
 }

@@ -9,8 +9,9 @@ import {
 import { bricolage } from "../fonts";
 import { useFormState, useFormStatus } from "react-dom";
 import { Button } from "../Button";
-import { authenticateLogin } from "@/lib/actions";
+import { authenticateLogin } from "@/lib/login";
 import Link from "next/link";
+import { SocialLogins } from "./social-login";
 
 export function LoginForm() {
   const initialState = { errorMessage: null, successMessage: null };
@@ -35,7 +36,6 @@ export function LoginForm() {
               name="username"
               id="username"
               placeholder="Enter your username"
-              required
             />
             {/* an icon maybe */}
             <UserIcon className="join-icon" />
@@ -52,7 +52,6 @@ export function LoginForm() {
               name="password"
               id="password"
               placeholder="Enter your password"
-              required
             />
             {/* an icon maybe */}
             <KeyIcon className="join-icon" />
@@ -82,6 +81,7 @@ export function LoginForm() {
             </div>
           )
         )}
+        <SocialLogins />
         <LogInButton />
       </div>
     </form>

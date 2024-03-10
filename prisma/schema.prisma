@@ -19,64 +19,90 @@ enum Role {
 }
 
 model User {
-  user_id           String       @id @default(cuid())
-  username          String       @unique
+  id                String       @id @default(cuid())
+  username          String?      @unique
   password          String?
   email             String       @unique
   name              String
-  isInstructor      Boolean
+  image             String?
+  emailVerified     DateTime?    @default(now())
+  isInstructor      Boolean      @default(false)
   role              Role         @default(USER)
   acc_creation_date DateTime     @default(now())
   Instructor        Instructor[]
   Enrollment        Enrollment[]
+  Account           Account[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
 }
 
 model Course {
-  course_id     String       @id @default(cuid())
+  id            String       @id @default(cuid())
   title         String
   description   String
-  instructor    Instructor?  @relation(fields: [instructor_id], references: [instructor_id], onDelete: Cascade)
-  instructor_id String
-  category      Category?    @relation(fields: [category_id], references: [category_id])
-  category_id   String
+  instructor_id String?
+  category_id   String?
   price         Decimal
   created_at    DateTime     @default(now())
   updated_at    DateTime     @updatedAt
   Lesson        Lesson[]
   Enrollment    Enrollment[]
+
+  instructor Instructor? @relation(fields: [instructor_id], references: [id], onDelete: Cascade)
+  category   Category?   @relation(fields: [category_id], references: [id], onDelete: SetNull)
 }
 
 model Lesson {
-  lesson_id  String   @id @default(cuid())
+  id         String   @id @default(cuid())
   title      String
   content    String
   video_url  String?
-  course     Course   @relation(fields: [course_id], references: [course_id], onDelete: Cascade)
   course_id  String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+
+  course Course @relation(fields: [course_id], references: [id], onDelete: Cascade)
 }
 
 model Category {
-  category_id String   @id @default(cuid())
-  name        String
-  courses     Course[]
+  id      String   @id @default(cuid())
+  name    String
+  courses Course[]
 }
 
 model Instructor {
-  instructor_id String   @id @default(cuid())
-  user          User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
-  user_id       String
-  courses       Course[]
+  id      String   @id @default(cuid())
+  user_id String
+  courses Course[]
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model Enrollment {
-  enrollment_id String    @id @default(cuid())
-  user          User      @relation(fields: [user_id], references: [user_id])
-  user_id       String
-  course        Course    @relation(fields: [course_id], references: [course_id], onDelete: Cascade)
-  course_id     String
-  enrolled_at   DateTime  @default(now())
-  progress      Int       @default(0)
-  completed_at  DateTime?
+  id           String    @id @default(cuid())
+  user_id      String
+  course_id    String
+  enrolled_at  DateTime  @default(now())
+  progress     Int       @default(0)
+  completed_at DateTime?
+
+  user   User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  course Course @relation(fields: [course_id], references: [id], onDelete: Cascade)
 }

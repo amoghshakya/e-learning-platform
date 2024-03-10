@@ -1,11 +1,9 @@
-import NextAuth, { DefaultSession } from "next-auth";
+import NextAuth from "next-auth";
 
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "./lib/prisma";
 import { authConfig } from "./auth.config";
 import { $Enums, User } from "@prisma/client";
-import { JWT } from "next-auth/jwt";
-import { AdapterUser } from "next-auth/adapters";
 
 type ExtendedUser = User & {
   emailVerified: boolean; // Add the missing property
@@ -32,8 +30,7 @@ export const {
 
     async session({ session, token }) {
       if (token.sub && session.user) {
-        session.user.user_id = token.sub;
-        session.user.id = session.user.user_id;
+        session.user.id = token.sub;
       }
 
       if (token.role && session.user) {
@@ -44,9 +41,9 @@ export const {
     },
 
     async jwt({ token, user }) {
-      if (user && "user_id" in user) {
+      if (user && "id" in user) {
         // Assuming 'user_id' is a property on the User type
-        token.sub = (user as User).user_id;
+        token.sub = (user as User).id;
       }
 
       if (user && "role" in user) {

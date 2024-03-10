@@ -12,11 +12,12 @@ import {
   CheckCircleIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline";
-import { createUser } from "@/lib/actions";
+import { createUser } from "@/lib/signup";
 import Link from "next/link";
 import React, { useEffect } from "react";
 
 import { redirect, useRouter } from "next/navigation";
+import { SocialLogins } from "./social-login";
 
 export function SignUpForm() {
   const router = useRouter();
@@ -47,9 +48,9 @@ export function SignUpForm() {
     <form
       id="sign-up-form"
       action={dispatch}
-      className="flex h-2/3 flex-col items-center justify-around drop-shadow *:transition-all"
+      className="flex h-2/3 flex-col items-center justify-around drop-shadow *:transition-all md:w-full"
     >
-      <div className="flex flex-col gap-4 rounded-lg bg-gray-50 p-12">
+      <div className="flex w-1/3 flex-col gap-4 rounded-lg bg-gray-50 p-12">
         <h1 className={`text-3xl ${bricolage.className}`}>Create an account</h1>
 
         {/* Email */}
@@ -76,7 +77,7 @@ export function SignUpForm() {
           <div id="email-error" aria-live="polite" aria-atomic="true">
             {messages.fieldErrors?.email &&
               messages.fieldErrors.email.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
+                <p className="mt-2 text-xs text-red-500" key={error}>
                   {error}
                 </p>
               ))}
@@ -129,7 +130,7 @@ export function SignUpForm() {
           <div id="username-error" aria-live="polite" aria-atomic="true">
             {messages.fieldErrors?.username &&
               messages.fieldErrors.username.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
+                <p className="mt-2 text-xs text-red-500" key={error}>
                   {error}
                 </p>
               ))}
@@ -159,7 +160,7 @@ export function SignUpForm() {
           <div id="password-error" aria-live="polite" aria-atomic="true">
             {messages.fieldErrors?.password &&
               messages.fieldErrors.password.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
+                <p className="mt-2 text-xs text-red-500" key={error}>
                   {error}
                 </p>
               ))}
@@ -197,6 +198,7 @@ export function SignUpForm() {
             </div>
           )
         )}
+        <SocialLogins />
         <SignUpButton />
       </div>
     </form>

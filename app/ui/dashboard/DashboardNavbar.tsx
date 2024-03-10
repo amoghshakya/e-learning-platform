@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import DashboardLinks from "./Links";
 import { SearchBar } from "../Search";
+import { ProfileImage } from "./ProfileImage";
 
 export function DNavbar() {
   const [isClicked, setIsClicked] = useState(false);
@@ -31,14 +32,7 @@ export function DNavbar() {
         <SearchBar hasButton={true} placeholder="Search for courses..." />
       </div>
 
-      <Image
-        className="hidden aspect-square w-min justify-end rounded-full bg-green-900 object-cover md:col-start-3 md:block"
-        // instead of a static "snoopy file", rreplace with user.profileimage sum
-        src={"/static/snoopy.jpg"}
-        width={30}
-        height={30}
-        alt="Profile Image"
-      />
+      <ProfileImage />
 
       <div className="col-span-3 row-start-2 flex place-items-center md:flex-row md:gap-1 md:pl-6">
         <DashboardLinks />

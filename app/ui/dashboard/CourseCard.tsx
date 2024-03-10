@@ -44,7 +44,9 @@ export function CourseCard() {
       <div className="col-start-3 row-span-3 hidden border-l-[1px] border-slate-400 p-3 md:mx-2 md:block">
         <Link href="">
           <h3 className="peer text-sm ">Next up</h3>
-          <p className="text-sm peer-hover:underline">Next lesson</p>
+          <p className="text-sm hover:underline peer-hover:underline">
+            Next lesson
+          </p>
         </Link>
       </div>
     </div>
