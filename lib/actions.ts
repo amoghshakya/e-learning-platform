@@ -1,6 +1,5 @@
 "use server";
 
-import { z } from "zod";
 import prisma from "./prisma";
 import { User } from "@prisma/client";
 import { auth } from "@/auth";

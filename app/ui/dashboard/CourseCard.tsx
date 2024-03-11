@@ -1,8 +1,10 @@
+import { getUserEnrolledCourses } from "@/lib/courses";
 import Image from "next/image";
-import { bricolage } from "../fonts";
 import Link from "next/link";
 
-export function CourseCard() {
+export async function CourseCard() {
+  const enrolledCourses = await getUserEnrolledCourses();
+
   return (
     <div className="flex h-fit flex-wrap gap-2 rounded-md bg-slate-200 p-3 shadow md:grid md:w-full md:grid-cols-[fit-content,1fr,1fr] md:grid-rows-[min-content,max-content,min-content] md:flex-nowrap">
       {/* Course thumbnail */}

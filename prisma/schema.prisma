@@ -96,12 +96,13 @@ model Instructor {
 }
 
 model Enrollment {
-  id           String    @id @default(cuid())
-  user_id      String
-  course_id    String
-  enrolled_at  DateTime  @default(now())
-  progress     Int       @default(0)
-  completed_at DateTime?
+  id            String    @id @default(cuid())
+  user_id       String
+  course_id     String
+  enrolled_at   DateTime  @default(now())
+  progress      Int       @default(0)
+  completed_at  DateTime?
+  last_accessed DateTime?
 
   user   User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
   course Course @relation(fields: [course_id], references: [id], onDelete: Cascade)

@@ -61,7 +61,6 @@ export const {
         token.email = (user as User).email;
       }
 
-      console.log("Token: ", token);
       return token;
     },
   },
