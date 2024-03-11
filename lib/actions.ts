@@ -54,7 +54,6 @@ export async function getUserById(id: string): Promise<User | undefined> {
 export async function getUserImage() {
   const session = await auth();
   if (session) {
-    console.log(session.user.image);
     return session.user.image;
   }
 

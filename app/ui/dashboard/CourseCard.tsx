@@ -17,8 +17,8 @@ export function CourseCard() {
 
       {/* Course title and description */}
       <div className="md:col-start-2 md:row-start-2">
-        <h3 className={`text-xl font-semibold`}>Snoopy's Snoopiest Course</h3>
-        <p className="text-sm md:text-[0.85rem]">
+        <h3 className={`text-lg font-semibold`}>Snoopy's Snoopiest Course</h3>
+        <p className="text-sm">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
           quis a nisi?
         </p>

@@ -1,36 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { Button } from "../Button";
 import Link from "next/link";
 import { NAV_LINKS as links } from "@/constants";
 import { useState } from "react";
 import clsx from "clsx";
-import { auth } from "@/auth";
-
-async function Buttons() {
-  const session = await auth();
-
-  if (session?.user)
-    return (
-      <Link href="/dashboard">
-        <Button>Go to dashboard</Button>
-      </Link>
-    );
-
-  return (
-    <>
-      <Link href="/join/login">
-        <Button className="!bg-transparent text-text hover:!bg-zinc-300">
-          Log in
-        </Button>
-      </Link>
-      <Link href="/join/signup">
-        <Button>Sign up</Button>
-      </Link>
-    </>
-  );
-}
+import { NavButtons } from "./LoginSignupButtons";
 
 export default function NavBar() {
   const [isClicked, setIsClicked] = useState(false);
@@ -66,7 +41,7 @@ export default function NavBar() {
       </ul>
 
       <div className="hidden justify-end gap-1 md:col-start-3 md:flex">
-        <Buttons />
+        <NavButtons />
       </div>
 
       {/* hamburger button */}

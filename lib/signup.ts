@@ -105,7 +105,6 @@ export async function createUser(
       successMessage: "Account created succesfully. Please log in.",
     };
   } catch (err) {
-    console.log(err);
     return {
       failureMessage: "Failed to create an account.",
     };

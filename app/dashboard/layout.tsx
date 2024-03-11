@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { DNavbar } from "../ui/dashboard/DashboardNavbar";
+import { inter } from "../ui/fonts";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -10,7 +11,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <main className="h-screen flex-col md:flex-row">
       <DNavbar />
-      <div className="flex-grow md:overflow-y-auto md:overflow-x-clip">
+      <div
+        className={`${inter.className} flex-grow md:overflow-y-auto md:overflow-x-clip`}
+      >
         {children}
       </div>
     </main>
