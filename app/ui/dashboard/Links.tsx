@@ -19,19 +19,19 @@ export const links = [
   },
   {
     label: "My lists",
-    href: "dashboard/lists",
+    href: "/dashboard/lists",
     key: "progress",
     icon: ClipboardDocumentListIcon,
   },
   {
     label: "My courses",
-    href: "dashboard/courses",
+    href: "/dashboard/courses",
     key: "courses",
     icon: BookOpenIcon,
   },
   {
     label: "Settings",
-    href: "dashboard/settings",
+    href: "/dashboard/settings",
     key: "settings",
     icon: Cog6ToothIcon,
   },
@@ -49,9 +49,9 @@ export default function DashboardLinks() {
             key={link.key}
             href={link.href}
             className={clsx(
-              "flex h-[48px] grow items-center justify-center gap-2 rounded-sm border-b-2 text-sm font-medium transition-all hover:border-b-hover hover:bg-slate-200 md:flex-none md:justify-start md:p-2 md:px-3",
+              "flex h-[48px] grow items-center justify-center gap-2 rounded-sm border-b-2 border-transparent text-sm font-medium transition-all hover:border-b-hover hover:bg-slate-200 md:flex-none md:justify-start md:p-2 md:px-3",
               {
-                "border-b-2 border-b-primary": pathname === link.href,
+                "border-b-primary": pathname === link.href,
               },
             )}
           >

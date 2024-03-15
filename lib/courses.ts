@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import prisma from "./prisma";
-import { Prisma } from "@prisma/client";
+import { getUserById } from "./actions";
 
 export async function getUserEnrolledCourses() {
   const session = await auth();
@@ -11,13 +11,8 @@ export async function getUserEnrolledCourses() {
       where: {
         user_id: session?.user.id,
       },
-      select: {
-        id: true,
-        course_id: true,
-        progress: true,
-        completed_at: true,
-        enrolled_at: true,
-        last_accessed: true,
+      orderBy: {
+        last_accessed: "asc",
       },
     });
 
@@ -29,6 +24,16 @@ export async function getUserEnrolledCourses() {
   }
 }
 
+export async function getCompletedCourses() {
+  const enrollments = await getUserEnrolledCourses();
+  return enrollments.filter((enrollment) => enrollment.progress === 100);
+}
+
+export async function getInProgressCourses() {
+  const enrollments = await getUserEnrolledCourses();
+  return enrollments.filter((enrollment) => enrollment.progress < 100);
+}
+
 export async function getCourseDetails(courseId: string) {
   try {
     const course = await prisma.course.findUnique({
@@ -37,6 +42,26 @@ export async function getCourseDetails(courseId: string) {
       },
     });
     return course;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getInstructor(instructorId: string | null) {
+  if (!instructorId) return null;
+  try {
+    const instructor = await prisma.instructor.findUnique({
+      where: {
+        id: instructorId,
+      },
+    });
+    if (instructor) {
+      const user = await getUserById(instructor.user_id);
+
+      return user?.name;
+    }
+
+    return "";
   } catch (err) {
     throw err;
   }

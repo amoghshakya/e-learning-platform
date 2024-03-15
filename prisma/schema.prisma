@@ -60,6 +60,7 @@ model Course {
   instructor_id String?
   category_id   String?
   price         Decimal
+  thumbnail     String?
   created_at    DateTime     @default(now())
   updated_at    DateTime     @updatedAt
   Lesson        Lesson[]

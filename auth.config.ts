@@ -7,7 +7,7 @@ import { getUserByUsername } from "./lib/actions";
 import bcrypt from "bcryptjs";
 
 export const authConfig = {
-  debug: true,
+  // debug: true,
   pages: {
     signIn: "/join/login",
     newUser: "/join/signup",
