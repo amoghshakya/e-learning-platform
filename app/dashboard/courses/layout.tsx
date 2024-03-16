@@ -1,5 +1,5 @@
-import { MyCoursesButtons } from "@/app/ui/dashboard/courses/buttonlayout";
-import { bricolage } from "@/app/ui/fonts";
+import { MyCoursesButtons } from "@/components/ui/dashboard/courses/buttonlayout";
+import { bricolage } from "@/app/fonts";
 
 export default function MyCoursesLayout({
   children,
@@ -13,7 +13,7 @@ export default function MyCoursesLayout({
       >
         My courses
       </h1>
-      <section className="md:px-24 h-screen">
+      <section className="md:px-24 h-screen px-8">
         <MyCoursesButtons />
         {children}
       </section>

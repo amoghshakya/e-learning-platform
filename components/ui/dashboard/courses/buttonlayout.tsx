@@ -1,9 +1,10 @@
 "use client";
 
 import clsx from "clsx";
-import { Button } from "../../Button";
+import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { ClockIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
 
 export function MyCoursesButtons() {
   const pathname = usePathname();
@@ -11,25 +12,17 @@ export function MyCoursesButtons() {
     <div className={clsx("*:*:rounded-full flex gap-1")}>
       <Link href="/dashboard/courses/inprogress">
         <Button
-          className={clsx(
-            "!bg-gray-200 text-text hover:!bg-slate-300 active:!bg-slate-400",
-            {
-              "!bg-primary-300": pathname === "/dashboard/courses/inprogress",
-            }
-          )}
+          variant={`${pathname === "/dashboard/courses/inprogress" ? "default" : "secondary"}`}
         >
+          <ClockIcon className="h-4 w-4 mr-2" />
           In Progress
         </Button>
       </Link>
       <Link href="/dashboard/courses/completed">
         <Button
-          className={clsx(
-            "!bg-gray-200 text-text hover:!bg-slate-300 active:!bg-slate-400",
-            {
-              "!bg-primary-300": pathname === "/dashboard/courses/completed",
-            }
-          )}
+          variant={`${pathname === "/dashboard/courses/completed" ? "default" : "secondary"}`}
         >
+          <CheckCircleIcon className="h-4 w-4 mr-2" />
           Completed
         </Button>
       </Link>

@@ -1,4 +1,4 @@
-import { CompletedCoursesSection } from "@/app/ui/dashboard/courses/completed/courses";
+import { CompletedCoursesSection } from "@/components/ui/dashboard/courses/completed/courses";
 
 export default function CompletedCourses() {
   return (

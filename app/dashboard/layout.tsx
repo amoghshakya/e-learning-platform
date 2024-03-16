@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import { DNavbar } from "../ui/dashboard/DashboardNavbar";
-import { inter } from "../ui/fonts";
+import { DNavbar } from "@/components/ui/dashboard/DashboardNavbar";
+import { inter } from "../fonts";
 
 export const metadata: Metadata = {
   title: "Dashboard",

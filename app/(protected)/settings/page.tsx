@@ -1,4 +1,4 @@
-import { Button } from "@/app/ui/Button";
+import { Button } from "@/components/ui/button";
 import { auth, signOut } from "@/auth";
 import Image from "next/image";
 

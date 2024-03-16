@@ -1,12 +1,15 @@
-import { Button } from "@/app/ui/Button";
-import { CourseCard } from "@/app/ui/dashboard/CourseCard";
-import { bricolage } from "@/app/ui/fonts";
+import { Button } from "@/components/ui/button";
+import { CourseCard } from "@/components/ui/dashboard/CourseCard";
+import { bricolage } from "@/app/fonts";
 import {
   getCompletedCourses,
   getInProgressCourses,
   getUserEnrolledCourses,
 } from "@/lib/courses";
 import Link from "next/link";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/outline";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export default async function Dashboard() {
   const enrollments = await getUserEnrolledCourses();
@@ -14,7 +17,7 @@ export default async function Dashboard() {
   const inProgressCourses = await getInProgressCourses();
 
   return (
-    <div>
+    <main>
       <h1
         className={`${bricolage.className} mb-4 bg-slate-800 p-6 pl-10 text-2xl font-[625] text-background md:p-12 md:pl-24 md:text-4xl`}
       >
@@ -39,18 +42,31 @@ export default async function Dashboard() {
                   />
                 ))
             ) : (
-              <div className="flex flex-col items-center justify-center gap-3 place-self-center rounded-md bg-gray-100 p-16 text-center text-sm text-gray-600">
-                <p>No courses enrolled... yet! :( </p>
-                <Button className="bg-secondary-800">Browse courses</Button>
-              </div>
+              <Alert className="px-6 py-4 md:w-[55vw]" variant="default">
+                <MagnifyingGlassCircleIcon className="h-6 w-6" />
+                <AlertTitle>No courses enrolled</AlertTitle>
+                <AlertDescription>
+                  Enroll in some courses to see your courses here!
+                </AlertDescription>
+                <Link href="/courses">
+                  <Button>Browses courses</Button>
+                </Link>
+              </Alert>
             )}
           </div>
         </div>
-        <div className="hidden flex-col gap-3 rounded-md align-top *:text-sm *:text-gray-600 hover:*:underline md:col-start-2 md:row-start-1 md:mb-24 md:mr-24 md:mt-[3.8rem] md:flex md:bg-gray-200 md:p-4">
-          <Link href="/dashboard/courses/inprogress">In progress ({inProgressCourses.length})</Link>
-          <Link href="/dashboard/courses/completed">Completed ({completedCourses.length})</Link>
-        </div>
+        <Card className="hidden bg-gray-100 md:block my-[3.687rem]">
+          <CardHeader>Courses</CardHeader>
+          <CardContent className="flex flex-col gap-2 *:text-gray-500 *:underline hover:*:text-gray-600">
+            <Link href="/dashboard/courses/inprogress">
+              In progress ({inProgressCourses.length})
+            </Link>
+            <Link href="/dashboard/courses/completed">
+              Completed ({completedCourses.length})
+            </Link>
+          </CardContent>
+        </Card>
       </section>
-    </div>
+    </main>
   );
 }

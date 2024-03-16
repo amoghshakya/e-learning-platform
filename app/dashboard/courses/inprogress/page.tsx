@@ -1,4 +1,4 @@
-import { InProgressCoursesSection } from "@/app/ui/dashboard/courses/inprogress/courses";
+import { InProgressCoursesSection } from "@/components/ui/dashboard/courses/inprogress/courses";
 
 export default function InProgressCourses() {
   return (

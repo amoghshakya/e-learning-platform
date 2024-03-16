@@ -1,4 +1,4 @@
-import { Button } from "../Button";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { auth } from "@/auth";
 
@@ -15,9 +15,7 @@ export async function NavButtons() {
   return (
     <>
       <Link href="/join/login">
-        <Button className="!bg-transparent text-text hover:!bg-zinc-200">
-          Log in
-        </Button>
+        <Button variant="ghost">Log in</Button>
       </Link>
       <Link href="/join/signup">
         <Button>Sign up</Button>

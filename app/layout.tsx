@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import "./ui/globals.css";
+import "./globals.css";
 
-// const inter = Inter({ subsets: ["latin"] });
-import { inter } from "./ui/fonts";
+import { inter } from "./fonts";
 import clsx from "clsx";
 
 export const metadata: Metadata = {
@@ -17,9 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx(inter.className, "antialiased")}>
-        {children}
-      </body>
+      <body className={clsx(inter.className, "antialiased")}>{children}</body>
     </html>
   );
 }

@@ -1,4 +1,4 @@
-import NavBar from "../ui/landing/Navbar";
+import NavBar from "@/components/ui/landing/Navbar";
 
 export default function CoursesLayout({
   children,
