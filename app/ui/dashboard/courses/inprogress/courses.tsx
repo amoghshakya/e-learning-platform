@@ -62,7 +62,7 @@ export async function InProgressCoursesSection() {
               <p className="mr-1 text-xs">Progress</p>
               <div className="mx-2 w-full rounded bg-gray-300">
                 <div
-                  className="h-2 rounded bg-gradient-to-r from-accent to-primary"
+                  className="h-2 rounded bg-gradient-to-r from-accent-500 to-primary-700"
                   style={{ width: `${enrollment.progress}%` }}
                 ></div>
               </div>

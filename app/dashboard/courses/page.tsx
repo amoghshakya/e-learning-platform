@@ -6,8 +6,7 @@ export default function MyCoursesPage() {
   redirect("/dashboard/courses/inprogress");
   return (
     <div>
-      <section>
-        <div>Completed</div>
+      <section className="h-screen">
       </section>
     </div>
   );

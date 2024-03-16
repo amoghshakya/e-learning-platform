@@ -32,19 +32,23 @@ export default async function Dashboard() {
               enrollments
                 .slice(0, 2)
                 .map((enrollment) => (
-                  <CourseCard enrollment={enrollment} key={enrollment.id} />
+                  <CourseCard
+                    enrollment={enrollment}
+                    key={enrollment.id}
+                    isDashboardRoute={true}
+                  />
                 ))
             ) : (
               <div className="flex flex-col items-center justify-center gap-3 place-self-center rounded-md bg-gray-100 p-16 text-center text-sm text-gray-600">
                 <p>No courses enrolled... yet! :( </p>
-                <Button className="bg-secondary">Browse courses</Button>
+                <Button className="bg-secondary-800">Browse courses</Button>
               </div>
             )}
           </div>
         </div>
         <div className="hidden flex-col gap-3 rounded-md align-top *:text-sm *:text-gray-600 hover:*:underline md:col-start-2 md:row-start-1 md:mb-24 md:mr-24 md:mt-[3.8rem] md:flex md:bg-gray-200 md:p-4">
-          <Link href="">In progress ({inProgressCourses.length})</Link>
-          <Link href="">Completed ({completedCourses.length})</Link>
+          <Link href="/dashboard/courses/inprogress">In progress ({inProgressCourses.length})</Link>
+          <Link href="/dashboard/courses/completed">Completed ({completedCourses.length})</Link>
         </div>
       </section>
     </div>

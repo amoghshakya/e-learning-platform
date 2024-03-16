@@ -6,8 +6,16 @@ import {
 import { Course, Enrollment } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
 
-export async function CourseCard({ enrollment }: { enrollment: Enrollment }) {
+export async function CourseCard({
+  enrollment,
+  isDashboardRoute,
+}: {
+  enrollment: Enrollment;
+  isDashboardRoute?: boolean;
+}) {
   const course = await getCourseDetails(enrollment.course_id);
   let instructor;
   if (course) {
@@ -48,21 +56,23 @@ export async function CourseCard({ enrollment }: { enrollment: Enrollment }) {
           <p className="mr-1 text-xs">Progress</p>
           <div className="mx-2 w-full rounded bg-gray-300">
             <div
-              className="h-2 rounded bg-gradient-to-r from-accent to-primary"
+              className="h-2 rounded bg-gradient-to-r from-accent-500 to-primary-700"
               style={{ width: `${enrollment.progress}%` }}
             ></div>
           </div>
           <p className="text-xs md:m-1">{`${enrollment.progress}%`}</p>
         </div>
 
-        <div className="col-start-3 row-span-3 hidden border-l-[1px] border-slate-400 p-3 md:mx-2 md:block">
-          <Link href="">
-            <h3 className="peer text-sm ">Next up</h3>
-            <p className="text-sm hover:underline peer-hover:underline">
-              Next lesson
-            </p>
-          </Link>
-        </div>
+        {isDashboardRoute && (
+          <div className="col-start-3 row-span-3 hidden border-l-[1px] border-slate-400 p-3 md:mx-2 md:block">
+            <Link href="">
+              <h3 className="peer text-sm ">Next up</h3>
+              <p className="text-sm hover:underline peer-hover:underline">
+                Next lesson
+              </p>
+            </Link>
+          </div>
+        )}
       </div>
     );
   }

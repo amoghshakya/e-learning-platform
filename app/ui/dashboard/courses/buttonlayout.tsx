@@ -12,10 +12,9 @@ export function MyCoursesButtons() {
       <Link href="/dashboard/courses/inprogress">
         <Button
           className={clsx(
-            "bg-gray-200 text-text hover:bg-slate-300 active:bg-slate-400",
+            "!bg-gray-200 text-text hover:!bg-slate-300 active:!bg-slate-400",
             {
-              "bg-neutral-300":
-                pathname === "/dashboard/courses/inprogress",
+              "!bg-primary-300": pathname === "/dashboard/courses/inprogress",
             }
           )}
         >
@@ -25,10 +24,9 @@ export function MyCoursesButtons() {
       <Link href="/dashboard/courses/completed">
         <Button
           className={clsx(
-            "bg-gray-200 text-text hover:bg-slate-300 active:bg-slate-400",
+            "!bg-gray-200 text-text hover:!bg-slate-300 active:!bg-slate-400",
             {
-              "bg-neutral-300":
-                pathname === "/dashboard/courses/completed",
+              "!bg-primary-300": pathname === "/dashboard/courses/completed",
             }
           )}
         >

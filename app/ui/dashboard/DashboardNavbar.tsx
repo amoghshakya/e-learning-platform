@@ -14,12 +14,12 @@ export function DNavbar() {
     <nav
       className={clsx(
         "z-30 grid h-fit w-full grid-cols-2 grid-rows-2 items-center gap-1 overflow-clip px-4 pt-2 shadow md:grid-cols-[max-content,1fr,max-content] md:px-12",
-        {},
+        {}
       )}
     >
       <Link href="/" draggable="false">
         <Image
-          src="/static/logo.svg"
+          src="/static/logo.png"
           className="ml-3 w-8 md:ml-0 md:w-fit md:px-6"
           width={100}
           height={100}

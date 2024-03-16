@@ -20,7 +20,7 @@ function Hero() {
       <h1
         className={clsx(
           "text-5xl font-[800] md:col-start-1 md:row-start-2 md:place-self-center",
-          bricolage.className,
+          bricolage.className
         )}
       >
         What would you like to learn{" "}

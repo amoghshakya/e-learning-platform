@@ -13,7 +13,7 @@ export default function MyCoursesLayout({
       >
         My courses
       </h1>
-      <section className="md:px-24">
+      <section className="md:px-24 h-screen">
         <MyCoursesButtons />
         {children}
       </section>
