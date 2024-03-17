@@ -88,22 +88,28 @@
 .menu::before {
   content: "";
   display: block;
-  height: 1.5px;
-  width: 22px;
+  height: 1px;
+  width: 11px;
   background-color: #000;
-  transition: transform 0.15s ease;
+  transition: all 0.15s ease-in;
 }
 
 .menu::before {
-  transform: translateX(22px) translateY(-5px) rotate(0deg);
+  transform: translateX(11px) translateY(-2px) rotate(0deg);
 }
 .menu::after {
-  transform: translateX(0px) translateY(5px) rotate(0deg);
+  transform: translateX(0px) translateY(2px) rotate(0deg);
 }
 
 .menu-expanded::before {
-  transform: translateX(22px) rotate(45deg);
+  transform: translateX(11px) rotate(45deg);
 }
 .menu-expanded::after {
   transform: translateY(0) rotate(-45deg);
 }
+
+.sheet-close-button {
+  font-size: 24px;  
+}
+
+@import "/@uploadthing/react/styles.css"

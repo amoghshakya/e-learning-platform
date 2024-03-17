@@ -3,15 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { NAV_LINKS as links } from "@/constants";
-import { useState } from "react";
 import clsx from "clsx";
 import { NavButtons } from "./LoginSignupButtons";
 import { usePathname } from "next/navigation";
 import { inter } from "@/app/fonts";
+import MobileSidebar from "./MobileSidebar";
 
 export default function NavBar() {
   const pathname = usePathname();
-  const [isClicked, setIsClicked] = useState(false);
+
   return (
     <nav
       className={clsx(
@@ -27,6 +27,7 @@ export default function NavBar() {
           height={100}
           alt="logo"
           draggable="false"
+          priority
         />
       </Link>
 
@@ -53,10 +54,11 @@ export default function NavBar() {
       </div>
 
       {/* hamburger button */}
-      <div
-        className={`menu col-start-3 px-1 transition-all md:hidden ${isClicked && "menu-expanded"}`}
-        onClick={() => setIsClicked(!isClicked)}
-      ></div>
+      {!pathname.startsWith("/dashboard") && (
+        <div className="col-start-3 md:hidden self-center place-self-start">
+          <MobileSidebar />
+        </div>
+      )}
     </nav>
   );
 }

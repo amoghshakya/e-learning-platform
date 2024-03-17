@@ -5,7 +5,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import Image from "next/image";
 import DashboardLinks from "./Links";
-import { SearchBar } from "../Search";
+import { SearchBar } from "../../Search";
 import { ProfileImage } from "./ProfileImage";
 import { inter } from "@/app/fonts";
 
@@ -21,7 +21,7 @@ export function DNavbar() {
       <Link href="/" draggable="false">
         <Image
           src="/static/logo.png"
-          className="ml-3 w-8 md:ml-0 md:w-fit md:px-6"
+          className="ml-3 w-fit md:ml-0 md:w-fit md:px-6"
           width={100}
           height={100}
           alt="logo"
@@ -38,12 +38,6 @@ export function DNavbar() {
       <div className="col-span-3 row-start-2 flex place-items-center md:flex-row md:gap-1 md:pl-6">
         <DashboardLinks />
       </div>
-
-      {/* hamburger button */}
-      <div
-        className={`menu col-start-3 px-1 transition-all md:hidden ${isClicked && "menu-expanded"}`}
-        onClick={() => setIsClicked(!isClicked)}
-      ></div>
     </nav>
   );
 }

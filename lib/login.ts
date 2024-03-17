@@ -22,7 +22,7 @@ type LoginState = {
 export async function authenticateLogin(
   prevState: LoginState,
   formData: FormData,
-  callbackURL?: string | null,
+  callbackURL?: string | null
 ): Promise<LoginState> {
   const validatedFields = loginSchema.safeParse({
     username: formData.get("username"),
@@ -40,9 +40,12 @@ export async function authenticateLogin(
   try {
     const user = await signIn("credentials", userCredentials);
 
-    return {
-      successMessage: "Logged in successfully.",
-    };
+    if (user)
+      return {
+        successMessage: "Logged in successfully.",
+      };
+
+    return { errorMessage: "Something went wrong." };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

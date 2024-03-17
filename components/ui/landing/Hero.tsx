@@ -2,7 +2,7 @@ import { bricolage } from "@/app/fonts";
 import clsx from "clsx";
 import heroIllustration from "@/public/static/hero_illu.svg";
 import Image from "next/image";
-import { SearchBar } from "../Search";
+import { SearchBar } from "../../Search";
 
 import { Space_Grotesk } from "next/font/google";
 const space_grotesk = Space_Grotesk({ subsets: ["latin"] });

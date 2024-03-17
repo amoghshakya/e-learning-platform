@@ -3,10 +3,11 @@
 import prisma from "./prisma";
 import { User } from "@prisma/client";
 import { auth } from "@/auth";
+import { unstable_noStore as noStore } from "next/cache";
 
 // for cases like logging in using USERNAME
 export async function getUserByUsername(
-  username: string,
+  username: string
 ): Promise<User | undefined> {
   try {
     const user = await prisma.user.findUnique({
@@ -51,10 +52,17 @@ export async function getUserById(id: string): Promise<User | undefined> {
 }
 
 export async function getUserImage() {
+  noStore();
   const session = await auth();
   if (session) {
     return session.user.image;
   }
 
   return "";
+}
+
+export async function isUserLoggedIn() {
+  const session = await auth();
+  if (session?.user) return true;
+  return false;
 }

@@ -37,6 +37,10 @@ export const {
         session.user.role = token.role as $Enums.Role;
       }
 
+      if (token.isInstructor && session.user) {
+        session.user.isInstructor = token.isInstructor as boolean;
+      }
+
       return session;
     },
 
@@ -59,6 +63,10 @@ export const {
       if (user && "email" in user) {
         // Assuming 'email' is a property on the User type
         token.email = (user as User).email;
+      }
+
+      if (user && "isInstructor" in user) {
+        token.isInstructor = (user as User).isInstructor;
       }
 
       return token;

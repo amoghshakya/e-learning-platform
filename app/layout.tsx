@@ -3,6 +3,7 @@ import "./globals.css";
 
 import { inter } from "./fonts";
 import clsx from "clsx";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "E-learning platform",
@@ -16,7 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx(inter.className, "antialiased")}>{children}</body>
+      <body className={clsx(inter.className, "antialiased")}>
+        <Toaster />
+        {children}
+      </body>
     </html>
   );
 }

@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import prisma from "./prisma";
 import { getUserById } from "./actions";
+import { unstable_noStore as noStore } from "next/cache";
 
 export async function getUserEnrolledCourses() {
   const session = await auth();
@@ -25,16 +26,19 @@ export async function getUserEnrolledCourses() {
 }
 
 export async function getCompletedCourses() {
+  noStore();
   const enrollments = await getUserEnrolledCourses();
   return enrollments.filter((enrollment) => enrollment.progress === 100);
 }
 
 export async function getInProgressCourses() {
+  noStore();
   const enrollments = await getUserEnrolledCourses();
   return enrollments.filter((enrollment) => enrollment.progress < 100);
 }
 
 export async function getCourseDetails(courseId: string) {
+  noStore();
   try {
     const course = await prisma.course.findUnique({
       where: {

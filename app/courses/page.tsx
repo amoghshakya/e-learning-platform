@@ -1,4 +1,4 @@
-import { SearchBar } from "@/components/ui/Search";
+import { SearchBar } from "@/components/Search";
 
 export default function CoursesPage() {
   return (
