@@ -2,11 +2,14 @@ import { inter, bricolage } from "@/app/fonts";
 
 import { auth } from "@/auth";
 import { IconBadge } from "@/components/icon-badge";
-import { DescriptionForm } from "@/components/ui/instructor/courses/courseId/description-form";
-import { ImageForm } from "@/components/ui/instructor/courses/courseId/image-form";
-import { TitleForm } from "@/components/ui/instructor/courses/courseId/title-form";
+import { CategoryForm } from "@/components/ui/instructors/courses/courseId/category-form";
+import { DescriptionForm } from "@/components/ui/instructors/courses/courseId/description-form";
+import { ImageForm } from "@/components/ui/instructors/courses/courseId/image-form";
+import { TitleForm } from "@/components/ui/instructors/courses/courseId/title-form";
+import { fetchCategories } from "@/lib/categories";
 import prisma from "@/lib/prisma";
 import { PaintBrushIcon } from "@heroicons/react/24/outline";
+import { Category } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 export default async function CourseIdPage({
@@ -25,6 +28,8 @@ export default async function CourseIdPage({
     },
   });
 
+  const categories = await fetchCategories();
+
   if (!course) return redirect("/");
 
   const requiredFields = [
@@ -40,8 +45,8 @@ export default async function CourseIdPage({
   return (
     <div className={`p-6 ${inter.className}`}>
       <div className="flex items-center justify-between">
-        <div className="flex flex-col gap-y-2">
-          <h1 className={`text-2xl font-medium ${bricolage.className}`}>
+        <div className="flex flex-col gap-y-1">
+          <h1 className={`text-3xl font-bold ${bricolage.className}`}>
             Course setup
           </h1>
           <span className="text-sm text-slate-600">
@@ -53,7 +58,7 @@ export default async function CourseIdPage({
         <div>
           <div className="flex items-center gap-x-2">
             <IconBadge icon={PaintBrushIcon} />
-            <h2 className={`text-xl ${bricolage.className}`}>
+            <h2 className={`text-xl font-semibold ${bricolage.className}`}>
               Customize your course
             </h2>
           </div>
@@ -68,6 +73,16 @@ export default async function CourseIdPage({
           <ImageForm
             initialData={JSON.parse(JSON.stringify(course))}
             courseId={params.courseId}
+          />
+          <CategoryForm
+            initialData={JSON.parse(JSON.stringify(course))}
+            courseId={params.courseId}
+            options={categories.map((category) => {
+              return {
+                label: category.name,
+                value: category.id,
+              };
+            })}
           />
         </div>
       </div>

@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "./prisma";
-import { User } from "@prisma/client";
+import { Category, User } from "@prisma/client";
 import { auth } from "@/auth";
 import { unstable_noStore as noStore } from "next/cache";
 

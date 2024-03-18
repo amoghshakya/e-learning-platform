@@ -102,6 +102,7 @@ export function ImageForm({
               fill
               className="object-cover rounded-md"
               src={initialData.thumbnail}
+              priority
             />
           </div>
         ))}

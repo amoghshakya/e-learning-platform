@@ -178,15 +178,6 @@ export async function updateCourseDescription(
   }
 }
 
-type UpdateImageState = {
-  data: {
-    courseId: string;
-    courseThumbnail?: string | null;
-  };
-  errorMessage?: string | null;
-  successMessage?: string | null;
-};
-
 export async function updateCourseThumbnail(
   courseId: string,
   thumbnailURL: string

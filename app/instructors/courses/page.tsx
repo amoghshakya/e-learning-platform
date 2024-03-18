@@ -5,7 +5,7 @@ import { inter } from "@/app/fonts";
 export default function InstructorCoursesPage() {
   return (
     <div className={`${inter.className}`}>
-      <Link href="/instructor/create">
+      <Link href="/instructors/create">
         <Button>Create course</Button>
       </Link>
     </div>

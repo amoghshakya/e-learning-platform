@@ -34,7 +34,7 @@ export default function CreateCourse() {
         title: "Success",
         description: messages.successMessage,
       });
-      redirect(`/instructor/courses/${messages.course_id}`);
+      redirect(`/instructors/courses/${messages.course_id}`);
     }
   }, [messages]);
 
@@ -65,7 +65,7 @@ export default function CreateCourse() {
         <Button
           type="reset"
           variant="ghost"
-          onClick={() => redirect("/instructor/courses")}
+          onClick={() => redirect("/instructors/courses")}
         >
           Cancel
         </Button>
