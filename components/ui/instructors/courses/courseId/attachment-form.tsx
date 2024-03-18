@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Course } from "@prisma/client";
+import { Attachment, Course } from "@prisma/client";
 import { Cross1Icon, Pencil1Icon, PlusIcon } from "@radix-ui/react-icons";
 import { Label } from "@radix-ui/react-label";
 import { useEffect, useState } from "react";
@@ -16,13 +16,12 @@ import { PhotoIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { FileUpload } from "@/components/file-upload";
 
-export function ImageForm({
-  initialData,
-  courseId,
-}: {
-  initialData: Course;
+interface AttachmentFormProps {
+  initialData: { Attachment: Attachment[] } & Course;
   courseId: string;
-}) {
+}
+
+export function AttachmentForm({ initialData, courseId }: AttachmentFormProps) {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -55,12 +54,7 @@ export function ImageForm({
 
   const handleFileChange = async (url?: string) => {
     if (url) {
-      const updateCourse = await updateCourseThumbnail(courseId, url);
-      if (updateCourse) {
-        setSuccessMessage("Successfully updated course thumbnail.");
-      } else {
-        setErrorMessage("Failed to update thumbnail");
-      }
+      // TODO: UPDATE DATABASE WITH ATTACHMENTS
     }
   };
 
@@ -69,7 +63,7 @@ export function ImageForm({
       className={`${inter.className} mt-6 border bg-slate-100 rounded-md p-4 shadow`}
     >
       <div className="font-medium flex items-center justify-between">
-        Course thumbnail
+        Course attachments
         <Button variant="ghost" onClick={toggleEdit}>
           {isEditing && (
             <>
@@ -78,44 +72,30 @@ export function ImageForm({
             </>
           )}
 
-          {!isEditing && !initialData.thumbnail && (
+          {!isEditing && (
             <>
               <PlusIcon className="h-4 w-4 mr-2" />
-              Add an image
-            </>
-          )}
-
-          {!isEditing && initialData.thumbnail && (
-            <>
-              <Pencil1Icon className="h-4 w-4 mr-2" />
-              Edit image
+              Add a file
             </>
           )}
         </Button>
       </div>
 
-      {!isEditing &&
-        (!initialData.thumbnail ? (
-          <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
-            <PhotoIcon className="h-10 w-10 text-slate-500" />
-          </div>
-        ) : (
-          <div className="relative aspect-video mt-2">
-            <Image
-              alt="upload"
-              fill
-              className="object-cover rounded-md"
-              src={initialData.thumbnail}
-              priority
-            />
-          </div>
-        ))}
+      {!isEditing && (
+        <>
+          {initialData.Attachment.length === 0 && (
+            <p className="text-sm mt-2 text-slate-400 italic">
+              No attachments yet
+            </p>
+          )}
+        </>
+      )}
 
       {isEditing && (
         <div>
-          <FileUpload endpoint="courseThumbnail" onChange={handleFileChange} />
+          <FileUpload endpoint="courseAttachment" onChange={handleFileChange} />
           <div className="text-xs text-muted-foreground mt-4">
-            16:4 aspect ratio recommended
+            Add resources that are necessary for the course
           </div>
         </div>
       )}

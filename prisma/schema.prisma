@@ -66,6 +66,7 @@ model Course {
   updated_at    DateTime     @updatedAt
   Lesson        Lesson[]
   Enrollment    Enrollment[]
+  Attachment    Attachment[]
 
   instructor Instructor? @relation(fields: [instructor_id], references: [id], onDelete: Cascade)
   category   Category?   @relation(fields: [category_id], references: [id], onDelete: SetNull)
@@ -81,6 +82,20 @@ model Lesson {
   updated_at DateTime @updatedAt
 
   course Course @relation(fields: [course_id], references: [id], onDelete: Cascade)
+}
+
+model Attachment {
+  id   String @id @default(cuid())
+  name String
+  url  String @db.Text
+
+  course_id String
+  course    Course @relation(fields: [course_id], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([course_id])
 }
 
 model Category {

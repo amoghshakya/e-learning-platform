@@ -36,17 +36,22 @@ export function CategoryForm({
 
   useEffect(() => {
     if (successMessage) {
+      setIsEditing((current) => !current);
+      router.refresh();
       toast({
         title: successMessage,
       });
-      setIsEditing(false);
+      setSuccessMessage("");
     }
     if (errorMessage) {
+      setIsEditing((current) => !current);
+      router.refresh();
       toast({
         title: errorMessage,
         description: "Something went wrong. Please try again later!",
         variant: "destructive",
       });
+      setErrorMessage("");
     }
   }, [successMessage, errorMessage]);
 
@@ -100,7 +105,7 @@ export function CategoryForm({
           <Combobox
             options={[...options]}
             onChange={handleCategorySelection}
-            value={selectedOption?.label}
+            value={initialData.category_id ?? ""}
           />
         </form>
       )}

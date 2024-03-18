@@ -1,3 +1,9 @@
+/**
+ * These are instructor actions aka Actions only an instructor can perform
+ * These include creating courses, updating their properties (title, description, price?, category)
+ * and so on
+ */
+
 "use server";
 
 import { z } from "zod";
@@ -117,7 +123,7 @@ export async function updateCourseTitle(
 type UpdateDescriptionState = {
   data: {
     courseId: string;
-    courseDescription: string;
+    courseDescription?: string | null;
   };
   errorMessage?: string | null;
   successMessage?: string | null;
@@ -194,6 +200,67 @@ export async function updateCourseThumbnail(
 
     if (updatedCourse) return true;
     else return false;
+  } catch (err) {
+    throw err;
+  }
+}
+
+type UpdatePriceState = {
+  data: {
+    courseId: string;
+    coursePrice: number;
+  };
+  errorMessage?: string | null;
+  successMessage?: string | null;
+};
+
+const coursePriceSchema = z.object({
+  price: z.coerce.number(),
+});
+
+export async function updateCoursePrice(
+  prevState: UpdatePriceState,
+  formData: FormData
+): Promise<UpdatePriceState> {
+  const validatedFields = coursePriceSchema.safeParse({
+    price: formData.get("price"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      data: { ...prevState.data },
+      errorMessage: "Invalid fields",
+    };
+  }
+
+  const { price: newPrice } = validatedFields.data;
+
+  try {
+    const updatedCourse = await prisma.course.update({
+      where: {
+        id: prevState.data.courseId,
+      },
+      data: {
+        price: newPrice,
+      },
+    });
+
+    if (updatedCourse) {
+      return {
+        data: {
+          courseId: prevState.data.courseId,
+          coursePrice: newPrice,
+        },
+        successMessage: "Price updated successfully",
+      };
+    } else {
+      return {
+        data: {
+          ...prevState.data,
+        },
+        errorMessage: "Failed to update the price",
+      };
+    }
   } catch (err) {
     throw err;
   }

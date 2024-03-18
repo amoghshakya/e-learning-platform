@@ -2,13 +2,20 @@ import { inter, bricolage } from "@/app/fonts";
 
 import { auth } from "@/auth";
 import { IconBadge } from "@/components/icon-badge";
+import { AttachmentForm } from "@/components/ui/instructors/courses/courseId/attachment-form";
 import { CategoryForm } from "@/components/ui/instructors/courses/courseId/category-form";
 import { DescriptionForm } from "@/components/ui/instructors/courses/courseId/description-form";
 import { ImageForm } from "@/components/ui/instructors/courses/courseId/image-form";
+import { PriceForm } from "@/components/ui/instructors/courses/courseId/price-form";
 import { TitleForm } from "@/components/ui/instructors/courses/courseId/title-form";
 import { fetchCategories } from "@/lib/categories";
 import prisma from "@/lib/prisma";
-import { PaintBrushIcon } from "@heroicons/react/24/outline";
+import {
+  CurrencyDollarIcon,
+  ListBulletIcon,
+  PaintBrushIcon,
+  PaperClipIcon,
+} from "@heroicons/react/24/outline";
 import { Category } from "@prisma/client";
 import { redirect } from "next/navigation";
 
@@ -26,7 +33,16 @@ export default async function CourseIdPage({
     where: {
       id: params.courseId,
     },
+    include: {
+      Attachment: {
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
+    },
   });
+
+  console.log(course);
 
   const categories = await fetchCategories();
 
@@ -84,6 +100,42 @@ export default async function CourseIdPage({
               };
             })}
           />
+        </div>
+        <div className="space-y-6">
+          <div>
+            <div className="flex items-center gap-x-2">
+              <IconBadge icon={ListBulletIcon} />
+              <h2 className={`text-xl font-semibold ${bricolage.className}`}>
+                Add course lessons
+              </h2>
+            </div>
+            <div>TODO: LESSONS</div>
+          </div>
+
+          {/* Price section */}
+          {/* Comment this if no price for any course :) */}
+          <div>
+            <div className="flex items-center gap-x-2">
+              <IconBadge icon={CurrencyDollarIcon} />
+              <h2 className={`text-xl font-semibold ${bricolage.className}`}>
+                Set course price
+              </h2>
+            </div>
+            <PriceForm
+              initialData={JSON.parse(JSON.stringify(course))}
+              courseId={params.courseId}
+            />
+          </div>
+
+          <div>
+            <div className="flex items-center gap-x-2">
+              <IconBadge icon={PaperClipIcon} />
+              <h2 className={`text-xl font-semibold ${bricolage.className}`}>
+                Add course attachments
+              </h2>
+            </div>
+            <AttachmentForm initialData={course} courseId={params.courseId} />
+          </div>
         </div>
       </div>
     </div>

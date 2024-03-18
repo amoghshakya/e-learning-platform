@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
-  CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import {
   Popover,
@@ -43,29 +43,28 @@ export const Combobox = ({ options, value, onChange }: ComboboxProps) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0">
-        <Command>
+        <Command className="w-full">
           <CommandInput placeholder="Search option..." />
           <CommandEmpty>No option found.</CommandEmpty>
-          <CommandGroup>
-            {options &&
-              options.map((option) => (
-                <CommandItem
-                  key={option.value}
-                  onSelect={() => {
-                    onChange(option.value === value ? "" : option.value);
-                    setOpen(false);
-                  }}
-                >
-                  <CheckIcon
-                    className={clsx(
-                      "mr-2 h-4 w-4",
-                      value === option.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {option.label}
-                </CommandItem>
-              ))}
-          </CommandGroup>
+          <CommandList className="w-full">
+            {options.map((option) => (
+              <CommandItem
+                key={option.value}
+                onSelect={() => {
+                  onChange(option.value === value ? "" : option.value);
+                  setOpen(false);
+                }}
+              >
+                <CheckIcon
+                  className={clsx(
+                    "mr-2 h-4 w-4",
+                    value === option.value ? "opacity-100" : "opacity-0"
+                  )}
+                />
+                {option.label}
+              </CommandItem>
+            ))}
+          </CommandList>
         </Command>
       </PopoverContent>
     </Popover>
