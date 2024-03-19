@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "../input";
 import { Label } from "../label";
 import { Switch } from "../switch";
-import { bricolage } from "../../../app/fonts";
+import { heading } from "../../../app/fonts";
 import { ToggleSwitch } from "./toggle-switch";
 import {
   AtSymbolIcon,
@@ -34,7 +34,7 @@ export function SignUpForm() {
   useEffect(() => {
     if (messages.successMessage) {
       const form = document.getElementById(
-        "sign-up-form"
+        "sign-up-form",
       ) as HTMLFormElement | null;
 
       if (form) {
@@ -54,9 +54,7 @@ export function SignUpForm() {
       className="flex h-2/3 flex-col items-center justify-around drop-shadow *:transition-all md:w-full"
     >
       <div className="flex w-fit flex-col gap-4 rounded-lg bg-gray-50 p-12">
-        <h1
-          className={`text-3xl ${bricolage.className} text-center font-black`}
-        >
+        <h1 className={`text-3xl ${heading.className} text-center font-black`}>
           Create an account
         </h1>
 

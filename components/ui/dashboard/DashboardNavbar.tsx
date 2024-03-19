@@ -7,7 +7,7 @@ import Image from "next/image";
 import DashboardLinks from "./Links";
 import { SearchBar } from "../../Search";
 import { ProfileImage } from "./ProfileImage";
-import { inter } from "@/app/fonts";
+import { body } from "@/app/fonts";
 
 export function DNavbar() {
   const [isClicked, setIsClicked] = useState(false);
@@ -15,7 +15,7 @@ export function DNavbar() {
     <nav
       className={clsx(
         "z-30 grid h-fit w-full grid-cols-2 grid-rows-2 items-center gap-1 overflow-clip px-4 pt-2 shadow md:grid-cols-[max-content,1fr,max-content] md:px-12",
-        inter.className
+        body.className,
       )}
     >
       <Link href="/" draggable="false">

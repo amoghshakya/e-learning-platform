@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { bricolage } from "../../../app/fonts";
+import { heading } from "../../../app/fonts";
 import { useFormState, useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { authenticateLogin } from "@/lib/login";
@@ -25,9 +25,7 @@ export function LoginForm() {
       className="flex h-2/3 flex-col items-center justify-around drop-shadow *:transition-all"
     >
       <div className="flex flex-col gap-4 rounded-lg bg-gray-50 px-12 py-12 h-full">
-        <h1
-          className={`text-3xl font-black text-center ${bricolage.className}`}
-        >
+        <h1 className={`text-3xl font-black text-center ${heading.className}`}>
           Log in to your account
         </h1>
         {/* Username */}

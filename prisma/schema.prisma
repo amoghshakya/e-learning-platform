@@ -73,15 +73,27 @@ model Course {
 }
 
 model Lesson {
-  id         String   @id @default(cuid())
-  title      String
-  content    String
-  video_url  String?
-  course_id  String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  video_url   String?
+  position    Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
-  course Course @relation(fields: [course_id], references: [id], onDelete: Cascade)
+  muxData MuxData?
+
+  course_id String
+  course    Course @relation(fields: [course_id], references: [id], onDelete: Cascade)
+}
+
+model MuxData {
+  id         String  @id @default(cuid())
+  asset_id   String
+  playbackId String?
+
+  lesson_id String @unique
+  lesson    Lesson @relation(fields: [lesson_id], references: [id], onDelete: Cascade)
 }
 
 model Attachment {
@@ -106,7 +118,7 @@ model Category {
 
 model Instructor {
   id      String   @id @default(cuid())
-  user_id String
+  user_id String   @unique
   courses Course[]
 
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)

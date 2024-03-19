@@ -51,7 +51,9 @@ export async function getCourseDetails(courseId: string) {
   }
 }
 
-export async function getInstructor(instructorId: string | null | undefined) {
+export async function getInstructorName(
+  instructorId: string | null | undefined
+) {
   if (!instructorId) return null;
   try {
     const instructor = await prisma.instructor.findUnique({

@@ -1,7 +1,7 @@
 import {
   getCourseDetails,
   getInProgressCourses,
-  getInstructor,
+  getInstructorName,
 } from "@/lib/courses";
 import Image from "next/image";
 import { CourseCard } from "../../CourseCard";
@@ -20,7 +20,7 @@ export async function InProgressCoursesSection() {
 
   const instructorDetails = await Promise.all(
     inProgressCourses.map(async (course) => {
-      const instructor = await getInstructor(course?.instructor_id);
+      const instructor = await getInstructorName(course?.instructor_id);
       return instructor;
     })
   );

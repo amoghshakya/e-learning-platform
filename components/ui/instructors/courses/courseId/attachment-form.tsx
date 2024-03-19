@@ -2,22 +2,25 @@
 
 import { Button } from "@/components/ui/button";
 import { Attachment, Course } from "@prisma/client";
-import { Cross1Icon, Pencil1Icon, PlusIcon } from "@radix-ui/react-icons";
-import { Label } from "@radix-ui/react-label";
 import { useEffect, useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import clsx from "clsx";
-import { Textarea } from "@/components/ui/textarea";
-import { bricolage, inter } from "@/app/fonts";
-import { updateCourseThumbnail } from "@/lib/instructor";
-import { PhotoIcon } from "@heroicons/react/24/outline";
+import { heading, body } from "@/app/fonts";
+import { addAttachments, deleteAttachment } from "@/lib/instructor";
+import {
+  DocumentIcon,
+  XMarkIcon,
+  PlusIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { FileUpload } from "@/components/file-upload";
+import prisma from "@/lib/prisma";
+import { LoadingCircleIcon } from "@/components/loading-spinner";
 
 interface AttachmentFormProps {
-  initialData: { Attachment: Attachment[] } & Course;
+  initialData: Course & { Attachment: Attachment[] };
   courseId: string;
 }
 
@@ -29,6 +32,8 @@ export function AttachmentForm({ initialData, courseId }: AttachmentFormProps) {
   const toggleEdit = () => {
     setIsEditing((current) => !current);
   };
+
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -47,6 +52,7 @@ export function AttachmentForm({ initialData, courseId }: AttachmentFormProps) {
       toast({
         title: errorMessage,
         variant: "destructive",
+        description: "Check the file type before uploading an attachment",
       });
       setErrorMessage("");
     }
@@ -54,20 +60,47 @@ export function AttachmentForm({ initialData, courseId }: AttachmentFormProps) {
 
   const handleFileChange = async (url?: string) => {
     if (url) {
-      // TODO: UPDATE DATABASE WITH ATTACHMENTS
+      const updatedCourse = await addAttachments(courseId, url);
+      if (updatedCourse) {
+        setSuccessMessage("Added attachment");
+      } else {
+        setErrorMessage("Failed to add attachment.");
+      }
+    }
+  };
+
+  const onDelete = async (id: string) => {
+    try {
+      setDeletingId(id);
+      const postDeleteReturn = await deleteAttachment(id, courseId);
+
+      if (postDeleteReturn) {
+        toast({
+          title: "Attachment deleted",
+          description: "Attachment deleted successfully.",
+        });
+        router.refresh();
+      }
+    } catch (error) {
+      toast({
+        description: String(error),
+        variant: "destructive",
+      });
+    } finally {
+      setDeletingId(null);
     }
   };
 
   return (
     <div
-      className={`${inter.className} mt-6 border bg-slate-100 rounded-md p-4 shadow`}
+      className={`${body.className} mt-6 border bg-slate-100 rounded-md p-4 shadow`}
     >
       <div className="font-medium flex items-center justify-between">
         Course attachments
         <Button variant="ghost" onClick={toggleEdit}>
           {isEditing && (
             <>
-              <Cross1Icon className="h-4 w-4 mr-2" />
+              <XMarkIcon className="h-4 w-4 mr-2" />
               Cancel
             </>
           )}
@@ -88,6 +121,32 @@ export function AttachmentForm({ initialData, courseId }: AttachmentFormProps) {
               No attachments yet
             </p>
           )}
+          {initialData.Attachment.length > 0 && (
+            <div className="space-y-2">
+              {initialData.Attachment.map((attachment) => (
+                <div
+                  className="flex items-center p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md"
+                  key={attachment.id}
+                >
+                  <DocumentIcon className="h-4 w-4 mr-2 flex-shrink-0" />
+                  <p className="text-xs line-clamp-1">{attachment.name}</p>
+                  {deletingId === attachment.id && (
+                    <div>
+                      <LoadingCircleIcon className="w-4 h-4 animate-spin" />
+                    </div>
+                  )}
+                  {deletingId !== attachment.id && (
+                    <button
+                      className="ml-auto hover:opacity-75 transition group"
+                      onClick={() => onDelete(attachment.id)}
+                    >
+                      <TrashIcon className="w-4 h-4 group-hover:text-red-800 text-slate-500" />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </>
       )}
 
@@ -100,14 +159,5 @@ export function AttachmentForm({ initialData, courseId }: AttachmentFormProps) {
         </div>
       )}
     </div>
-  );
-}
-
-function SaveButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" disabled={pending} aria-disabled={pending}>
-      Save
-    </Button>
   );
 }

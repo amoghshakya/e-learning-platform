@@ -66,3 +66,84 @@ export async function isUserLoggedIn() {
   if (session?.user) return true;
   return false;
 }
+
+export async function isInstructor(userId: string) {
+  if (!userId) return false;
+  try {
+    const instructor = await prisma.instructor.findUnique({
+      where: {
+        user_id: userId,
+      },
+    });
+
+    if (instructor) return true;
+    return false;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getInstructorDetails(userId?: string) {
+  if (!userId) return null;
+  try {
+    const isUserInstructor = await isInstructor(userId);
+
+    if (isUserInstructor) {
+      const instructor = await prisma.instructor.findUnique({
+        where: {
+          user_id: userId,
+        },
+      });
+
+      return instructor;
+    } else {
+      return null;
+    }
+  } catch (err) {
+    throw err;
+  }
+}
+
+// for loggedin user
+export async function isLoggedInInstructor() {
+  const session = await auth();
+  const userId = session?.user.id;
+  if (!userId) return false;
+
+  try {
+    const instructor = await prisma.instructor.findUnique({
+      where: {
+        user_id: userId,
+      },
+    });
+
+    if (instructor) return true;
+    return false;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getLoggedInInstructor() {
+  const session = await auth();
+  const userId = session?.user.id;
+  if (!userId) return null;
+
+  try {
+    const isUserInstructor = await isLoggedInInstructor();
+
+    if (isUserInstructor) {
+      const instructor = await prisma.instructor.findUnique({
+        where: {
+          user_id: userId,
+        },
+      });
+
+      return instructor;
+    } else {
+      return null;
+    }
+  } catch (err) {
+    throw err;
+  }
+}

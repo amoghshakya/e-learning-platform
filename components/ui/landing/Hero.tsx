@@ -1,4 +1,4 @@
-import { bricolage } from "@/app/fonts";
+import { heading } from "@/app/fonts";
 import clsx from "clsx";
 import heroIllustration from "@/public/static/hero_illu.svg";
 import Image from "next/image";
@@ -20,7 +20,7 @@ function Hero() {
       <h1
         className={clsx(
           "text-5xl font-[800] md:col-start-1 md:row-start-2 md:place-self-center",
-          bricolage.className
+          heading.className,
         )}
       >
         What would you like to learn{" "}

@@ -8,6 +8,14 @@
 
 import { z } from "zod";
 import prisma from "./prisma";
+import { auth } from "@/auth";
+import {
+  getInstructorDetails,
+  getLoggedInInstructor,
+  isLoggedInInstructor,
+} from "./actions";
+import { NextResponse } from "next/server";
+import { Course, Lesson } from "@prisma/client";
 
 type State = {
   fieldErrors?: {
@@ -26,7 +34,7 @@ const CreateCourseSchema = z.object({
 
 export async function createCourse(
   prevState: State,
-  formData: FormData
+  formData: FormData,
 ): Promise<State> {
   const validatedFields = CreateCourseSchema.safeParse({
     title: formData.get("title"),
@@ -37,21 +45,43 @@ export async function createCourse(
   const { title, description } = validatedFields.data;
 
   try {
-    const course = await prisma.course.create({
-      data: {
-        title: title,
-        description: description,
-      },
-    });
+    const session = await auth();
+    if (session) {
+      const instructor = await prisma.instructor.findUnique({
+        where: {
+          user_id: session.user.id,
+        },
+        select: {
+          id: true,
+        },
+      });
 
-    if (course)
+      if (instructor) {
+        const course = await prisma.course.create({
+          data: {
+            title: title,
+            description: description,
+            instructor_id: instructor.id,
+          },
+        });
+
+        if (course)
+          return {
+            successMessage: "Course created successfully!",
+            course_id: course.id,
+          };
+
+        return {
+          errorMessage: "Failed to create a course.",
+        };
+      }
+
       return {
-        successMessage: "Course created successfully!",
-        course_id: course.id,
+        errorMessage: "You are not an instructor.",
       };
-
+    }
     return {
-      errorMessage: "Something went wrong.",
+      errorMessage: "Please log in to create a course.",
     };
   } catch (err) {
     throw err;
@@ -69,7 +99,7 @@ type UpdateTitleState = {
 
 export async function updateCourseTitle(
   prevState: UpdateTitleState,
-  formData: FormData
+  formData: FormData,
 ): Promise<UpdateTitleState> {
   const validatedFields = z
     .object({
@@ -131,7 +161,7 @@ type UpdateDescriptionState = {
 
 export async function updateCourseDescription(
   prevState: UpdateDescriptionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<UpdateDescriptionState> {
   const validatedFields = z
     .object({
@@ -186,7 +216,7 @@ export async function updateCourseDescription(
 
 export async function updateCourseThumbnail(
   courseId: string,
-  thumbnailURL: string
+  thumbnailURL: string,
 ) {
   try {
     const updatedCourse = await prisma.course.update({
@@ -220,7 +250,7 @@ const coursePriceSchema = z.object({
 
 export async function updateCoursePrice(
   prevState: UpdatePriceState,
-  formData: FormData
+  formData: FormData,
 ): Promise<UpdatePriceState> {
   const validatedFields = coursePriceSchema.safeParse({
     price: formData.get("price"),
@@ -261,6 +291,291 @@ export async function updateCoursePrice(
         errorMessage: "Failed to update the price",
       };
     }
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function addAttachments(courseId: string, attachmentURL: string) {
+  if (!attachmentURL || !courseId) return;
+  const isUserInstructor = await isLoggedInInstructor();
+  if (!isUserInstructor) return;
+
+  try {
+    const instructor = await getLoggedInInstructor();
+    if (instructor) {
+      const courseOwner = await prisma.course.findUnique({
+        where: {
+          id: courseId,
+          instructor_id: instructor?.id,
+        },
+      });
+
+      if (!courseOwner) {
+        return new NextResponse("Unauthorized", { status: 401 });
+      }
+
+      const attachment = await prisma.attachment.create({
+        data: {
+          url: attachmentURL,
+          name: attachmentURL.split("/").pop() ?? "Attachment",
+          course_id: courseId,
+        },
+      });
+
+      return true;
+    }
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function deleteAttachment(attachmentId: string, courseId: string) {
+  const session = await auth();
+  const userId = session?.user.id;
+  if (!userId) return;
+  try {
+    const attachment = await prisma.attachment.delete({
+      where: {
+        id: attachmentId,
+        course_id: courseId,
+      },
+    });
+
+    return attachment;
+  } catch (error) {
+    throw error;
+  }
+}
+
+type CreateLessonState = {
+  data: {
+    courseId: string;
+    courseLesson: Lesson[];
+  };
+  errorMessage?: string | null;
+  successMessage?: string | null;
+};
+
+export async function createLesson(
+  prevState: CreateLessonState,
+  formData: FormData,
+): Promise<CreateLessonState> {
+  const isUserInstructor = await isLoggedInInstructor();
+  if (!isUserInstructor) {
+    return {
+      data: prevState.data,
+      errorMessage: "Not authorized to create a lesson",
+    };
+  }
+
+  const validatedFields = z
+    .object({
+      title: z.string().min(1, "Title is required"),
+    })
+    .safeParse({
+      title: formData.get("title"),
+    });
+
+  if (!validatedFields.success) {
+    return {
+      data: prevState.data,
+      errorMessage: "Invalid title",
+    };
+  }
+
+  const { title: lessonTitle } = validatedFields.data;
+
+  try {
+    const lastChapter = await prisma.lesson.findFirst({
+      where: {
+        course_id: prevState.data.courseId,
+      },
+      orderBy: {
+        position: "desc",
+      },
+    });
+
+    const newPosition = lastChapter ? lastChapter.position + 1 : 1;
+
+    const lesson = await prisma.lesson.create({
+      data: {
+        title: lessonTitle,
+        position: newPosition,
+        course_id: prevState.data.courseId,
+      },
+    });
+
+    if (lesson) {
+      const allLessons = await prisma.lesson.findMany({
+        where: {
+          course_id: prevState.data.courseId,
+        },
+        orderBy: {
+          position: "asc",
+        },
+      });
+      return {
+        data: {
+          courseId: prevState.data.courseId,
+          courseLesson: allLessons,
+        },
+        successMessage:
+          "Successfully added a lesson. Please add more information to the lesson.",
+      };
+    } else {
+      return {
+        data: prevState.data,
+        errorMessage: "Something went wrong",
+      };
+    }
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function onReorderLesson(
+  updateData: { id: string; position: number }[],
+) {
+  const isUserInstructor = await isLoggedInInstructor();
+  if (!isUserInstructor) return;
+  const instructor = await getLoggedInInstructor();
+
+  let updatedLesson;
+  for (let item of updateData) {
+    updatedLesson = await prisma.lesson.update({
+      where: {
+        id: item.id,
+      },
+      data: {
+        position: item.position,
+      },
+    });
+  }
+
+  if (updatedLesson) return true;
+  return false;
+}
+
+type LessonTitleState = {
+  data: {
+    courseId: string;
+    lessonId: string;
+    lessonTitle: string;
+  };
+  errorMessage?: string | null;
+  successMessage?: string | null;
+};
+
+export async function updateLessonTitle(
+  prevState: LessonTitleState,
+  formData: FormData,
+): Promise<LessonTitleState> {
+  const validatedFields = z
+    .object({
+      title: z.string().min(1, "Title is required"),
+    })
+    .safeParse({
+      title: formData.get("title"),
+    });
+
+  if (!validatedFields.success)
+    return {
+      data: {
+        courseId: prevState.data.courseId,
+        lessonId: prevState.data.lessonId,
+        lessonTitle: prevState.data.lessonTitle,
+      },
+      errorMessage: "Invalid fields",
+    };
+  const { title: newTitle } = validatedFields.data;
+
+  try {
+    const updatedCourse = await prisma.lesson.update({
+      where: {
+        id: prevState.data.lessonId,
+        course_id: prevState.data.courseId,
+      },
+      data: {
+        title: newTitle,
+      },
+    });
+
+    if (updatedCourse)
+      return {
+        data: {
+          courseId: prevState.data.courseId,
+          lessonId: prevState.data.lessonId,
+          lessonTitle: newTitle,
+        },
+        successMessage: "Successfully updated the course title.",
+      };
+    else
+      return {
+        data: prevState.data,
+        errorMessage: "Failed to update the course title.",
+      };
+  } catch (err) {
+    throw err;
+  }
+}
+
+type LessonDescriptionState = {
+  data: {
+    courseId: string;
+    lessonId: string;
+    lessonDescription: string | null;
+  };
+  errorMessage?: string | null;
+  successMessage?: string | null;
+};
+
+export async function updateLessonDescription(
+  prevState: LessonDescriptionState,
+  formData: FormData,
+): Promise<LessonDescriptionState> {
+  const validatedFields = z
+    .object({
+      description: z
+        .string()
+        .max(300, "Description should be maximum of 300 character"),
+    })
+    .safeParse({
+      description: formData.get("description"),
+    });
+
+  if (!validatedFields.success)
+    return {
+      data: prevState.data,
+      errorMessage: "Invalid fields",
+    };
+  const { description: description } = validatedFields.data;
+
+  try {
+    const updatedLesson = await prisma.lesson.update({
+      where: {
+        id: prevState.data.lessonId,
+        course_id: prevState.data.courseId,
+      },
+      data: {
+        description: description,
+      },
+    });
+
+    if (updatedLesson)
+      return {
+        data: {
+          courseId: prevState.data.courseId,
+          lessonId: prevState.data.lessonId,
+          lessonDescription: description,
+        },
+        successMessage: "Successfully updated description.",
+      };
+    else
+      return {
+        data: prevState.data,
+        errorMessage: "Failed to update description.",
+      };
   } catch (err) {
     throw err;
   }

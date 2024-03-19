@@ -1,7 +1,7 @@
 import {
   getCompletedCourses,
   getCourseDetails,
-  getInstructor,
+  getInstructorName,
 } from "@/lib/courses";
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
 
@@ -19,7 +19,7 @@ export async function CompletedCoursesSection() {
   );
   const instructorDetails = await Promise.all(
     completedCourses.map(async (course) => {
-      const instructor = await getInstructor(course?.instructor_id);
+      const instructor = await getInstructorName(course?.instructor_id);
       return instructor;
     })
   );

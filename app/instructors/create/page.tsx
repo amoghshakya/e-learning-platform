@@ -2,7 +2,7 @@
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { bricolage } from "@/app/fonts";
+import { heading } from "@/app/fonts";
 import { Textarea } from "@/components/ui/textarea";
 import { useFormState, useFormStatus } from "react-dom";
 import { createCourse } from "@/lib/instructor";
@@ -41,7 +41,7 @@ export default function CreateCourse() {
   return (
     <main className="flex">
       <form action={dispatch}>
-        <h3 className={`text-3xl font-bold ${bricolage.className}`}>
+        <h3 className={`text-3xl font-bold ${heading.className}`}>
           What will your name your course?
         </h3>
         <div>

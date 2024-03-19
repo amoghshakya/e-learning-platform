@@ -6,8 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { updateCourseTitle } from "@/lib/instructor";
 import { Course } from "@prisma/client";
-import { Pencil1Icon, Cross1Icon } from "@radix-ui/react-icons";
-import { revalidatePath } from "next/cache";
+import { XMarkIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -59,12 +58,12 @@ export function TitleForm({
         <Button variant="ghost" onClick={toggleEdit}>
           {isEditing ? (
             <>
-              <Cross1Icon className="h-4 w-4 mr-2" />
+              <XMarkIcon className="h-4 w-4 mr-2" />
               Cancel
             </>
           ) : (
             <>
-              <Pencil1Icon className="h-4 w-4 mr-2" />
+              <PencilIcon className="h-4 w-4 mr-2" />
               Edit title
             </>
           )}

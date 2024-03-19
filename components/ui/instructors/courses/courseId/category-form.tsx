@@ -2,13 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { Course } from "@prisma/client";
-import { Cross1Icon, Pencil1Icon } from "@radix-ui/react-icons";
+import { XMarkIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { Label } from "@radix-ui/react-label";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import clsx from "clsx";
-import { bricolage, inter } from "@/app/fonts";
+import { heading, body } from "@/app/fonts";
 import { Combobox } from "@/components/ui/combobox";
 import { updateCourseCategory } from "@/lib/categories";
 
@@ -31,7 +31,7 @@ export function CategoryForm({
   const [errorMessage, setErrorMessage] = useState("");
 
   const selectedOption = options.find(
-    (option) => option.value === initialData.category_id
+    (option) => option.value === initialData.category_id,
   );
 
   useEffect(() => {
@@ -68,19 +68,19 @@ export function CategoryForm({
 
   return (
     <div
-      className={`${inter.className} mt-6 border bg-slate-100 rounded-md p-4 shadow`}
+      className={`${body.className} mt-6 border bg-slate-100 rounded-md p-4 shadow`}
     >
       <div className="font-medium flex items-center justify-between">
         Course category
         <Button variant="ghost" onClick={toggleEdit}>
           {isEditing ? (
             <>
-              <Cross1Icon className="h-4 w-4 mr-2" />
+              <XMarkIcon className="h-4 w-4 mr-2" />
               Cancel
             </>
           ) : (
             <>
-              <Pencil1Icon className="h-4 w-4 mr-2" />
+              <PencilIcon className="h-4 w-4 mr-2" />
               Edit category
             </>
           )}

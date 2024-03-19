@@ -6,7 +6,7 @@ import { NAV_LINKS as links } from "@/constants";
 import clsx from "clsx";
 import { NavButtons } from "./LoginSignupButtons";
 import { usePathname } from "next/navigation";
-import { inter } from "@/app/fonts";
+import { body } from "@/app/fonts";
 import MobileSidebar from "./MobileSidebar";
 
 export default function NavBar() {
@@ -16,7 +16,7 @@ export default function NavBar() {
     <nav
       className={clsx(
         "z-30 grid h-16 md:h-fit w-screen grid-cols-2 grid-rows-1 items-center gap-4 overflow-clip p-4 shadow md:grid-cols-[max-content,1fr,max-content] md:px-12",
-        inter.className
+        body.className,
       )}
     >
       <Link href="/" draggable="false">
@@ -38,7 +38,7 @@ export default function NavBar() {
               <Link
                 className={clsx(
                   "w-max font-medium transition-all hover:text-text",
-                  { "text-text font-semibold  ": pathname === link.href }
+                  { "text-text font-semibold  ": pathname === link.href },
                 )}
                 href={link.href}
                 key={link.key}

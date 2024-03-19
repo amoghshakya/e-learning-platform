@@ -1,68 +1,64 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Course } from "@prisma/client";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import { updateCourseTitle, updateLessonTitle } from "@/lib/instructor";
+import { Course, Lesson } from "@prisma/client";
 import { XMarkIcon, PencilIcon } from "@heroicons/react/24/outline";
-import { Label } from "@radix-ui/react-label";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { updateCourseDescription } from "@/lib/instructor";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
-import clsx from "clsx";
-import { Textarea } from "@/components/ui/textarea";
-import { heading, body } from "@/app/fonts";
 
-export function DescriptionForm({
+export function LessonTitleForm({
   initialData,
   courseId,
+  lessonId
 }: {
-  initialData: Course;
+  initialData: Lesson;
   courseId: string;
+  lessonId: string;
 }) {
-  const router = useRouter();
-  const { toast } = useToast();
-
-  const [isEditing, setIsEditing] = useState(false);
-  const toggleEdit = () => {
-    setIsEditing((current) => !current);
-  };
-
   const initialState = {
     data: {
       courseId: courseId,
-      courseDescription: initialData.description,
+      lessonId: lessonId,
+      lessonTitle: initialData.title,
     },
     errorMessage: null,
     successMessage: null,
   };
-  const [messages, dispatch] = useFormState(
-    updateCourseDescription,
-    initialState,
-  );
+  const [messages, dispatch] = useFormState(updateLessonTitle, initialState);
+  const { toast } = useToast();
+  const [isEditing, setIsEditing] = useState(false);
+  const router = useRouter();
+
+  const toggleEdit = () => {
+    setIsEditing((current) => !current);
+  };
 
   useEffect(() => {
     setIsEditing((current) => !current);
     router.refresh();
     if (messages.errorMessage)
       toast({
-        title: "Failed to update description",
+        title: "Failed to update title",
         description: messages.errorMessage,
         variant: "destructive",
       });
 
     if (messages.successMessage)
       toast({
-        title: "Description updated",
+        title: "Title updated",
         description: messages.successMessage,
       });
   }, [messages]);
+
   return (
-    <div
-      className={`${body.className} mt-6 border bg-slate-100 rounded-md p-4 shadow`}
-    >
+    <div className="mt-6 border bg-slate-100 rounded-md p-4 shadow">
       <div className="font-medium flex items-center justify-between">
-        Course description
+        Lesson title
         <Button variant="ghost" onClick={toggleEdit}>
           {isEditing ? (
             <>
@@ -72,7 +68,7 @@ export function DescriptionForm({
           ) : (
             <>
               <PencilIcon className="h-4 w-4 mr-2" />
-              Edit description
+              Edit title
             </>
           )}
         </Button>
@@ -81,14 +77,15 @@ export function DescriptionForm({
       {isEditing ? (
         <>
           <form action={dispatch}>
-            <Label htmlFor="description" hidden>
-              Description
+            <Label htmlFor="title" hidden>
+              Title
             </Label>
-            <Textarea
-              placeholder={initialData.description}
+            <Input
+              type="text"
+              placeholder={initialData.title}
               className="mt-2"
-              id="description"
-              name="description"
+              id="title"
+              name="title"
             />
             <div className="flex items-center gap-x-2 mt-2">
               <SaveButton />
@@ -96,13 +93,7 @@ export function DescriptionForm({
           </form>
         </>
       ) : (
-        <p
-          className={clsx("text-sm mt-2 px-3", {
-            "italic text-slate-500": !initialData.description,
-          })}
-        >
-          {initialData.description || "No description"}
-        </p>
+        <p className="text-sm mt-2 px-3">{initialData.title}</p>
       )}
     </div>
   );

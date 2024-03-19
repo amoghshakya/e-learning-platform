@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { CourseCard } from "@/components/ui/dashboard/CourseCard";
-import { bricolage } from "@/app/fonts";
+import { heading } from "@/app/fonts";
 import {
   getCompletedCourses,
   getInProgressCourses,
@@ -19,15 +19,13 @@ export default async function Dashboard() {
   return (
     <main>
       <h1
-        className={`${bricolage.className} mb-4 bg-slate-800 p-6 pl-10 text-2xl font-[625] text-background md:p-12 md:pl-24 md:text-4xl`}
+        className={`${heading.className} mb-4 bg-slate-800 p-6 pl-10 text-2xl font-[625] text-background md:p-12 md:pl-24 md:text-4xl`}
       >
         Dashboard
       </h1>
       <section className="md:mr-24 md:grid md:grid-cols-[2fr,1fr] md:grid-rows-3">
         <div className="p-1 px-6 md:p-4 md:pl-24">
-          <h2
-            className={`${bricolage.className} text-lg font-[555] md:text-xl`}
-          >
+          <h2 className={`${heading.className} text-lg font-[555] md:text-xl`}>
             Continue learning
           </h2>
           <div className="py-2 *:my-2">

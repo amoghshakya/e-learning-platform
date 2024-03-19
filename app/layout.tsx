@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import { inter } from "./fonts";
+import { body } from "./fonts";
 import clsx from "clsx";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx(inter.className, "antialiased")}>
+      <body className={clsx(body.className, "antialiased")}>
         <Toaster />
         {children}
       </body>

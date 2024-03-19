@@ -1,24 +1,29 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Course } from "@prisma/client";
+import { Course, Lesson } from "@prisma/client";
 import { XMarkIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { Label } from "@radix-ui/react-label";
 import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { updateCourseDescription } from "@/lib/instructor";
+import {
+  updateCourseDescription,
+  updateLessonDescription,
+} from "@/lib/instructor";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import clsx from "clsx";
 import { Textarea } from "@/components/ui/textarea";
 import { heading, body } from "@/app/fonts";
 
-export function DescriptionForm({
+export function LessonDescriptionForm({
   initialData,
   courseId,
+  lessonId,
 }: {
-  initialData: Course;
+  initialData: Lesson;
   courseId: string;
+  lessonId: string;
 }) {
   const router = useRouter();
   const { toast } = useToast();
@@ -31,13 +36,14 @@ export function DescriptionForm({
   const initialState = {
     data: {
       courseId: courseId,
-      courseDescription: initialData.description,
+      lessonId: lessonId,
+      lessonDescription: initialData.description,
     },
     errorMessage: null,
     successMessage: null,
   };
   const [messages, dispatch] = useFormState(
-    updateCourseDescription,
+    updateLessonDescription,
     initialState,
   );
 
@@ -62,7 +68,7 @@ export function DescriptionForm({
       className={`${body.className} mt-6 border bg-slate-100 rounded-md p-4 shadow`}
     >
       <div className="font-medium flex items-center justify-between">
-        Course description
+        Lesson description
         <Button variant="ghost" onClick={toggleEdit}>
           {isEditing ? (
             <>
@@ -85,7 +91,7 @@ export function DescriptionForm({
               Description
             </Label>
             <Textarea
-              placeholder={initialData.description}
+              placeholder={initialData.description ?? ""}
               className="mt-2"
               id="description"
               name="description"

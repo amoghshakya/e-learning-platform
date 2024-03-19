@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { getCourseDetails, getInstructor } from "@/lib/courses";
+import { getCourseDetails, getInstructorName } from "@/lib/courses";
 import { Enrollment } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,7 +22,7 @@ export async function CourseCard({
   const course = await getCourseDetails(enrollment.course_id);
   let instructor;
   if (course) {
-    instructor = await getInstructor(course.instructor_id);
+    instructor = await getInstructorName(course.instructor_id);
 
     return (
       <Card className="md:grid md:w-[55vw] md:grid-cols-[fit-content,1fr,1fr] md:grid-rows-[1fr,min-content]">
@@ -31,7 +31,7 @@ export async function CourseCard({
           alt="thumbnail"
           width={100}
           height={100}
-          className="aspect-video place-self-center h-fit w-full rounded object-cover md:col-start-1 md:row-span-2 md:aspect-square md:h-max md:w-fit m-1"
+          className="aspect-video place-self-center md:ml-6 h-fit w-full rounded object-cover md:col-start-1 md:row-span-2 md:aspect-square md:h-max md:w-fit m-1"
           priority
         />
         <CardHeader className="overflow-hidden md:col-start-2 md:row-span-1">

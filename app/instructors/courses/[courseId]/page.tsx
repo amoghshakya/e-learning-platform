@@ -1,4 +1,4 @@
-import { inter, bricolage } from "@/app/fonts";
+import { body, heading } from "@/app/fonts";
 
 import { auth } from "@/auth";
 import { IconBadge } from "@/components/icon-badge";
@@ -6,6 +6,7 @@ import { AttachmentForm } from "@/components/ui/instructors/courses/courseId/att
 import { CategoryForm } from "@/components/ui/instructors/courses/courseId/category-form";
 import { DescriptionForm } from "@/components/ui/instructors/courses/courseId/description-form";
 import { ImageForm } from "@/components/ui/instructors/courses/courseId/image-form";
+import { LessonsForm } from "@/components/ui/instructors/courses/courseId/lessons-form";
 import { PriceForm } from "@/components/ui/instructors/courses/courseId/price-form";
 import { TitleForm } from "@/components/ui/instructors/courses/courseId/title-form";
 import { fetchCategories } from "@/lib/categories";
@@ -16,7 +17,6 @@ import {
   PaintBrushIcon,
   PaperClipIcon,
 } from "@heroicons/react/24/outline";
-import { Category } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 export default async function CourseIdPage({
@@ -34,6 +34,11 @@ export default async function CourseIdPage({
       id: params.courseId,
     },
     include: {
+      Lesson: {
+        orderBy: {
+          position: "asc",
+        },
+      },
       Attachment: {
         orderBy: {
           createdAt: "desc",
@@ -41,8 +46,6 @@ export default async function CourseIdPage({
       },
     },
   });
-
-  console.log(course);
 
   const categories = await fetchCategories();
 
@@ -53,16 +56,17 @@ export default async function CourseIdPage({
     course.description,
     course.thumbnail,
     course.category_id,
+    course.Lesson.some((lesson) => lesson.title),
   ];
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
   const completionText = `(${completedFields}/${totalFields})`;
 
   return (
-    <div className={`p-6 ${inter.className}`}>
+    <div className={`p-6 ${body.className}`}>
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-y-1">
-          <h1 className={`text-3xl font-bold ${bricolage.className}`}>
+          <h1 className={`text-3xl font-bold ${heading.className}`}>
             Course setup
           </h1>
           <span className="text-sm text-slate-600">
@@ -74,7 +78,7 @@ export default async function CourseIdPage({
         <div>
           <div className="flex items-center gap-x-2">
             <IconBadge icon={PaintBrushIcon} />
-            <h2 className={`text-xl font-semibold ${bricolage.className}`}>
+            <h2 className={`text-xl font-semibold ${heading.className}`}>
               Customize your course
             </h2>
           </div>
@@ -105,11 +109,11 @@ export default async function CourseIdPage({
           <div>
             <div className="flex items-center gap-x-2">
               <IconBadge icon={ListBulletIcon} />
-              <h2 className={`text-xl font-semibold ${bricolage.className}`}>
+              <h2 className={`text-xl font-semibold ${heading.className}`}>
                 Add course lessons
               </h2>
             </div>
-            <div>TODO: LESSONS</div>
+            <LessonsForm initialData={course} courseId={params.courseId} />
           </div>
 
           {/* Price section */}
@@ -117,7 +121,7 @@ export default async function CourseIdPage({
           <div>
             <div className="flex items-center gap-x-2">
               <IconBadge icon={CurrencyDollarIcon} />
-              <h2 className={`text-xl font-semibold ${bricolage.className}`}>
+              <h2 className={`text-xl font-semibold ${heading.className}`}>
                 Set course price
               </h2>
             </div>
@@ -130,7 +134,7 @@ export default async function CourseIdPage({
           <div>
             <div className="flex items-center gap-x-2">
               <IconBadge icon={PaperClipIcon} />
-              <h2 className={`text-xl font-semibold ${bricolage.className}`}>
+              <h2 className={`text-xl font-semibold ${heading.className}`}>
                 Add course attachments
               </h2>
             </div>
