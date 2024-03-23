@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import clsx from "clsx";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,6 +8,7 @@ import DashboardLinks from "./Links";
 import { SearchBar } from "../../Search";
 import { ProfileImage } from "./ProfileImage";
 import { body } from "@/app/fonts";
+import SearchBarSkeleton from "@/components/skeletons/SearchSkeleton";
 
 export function DNavbar() {
   const [isClicked, setIsClicked] = useState(false);
@@ -30,7 +31,9 @@ export function DNavbar() {
       </Link>
 
       <div className="hidden md:block md:w-1/2">
-        <SearchBar hasButton={true} placeholder="Search for courses..." />
+        <Suspense fallback={<SearchBarSkeleton />}>
+          <SearchBar hasButton={true} placeholder="Search for courses..." />
+        </Suspense>
       </div>
 
       <ProfileImage />

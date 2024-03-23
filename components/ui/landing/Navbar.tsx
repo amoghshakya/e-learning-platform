@@ -10,8 +10,16 @@ import { body } from "@/app/fonts";
 import MobileSidebar from "./MobileSidebar";
 import { SearchBar } from "@/components/Search";
 import { useSession } from "next-auth/react";
+import SearchBarSkeleton from "@/components/skeletons/SearchSkeleton";
+import { Suspense } from "react";
 
-export default function NavBar({ showSearch, showLinks }: { showSearch?: boolean, showLinks?: boolean }) {
+export default function NavBar({
+  showSearch,
+  showLinks,
+}: {
+  showSearch?: boolean;
+  showLinks?: boolean;
+}) {
   const { data: session, status } = useSession();
   const pathname = usePathname();
 
@@ -40,13 +48,16 @@ export default function NavBar({ showSearch, showLinks }: { showSearch?: boolean
         {showSearch && (
           <>
             <div className="hidden md:block">
-              <SearchBar
-                placeholder="Search courses..."
-                hasButton={isCoursesIdPage}
-              />
+              <Suspense fallback={<SearchBarSkeleton />}>
+                <SearchBar
+                  placeholder="Search courses..."
+                  hasButton={isCoursesIdPage}
+                />
+              </Suspense>
             </div>
           </>
-        )} { showLinks && (
+        )}{" "}
+        {showLinks && (
           <ul className="md:cols-start-2 hidden h-full items-center gap-10 text-nowrap text-sm text-gray-600 md:flex">
             {links &&
               links.map((link) => (
@@ -63,11 +74,9 @@ export default function NavBar({ showSearch, showLinks }: { showSearch?: boolean
               ))}
           </ul>
         )}
-
         <div className="hidden justify-end gap-1 md:col-start-3 md:flex">
           <NavButtons />
         </div>
-
         {/* hamburger button */}
         {!pathname.startsWith("/dashboard") && (
           <div className="col-start-3 place-self-start self-center md:hidden">

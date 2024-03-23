@@ -5,6 +5,8 @@ import Image from "next/image";
 import { SearchBar } from "../../Search";
 
 import { Space_Grotesk } from "next/font/google";
+import { Suspense } from "react";
+import SearchBarSkeleton from "@/components/skeletons/SearchSkeleton";
 const space_grotesk = Space_Grotesk({ subsets: ["latin"] });
 
 function Hero() {
@@ -38,12 +40,14 @@ function Hero() {
         className="hidden md:col-start-2 md:row-span-3 md:block md:w-max"
       />
 
-      <SearchBar
-        type="search"
-        className="hidden md:col-start-1 md:row-start-3 md:block md:w-3/4 md:self-start"
-        placeholder="Search for courses..."
-        hasButton={true}
-      />
+      <Suspense fallback={<SearchBarSkeleton />}>
+        <SearchBar
+          type="search"
+          className="hidden md:col-start-1 md:row-start-3 md:block md:w-3/4 md:self-start"
+          placeholder="Search for courses..."
+          hasButton={true}
+        />
+      </Suspense>
     </section>
   );
 }

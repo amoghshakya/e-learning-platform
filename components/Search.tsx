@@ -5,7 +5,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/components/ui/button";
 import { useDebounce, useDebouncedCallback } from "use-debounce";
 import { Input } from "./ui/input";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import {
   redirect,
   usePathname,
@@ -13,6 +13,7 @@ import {
   useSearchParams,
 } from "next/navigation";
 import qs from "query-string";
+import SearchBarSkeleton from "./skeletons/SearchSkeleton";
 
 interface SearchProps extends React.InputHTMLAttributes<HTMLInputElement> {
   hasButton?: boolean | undefined;
