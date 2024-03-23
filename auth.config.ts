@@ -4,7 +4,6 @@ import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import { z } from "zod";
 import { getUserByUsername } from "./lib/actions";
-import bcrypt from "bcryptjs";
 
 export const authConfig = {
   // debug: true,
@@ -37,6 +36,8 @@ export const authConfig = {
           if (!user || !user.password) {
             return null;
           }
+
+          const bcrypt = require("bcrypt");
 
           const passwordsMatch = await bcrypt.compare(password, user.password);
 

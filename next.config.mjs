@@ -1,6 +1,13 @@
 import { withNextVideo } from "next-video/process";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    serverComponentsExternalPackages: ["bcrypt"],
+  },
+  webpack: (config) => {
+    config.externals = [...config.externals, "bcrypt"];
+    return config;
+  },
   images: {
     remotePatterns: [
       {

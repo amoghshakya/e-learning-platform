@@ -5,9 +5,6 @@ import prisma from "./lib/prisma";
 import { authConfig } from "./auth.config";
 import { $Enums, User } from "@prisma/client";
 
-type ExtendedUser = User & {
-  emailVerified: boolean; // Add the missing property
-};
 
 export const {
   handlers: { GET, POST },

@@ -2,8 +2,10 @@
 
 import { z } from "zod";
 import prisma from "./prisma";
-import bcrypt from "bcryptjs";
+
 import { getUserByEmail, getUserByUsername } from "./actions";
+
+
 
 const SignUpSchema = z.object({
   email: z.string().email("Please enter a valid email").toLowerCase(),
@@ -56,6 +58,7 @@ export async function createUser(
   const rawFormData = validatedFields.data;
 
   try {
+    const bcrypt = require("bcrypt");
     // hashing the password
     const hashedPassword = await bcrypt.hash(rawFormData.password, 10);
 
