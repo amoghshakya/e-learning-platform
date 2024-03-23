@@ -20,12 +20,10 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html lang="en">
-      <SessionProvider session={session}>
-        <body className={clsx(body.className, "antialiased")}>
-          <Toaster />
-          {children}
-        </body>
-      </SessionProvider>
+      <body className={clsx(body.className, "antialiased")}>
+        <Toaster />
+        {children}
+      </body>
     </html>
   );
 }

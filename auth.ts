@@ -15,6 +15,7 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  trustHost: true,
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
@@ -36,7 +37,7 @@ export const {
       if (token.role && session.user) {
         session.user.role = token.role as $Enums.Role;
       }
-      
+
       return session;
     },
 
