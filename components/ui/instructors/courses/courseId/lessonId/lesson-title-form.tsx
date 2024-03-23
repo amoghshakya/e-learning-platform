@@ -53,7 +53,7 @@ export function LessonTitleForm({
         title: "Title updated",
         description: messages.successMessage,
       });
-  }, [messages]);
+  }, [messages, router, toast]);
 
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4 shadow">

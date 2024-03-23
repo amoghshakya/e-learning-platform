@@ -10,6 +10,9 @@ import Link from "next/link";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/outline";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import CourseCardSkeleton from "@/components/ui/dashboard/skeletons/CourseCardSkeleton";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function Dashboard() {
   const enrollments = await getUserEnrolledCourses();
@@ -28,17 +31,13 @@ export default async function Dashboard() {
           <h2 className={`${heading.className} text-lg font-[555] md:text-xl`}>
             Continue learning
           </h2>
-          <div className="py-2 *:my-2">
+          <div className="">
             {enrollments.length ? (
-              enrollments
-                .slice(0, 2)
-                .map((enrollment) => (
-                  <CourseCard
-                    enrollment={enrollment}
-                    key={enrollment.id}
-                    isDashboardRoute={true}
-                  />
-                ))
+              enrollments.slice(0, 2).map((enrollment) => (
+                <Suspense fallback={<CourseCardSkeleton />} key={enrollment.id}>
+                  <CourseCard enrollment={enrollment} isDashboardRoute={true} />
+                </Suspense>
+              ))
             ) : (
               <Alert className="px-6 py-4 md:w-[55vw]" variant="default">
                 <MagnifyingGlassCircleIcon className="h-6 w-6" />
@@ -53,7 +52,7 @@ export default async function Dashboard() {
             )}
           </div>
         </div>
-        <Card className="hidden bg-gray-100 md:block my-[3.687rem]">
+        <Card className="my-[3.687rem] hidden bg-gray-100 md:block">
           <CardHeader>Courses</CardHeader>
           <CardContent className="flex flex-col gap-2 *:text-gray-500 *:underline hover:*:text-gray-600">
             <Link href="/dashboard/courses/inprogress">

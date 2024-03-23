@@ -69,7 +69,7 @@ export function LessonDescriptionForm({
         title: "Lesson description updated",
         description: messages.successMessage,
       });
-  }, [messages]);
+  }, [messages, router, toast]);
   return (
     <div
       className={`${body.className} mt-6 rounded-md border bg-slate-100 p-4 shadow`}

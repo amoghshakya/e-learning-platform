@@ -63,7 +63,7 @@ export function LoginForm() {
         </div>
 
         <p className="text-center text-sm opacity-90">
-          Don't have an account?{" "}
+          Don&apos;t have an account?
           <Link href="/join/signup" className="text-blue-700 hover:underline">
             Sign up here
           </Link>

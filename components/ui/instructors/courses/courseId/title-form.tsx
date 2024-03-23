@@ -50,20 +50,20 @@ export function TitleForm({
         title: "Title updated",
         description: messages.successMessage,
       });
-  }, [messages]);
+  }, [messages, toast, router]);
   return (
-    <div className="mt-6 border bg-slate-100 rounded-md p-4 shadow">
-      <div className="font-medium flex items-center justify-between">
+    <div className="mt-6 rounded-md border bg-slate-100 p-4 shadow">
+      <div className="flex items-center justify-between font-medium">
         Course title
         <Button variant="ghost" onClick={toggleEdit}>
           {isEditing ? (
             <>
-              <XMarkIcon className="h-4 w-4 mr-2" />
+              <XMarkIcon className="mr-2 h-4 w-4" />
               Cancel
             </>
           ) : (
             <>
-              <PencilIcon className="h-4 w-4 mr-2" />
+              <PencilIcon className="mr-2 h-4 w-4" />
               Edit title
             </>
           )}
@@ -83,13 +83,13 @@ export function TitleForm({
               id="title"
               name="title"
             />
-            <div className="flex items-center gap-x-2 mt-2">
+            <div className="mt-2 flex items-center gap-x-2">
               <SaveButton />
             </div>
           </form>
         </>
       ) : (
-        <p className="text-sm mt-2 px-3">{initialData.title}</p>
+        <p className="mt-2 px-3 text-sm">{initialData.title}</p>
       )}
     </div>
   );

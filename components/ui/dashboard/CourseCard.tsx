@@ -33,18 +33,18 @@ export async function CourseCard({
     );
 
     return (
-      <Card className="items-center justify-center md:grid md:w-[55vw] md:grid-cols-[fit-content,fit-content,fit-content] md:grid-rows-[1fr,min-content]">
-        <div className="m-2 h-fit w-full rounded p-4 md:col-start-1 md:row-span-2 md:row-start-1 md:h-max">
+      <Card className="mt-2 items-center justify-start gap-x-2 md:grid md:w-[55vw] md:grid-cols-[100px,1fr,min-content] md:grid-rows-[fit-content,min-content]">
+        <div className="mx-4 h-fit w-full rounded md:col-start-1 md:row-span-2 md:row-start-1 md:h-max">
           <Image
             src={course.thumbnail ?? "/static/favioc.png"}
             alt="thumbnail"
             height={100}
             width={100}
-            className="aspect-video w-auto rounded object-cover md:aspect-square"
+            className="aspect-video rounded object-cover md:aspect-square"
             priority
           />
         </div>
-        <CardHeader className="overflow-hidden md:col-start-2 md:row-span-1">
+        <CardHeader className="flex-grow overflow-hidden md:col-start-2 md:row-span-1">
           <CardTitle className="peer hover:text-sky-800 hover:underline">
             <Link href={`/courses/${course.id}`}>{course.title}</Link>
           </CardTitle>
@@ -59,7 +59,7 @@ export async function CourseCard({
               <p className="font-bold">Next up</p>
             </Link>
             <Link
-              href={`/courses/${course.id}/${nextLesson?.id}`}
+              href={`/courses/${course.id}/lessons/${nextLesson?.id}`}
               className="group-hover:underline"
             >
               <p className="break-words text-xs">

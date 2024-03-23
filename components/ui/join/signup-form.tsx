@@ -47,7 +47,7 @@ export function SignUpForm() {
         router.push("/join/login");
       }, 1500);
     }
-  }, [messages.successMessage]);
+  }, [messages.successMessage, router]);
 
   return (
     <form

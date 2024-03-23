@@ -61,7 +61,7 @@ export function ChapterVideoForm({
       });
       setErrorMessage("");
     }
-  }, [successMessage, errorMessage]);
+  }, [successMessage, errorMessage, router, toast]);
 
   const handleSubmission = async (url?: string) => {
     if (url) {

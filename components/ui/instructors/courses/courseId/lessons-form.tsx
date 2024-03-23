@@ -62,7 +62,7 @@ export function LessonsForm({
         title: "Lesson added",
         description: messages.successMessage,
       });
-  }, [messages]);
+  }, [messages, router, toast]);
 
   const onReorder = async (updateData: { id: string; position: number }[]) => {
     try {

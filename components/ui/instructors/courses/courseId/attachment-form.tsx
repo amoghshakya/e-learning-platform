@@ -56,7 +56,7 @@ export function AttachmentForm({ initialData, courseId }: AttachmentFormProps) {
       });
       setErrorMessage("");
     }
-  }, [successMessage, errorMessage]);
+  }, [successMessage, errorMessage, router, toast]);
 
   const handleFileChange = async (url?: string) => {
     if (url) {

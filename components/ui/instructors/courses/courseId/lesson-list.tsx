@@ -55,17 +55,18 @@ export function LessonsList({ items, onEdit, onReorder }: LessonsListProps) {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="lessons">
-        {(provided) => (
+        {(provided, snapshot) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
             {lessons.map((lesson, index) => (
               <Draggable key={lesson.id} draggableId={lesson.id} index={index}>
                 {(provided) => (
                   <div
-                    className={clsx(
-                      "text-slate-700 group mb-3 flex items-center gap-x-2 rounded-md border border-slate-200 bg-slate-200 text-sm",
-                    )}
                     ref={provided.innerRef}
+                    className={clsx(
+                      `group mb-3 flex items-center gap-x-2 rounded-md border border-slate-200 bg-slate-200 text-sm text-slate-700`,
+                    )}
                     {...provided.draggableProps}
+                    style={{ ...provided.draggableProps.style }}
                   >
                     <div
                       className="rounded-l-md border-r-slate-200 px-2 py-3 transition hover:bg-slate-300"

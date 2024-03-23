@@ -51,7 +51,7 @@ export function ImageForm({
       });
       setErrorMessage("");
     }
-  }, [successMessage, errorMessage]);
+  }, [successMessage, errorMessage, router, toast]);
 
   const handleFileChange = async (url?: string) => {
     if (url) {

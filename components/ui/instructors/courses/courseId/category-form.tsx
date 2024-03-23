@@ -53,7 +53,7 @@ export function CategoryForm({
       });
       setErrorMessage("");
     }
-  }, [successMessage, errorMessage]);
+  }, [successMessage, errorMessage, router, toast]);
 
   const handleCategorySelection = async (categoryId: string) => {
     if (categoryId) {

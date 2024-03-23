@@ -1,5 +1,7 @@
 import { Category, Course, Enrollment } from "@prisma/client";
 import SearchCourseCard from "./ui/courses/search/search-course-card";
+import { Suspense } from "react";
+import SearchCourseCardSkeleton from "./ui/courses/skeletons/SearchCourseCardSkeleton";
 
 type CourseExtended = Course & {
   category: Category | null;
@@ -17,16 +19,17 @@ export default function CoursesList({ items }: CoursesListProps) {
     <div>
       <div className="xl grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
         {items.map((item) => (
-          <SearchCourseCard
-            key={item.id}
-            title={item.title}
-            id={item.id}
-            thumbnailURL={item.thumbnail!}
-            lessonsLength={item.lessons.length}
-            price={Number(item.price)}
-            progress={item.progress}
-            category={item.category?.name!}
-          />
+          <Suspense fallback={<SearchCourseCardSkeleton />} key={item.id}>
+            <SearchCourseCard
+              title={item.title}
+              id={item.id}
+              thumbnailURL={item.thumbnail!}
+              lessonsLength={item.lessons.length}
+              price={Number(item.price)}
+              progress={item.progress}
+              category={item.category?.name!}
+            />
+          </Suspense>
         ))}
       </div>
       {items.length === 0 && (

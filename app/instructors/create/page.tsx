@@ -36,7 +36,7 @@ export default function CreateCourse() {
       });
       redirect(`/instructors/courses/${messages.course_id}`);
     }
-  }, [messages]);
+  }, [messages, toast]);
 
   return (
     <main className="flex h-screen items-center justify-center gap-x-2 p-8">

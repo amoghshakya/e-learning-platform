@@ -54,7 +54,7 @@ export function PriceForm({
         title: "Price updated",
         description: messages.successMessage,
       });
-  }, [messages]);
+  }, [messages, router, toast]);
 
   return (
     <div

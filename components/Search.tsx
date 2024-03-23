@@ -44,7 +44,7 @@ export function SearchBar({ hasButton, className, ...rest }: SearchProps) {
       );
       router.push(url);
     }
-  }, [debouncedValue, currentCategoryId, router]);
+  }, [debouncedValue, currentCategoryId, router, pathname]);
 
   const handleButtonClick = () => {
     if (!pathname.startsWith("/courses/search")) {

@@ -7,6 +7,8 @@ import Image from "next/image";
 import { CourseCard } from "../../CourseCard";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { AcademicCapIcon } from "@heroicons/react/24/outline";
+import { Suspense } from "react";
+import CourseCardSkeleton from "../../skeletons/CourseCardSkeleton";
 
 export async function InProgressCoursesSection() {
   const inProgressEnrollments = await getInProgressCourses();
@@ -15,21 +17,23 @@ export async function InProgressCoursesSection() {
     inProgressEnrollments.map(async (enrollment) => {
       const courseDetails = await getCourseDetails(enrollment.course_id);
       return courseDetails;
-    })
+    }),
   );
 
   const instructorDetails = await Promise.all(
     inProgressCourses.map(async (course) => {
       const instructor = await getInstructorName(course?.instructor_id);
       return instructor;
-    })
+    }),
   );
 
   return (
     <>
       {inProgressEnrollments.length ? (
         inProgressEnrollments.map((enrollment, index) => (
-          <CourseCard enrollment={enrollment} key={enrollment.id} />
+          <Suspense fallback={<CourseCardSkeleton />} key={enrollment.id}>
+            <CourseCard enrollment={enrollment}  />
+          </Suspense>
         ))
       ) : (
         <Alert className="px-6 py-4 md:w-[55vw]" variant="default">
