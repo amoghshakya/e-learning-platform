@@ -5,7 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -29,9 +30,9 @@ model User {
   isInstructor      Boolean      @default(false)
   role              Role         @default(USER)
   acc_creation_date DateTime     @default(now())
-  Instructor        Instructor[]
-  Enrollment        Enrollment[]
-  Account           Account[]
+  instructors        Instructor[]
+  enrollments        Enrollment[]
+  accounts           Account[]
 }
 
 model Account {
@@ -64,9 +65,9 @@ model Course {
   isPublished   Boolean      @default(false)
   created_at    DateTime     @default(now())
   updated_at    DateTime     @updatedAt
-  Lesson        Lesson[]
-  Enrollment    Enrollment[]
-  Attachment    Attachment[]
+  lessons        Lesson[]
+  enrollments    Enrollment[]
+  attachments    Attachment[]
 
   instructor Instructor? @relation(fields: [instructor_id], references: [id], onDelete: Cascade)
   category   Category?   @relation(fields: [category_id], references: [id], onDelete: SetNull)
@@ -125,14 +126,18 @@ model Instructor {
 }
 
 model Enrollment {
-  id            String    @id @default(cuid())
-  user_id       String
-  course_id     String
-  enrolled_at   DateTime  @default(now())
-  progress      Int       @default(0)
-  completed_at  DateTime?
-  last_accessed DateTime?
+  id               String    @id @default(cuid())
+  user_id          String
+  course_id        String
+  enrolled_at      DateTime  @default(now())
+  progress         Int       @default(0)
+  completedLessons Int       @default(0)
+  completed_at     DateTime?
+  last_accessed    DateTime?
 
   user   User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
   course Course @relation(fields: [course_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, course_id])
+  @@index([user_id, course_id])
 }

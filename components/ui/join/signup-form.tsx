@@ -21,6 +21,8 @@ import React, { useEffect } from "react";
 
 import { redirect, useRouter } from "next/navigation";
 import { SocialLogins } from "./social-login";
+import { LoadingCircleIcon } from "@/components/loading-spinner";
+import { Separator } from "../separator";
 
 export function SignUpForm() {
   const router = useRouter();
@@ -68,7 +70,7 @@ export function SignUpForm() {
           </Label>
           <div className="relative">
             <Input
-              className="pl-8 peer"
+              className="peer pl-8"
               type="email"
               name="email"
               id="email"
@@ -77,7 +79,7 @@ export function SignUpForm() {
               required
             />
             {/* an icon maybe */}
-            <AtSymbolIcon className="w-4 top-[0.6rem] left-2 absolute peer-focus:text-black text-gray-500" />
+            <AtSymbolIcon className="absolute left-2 top-[0.6rem] w-4 text-gray-500 peer-focus:text-black" />
           </div>
           <div id="email-error" aria-live="polite" aria-atomic="true">
             {messages.fieldErrors?.email &&
@@ -99,7 +101,7 @@ export function SignUpForm() {
           </Label>
           <div className="relative">
             <Input
-              className="pl-8 peer"
+              className="peer pl-8"
               type="text"
               name="name"
               id="name"
@@ -107,7 +109,7 @@ export function SignUpForm() {
               required
             />
             {/* an icon maybe */}
-            <IdentificationIcon className="w-4 top-[0.6rem] left-2 absolute peer-focus:text-black text-gray-500" />
+            <IdentificationIcon className="absolute left-2 top-[0.6rem] w-4 text-gray-500 peer-focus:text-black" />
           </div>
         </div>
 
@@ -121,7 +123,7 @@ export function SignUpForm() {
           </Label>
           <div className="relative">
             <Input
-              className="pl-8 peer"
+              className="peer pl-8"
               type="text"
               name="username"
               id="username"
@@ -130,7 +132,7 @@ export function SignUpForm() {
               required
             />
             {/* an icon maybe */}
-            <UserIcon className="w-4 top-[0.6rem] left-2 absolute peer-focus:text-black text-gray-500" />
+            <UserIcon className="absolute left-2 top-[0.6rem] w-4 text-gray-500 peer-focus:text-black" />
           </div>
           <div id="username-error" aria-live="polite" aria-atomic="true">
             {messages.fieldErrors?.username &&
@@ -152,7 +154,7 @@ export function SignUpForm() {
           </Label>
           <div className="relative">
             <Input
-              className="pl-8 peer"
+              className="peer pl-8"
               type="password"
               name="password"
               id="password"
@@ -160,7 +162,7 @@ export function SignUpForm() {
               required
             />
             {/* an icon maybe */}
-            <KeyIcon className="w-4 top-[0.6rem] left-2 absolute peer-focus:text-black text-gray-500" />
+            <KeyIcon className="absolute left-2 top-[0.6rem] w-4 text-gray-500 peer-focus:text-black" />
           </div>
           <div id="password-error" aria-live="polite" aria-atomic="true">
             {messages.fieldErrors?.password &&
@@ -204,6 +206,7 @@ export function SignUpForm() {
           )
         )}
         <SocialLogins />
+        <Separator orientation="horizontal" />
         <SignUpButton />
       </div>
     </form>
@@ -215,9 +218,13 @@ function SignUpButton() {
   return (
     <Button
       aria-disabled={pending}
-      className="m-auto w-fit items-center justify-center"
+      className="m-auto w-max items-center justify-center"
     >
-      Sign up
+      {pending ? (
+        <LoadingCircleIcon className="h-4 w-4 animate-spin" />
+      ) : (
+        "Sign up"
+      )}
     </Button>
   );
 }

@@ -3,11 +3,18 @@ import { redirect } from "next/navigation";
 
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import { ArrowLeftIcon, BookOpenIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowLeftIcon,
+  BookOpenIcon,
+  VideoCameraIcon,
+} from "@heroicons/react/24/outline";
 import { heading, body } from "@/app/fonts";
 import { IconBadge } from "@/components/icon-badge";
 import { LessonTitleForm } from "@/components/ui/instructors/courses/courseId/lessonId/lesson-title-form";
-import { LessonDescriptionForm } from "@/components/ui/instructors/courses/courseId/lessonId/description-form";
+import { LessonDescriptionForm } from "@/components/ui/instructors/courses/courseId/lessonId/lesson-description-form";
+import { ChapterVideoForm } from "@/components/ui/instructors/courses/courseId/lessonId/lesson-video-form";
+import LessonActions from "@/components/ui/instructors/courses/courseId/lessonId/lesson-actions";
+import { isUserOwner } from "@/lib/instructor";
 
 export default async function LessonIdPage({
   params,
@@ -21,6 +28,9 @@ export default async function LessonIdPage({
   const userId = session?.user.id;
 
   if (!userId) redirect("/");
+
+  const userOwnsCourse = await isUserOwner(params.courseId);
+  if (!userOwnsCourse) return redirect("/instructors");
 
   const lesson = await prisma.lesson.findUnique({
     where: {
@@ -42,16 +52,16 @@ export default async function LessonIdPage({
 
   return (
     <div className={`p-6 ${body.className}`}>
-      <div className="items-center justify-between flex">
+      <div className="flex items-center justify-between">
         <div className="w-full">
           <Link
             href={`/instructors/courses/${params.courseId}`}
-            className="flex items-center text-sm hover:opacity-75 transition mb-6"
+            className="mb-6 flex items-center text-sm transition hover:opacity-75"
           >
-            <ArrowLeftIcon className="h-4 w-4 mr-2" />
+            <ArrowLeftIcon className="mr-2 h-4 w-4" />
             Back to course setup
           </Link>
-          <div className="flex items-center justify-between w-full">
+          <div className="flex w-full items-center justify-between">
             <div className="flex flex-col gap-y-2">
               <h1 className={`text-3xl font-bold ${heading.className}`}>
                 Lesson setup
@@ -60,10 +70,14 @@ export default async function LessonIdPage({
                 Complete all fields {completionText}
               </span>
             </div>
+            <LessonActions
+              courseId={params.courseId}
+              lessonId={params.lessonId}
+            />
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+      <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2">
         <div className="space-y-4">
           <div>
             <div className="flex items-center gap-x-2">
@@ -79,6 +93,19 @@ export default async function LessonIdPage({
               lessonId={params.lessonId}
             />
             <LessonDescriptionForm
+              initialData={lesson}
+              courseId={params.courseId}
+              lessonId={params.lessonId}
+            />
+          </div>
+        </div>
+        <div className="space-y-4 md:col-start-2">
+          <div className="">
+            <div className="flex items-center gap-x-2">
+              <IconBadge icon={VideoCameraIcon} />
+              <h2 className={`${heading.className} text-xl`}>Add a video</h2>
+            </div>
+            <ChapterVideoForm
               initialData={lesson}
               courseId={params.courseId}
               lessonId={params.lessonId}

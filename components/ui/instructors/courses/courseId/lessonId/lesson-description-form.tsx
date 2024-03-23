@@ -15,6 +15,9 @@ import { useToast } from "@/components/ui/use-toast";
 import clsx from "clsx";
 import { Textarea } from "@/components/ui/textarea";
 import { heading, body } from "@/app/fonts";
+import { Editor } from "@/components/editor";
+import { Preview } from "@/components/preview";
+import { Input } from "@/components/ui/input";
 
 export function LessonDescriptionForm({
   initialData,
@@ -27,6 +30,10 @@ export function LessonDescriptionForm({
 }) {
   const router = useRouter();
   const { toast } = useToast();
+
+  const [descriptionValue, setDescriptionValue] = useState(
+    initialData.description ?? "",
+  );
 
   const [isEditing, setIsEditing] = useState(false);
   const toggleEdit = () => {
@@ -59,25 +66,25 @@ export function LessonDescriptionForm({
 
     if (messages.successMessage)
       toast({
-        title: "Description updated",
+        title: "Lesson description updated",
         description: messages.successMessage,
       });
   }, [messages]);
   return (
     <div
-      className={`${body.className} mt-6 border bg-slate-100 rounded-md p-4 shadow`}
+      className={`${body.className} mt-6 rounded-md border bg-slate-100 p-4 shadow`}
     >
-      <div className="font-medium flex items-center justify-between">
+      <div className="flex items-center justify-between font-medium">
         Lesson description
         <Button variant="ghost" onClick={toggleEdit}>
           {isEditing ? (
             <>
-              <XMarkIcon className="h-4 w-4 mr-2" />
+              <XMarkIcon className="mr-2 h-4 w-4" />
               Cancel
             </>
           ) : (
             <>
-              <PencilIcon className="h-4 w-4 mr-2" />
+              <PencilIcon className="mr-2 h-4 w-4" />
               Edit description
             </>
           )}
@@ -91,24 +98,33 @@ export function LessonDescriptionForm({
               Description
             </Label>
             <Textarea
-              placeholder={initialData.description ?? ""}
-              className="mt-2"
               id="description"
               name="description"
+              value={descriptionValue}
+              className="hidden"
+              hidden
+              aria-hidden
             />
-            <div className="flex items-center gap-x-2 mt-2">
+            <Editor
+              onChange={(e) => setDescriptionValue(e)}
+              value={descriptionValue}
+            />
+            <div className="mt-2 flex items-center gap-x-2">
               <SaveButton />
             </div>
           </form>
         </>
       ) : (
-        <p
-          className={clsx("text-sm mt-2 px-3", {
+        <div
+          className={clsx("mt-2 px-3 text-sm", {
             "italic text-slate-500": !initialData.description,
           })}
         >
-          {initialData.description || "No description"}
-        </p>
+          {!initialData.description && "No description"}
+          {initialData.description && (
+            <Preview value={initialData.description} />
+          )}
+        </div>
       )}
     </div>
   );

@@ -44,10 +44,10 @@ export function LessonsList({ items, onEdit, onReorder }: LessonsListProps) {
 
     const bulkUpdateData = updatedLessons.map((lesson) => ({
       id: lesson.id,
-      position: items.findIndex((item) => item.id === lesson.id)
-    }))
+      position: items.findIndex((item) => item.id === lesson.id),
+    }));
 
-    onReorder(bulkUpdateData)
+    onReorder(bulkUpdateData);
   };
 
   if (!isMounted) return null;
@@ -62,21 +62,21 @@ export function LessonsList({ items, onEdit, onReorder }: LessonsListProps) {
                 {(provided) => (
                   <div
                     className={clsx(
-                      "flex group items-center gap-x-2 bg-slate-200 border-slate-200 border text-slate700 rounded-md mb-3 text-sm"
+                      "text-slate-700 group mb-3 flex items-center gap-x-2 rounded-md border border-slate-200 bg-slate-200 text-sm",
                     )}
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                   >
                     <div
-                      className="px-2 py-3 border-r-slate-200 hover:bg-slate-300 rounded-l-md transition"
+                      className="rounded-l-md border-r-slate-200 px-2 py-3 transition hover:bg-slate-300"
                       {...provided.dragHandleProps}
                     >
-                      <ArrowsPointingOutIcon className="w-4 h-4" />
+                      <ArrowsPointingOutIcon className="h-4 w-4" />
                     </div>
                     {lesson.title}
-                    <div className="ml-auto pr-2 flex items-center gap-x-2">
+                    <div className="ml-auto flex items-center gap-x-2 pr-2">
                       <PencilIcon
-                        className="w-4 h-4 mr-2 cursor-pointer opacity-0 group-hover:opacity-90 transition"
+                        className="mr-2 h-4 w-4 cursor-pointer opacity-0 transition group-hover:opacity-90"
                         onClick={() => onEdit(lesson.id)}
                       />
                     </div>

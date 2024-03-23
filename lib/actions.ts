@@ -63,8 +63,8 @@ export async function getUserImage() {
 
 export async function isUserLoggedIn() {
   const session = await auth();
-  if (session?.user) return true;
-  return false;
+  if (session?.user.id) return session;
+  return null;
 }
 
 export async function isInstructor(userId: string) {

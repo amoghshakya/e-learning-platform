@@ -4,6 +4,7 @@ import "./globals.css";
 import { body } from "./fonts";
 import clsx from "clsx";
 import { Toaster } from "@/components/ui/toaster";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "E-learning platform",
@@ -17,10 +18,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx(body.className, "antialiased")}>
-        <Toaster />
-        {children}
-      </body>
+      <SessionProvider>
+        <body className={clsx(body.className, "antialiased")}>
+          <Toaster />
+          {children}
+        </body>
+      </SessionProvider>
     </html>
   );
 }

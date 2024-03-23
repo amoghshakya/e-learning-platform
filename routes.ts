@@ -4,7 +4,12 @@
  * @type {string[]}
  */
 
-export const publicRoutes = ["/", "/courses", "/api/uploadthing"];
+export const publicRoutes = [
+  "/",
+  "/courses",
+  "/api/uploadthing",
+  "/courses/search",
+];
 
 /**
  * Array of routes that are used for authentication

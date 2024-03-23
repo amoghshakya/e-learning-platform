@@ -5,7 +5,7 @@ import NavBar from "@/components/ui/landing/Navbar";
 export default function Home() {
   return (
     <>
-      <NavBar />
+      <NavBar showLinks={true} />
       <Hero />
       <Footer />
     </>

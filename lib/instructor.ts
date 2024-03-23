@@ -16,6 +16,7 @@ import {
 } from "./actions";
 import { NextResponse } from "next/server";
 import { Course, Lesson } from "@prisma/client";
+import { getCourseDetails } from "./courses";
 
 type State = {
   fieldErrors?: {
@@ -536,9 +537,7 @@ export async function updateLessonDescription(
 ): Promise<LessonDescriptionState> {
   const validatedFields = z
     .object({
-      description: z
-        .string()
-        .max(300, "Description should be maximum of 300 character"),
+      description: z.string(),
     })
     .safeParse({
       description: formData.get("description"),
@@ -576,6 +575,140 @@ export async function updateLessonDescription(
         data: prevState.data,
         errorMessage: "Failed to update description.",
       };
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function updateLessonVideo(lessonId: string, videoURL: string) {
+  try {
+    const updatedLesson = await prisma.lesson.update({
+      where: {
+        id: lessonId,
+      },
+      data: {
+        video_url: videoURL,
+      },
+    });
+
+    if (updatedLesson) return true;
+    else return false;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function deleteLesson(lessonId: string, courseId: string) {
+  const isUserInstructor = await getLoggedInInstructor();
+  const course = await getCourseDetails(courseId);
+  try {
+    const courseOwner = await isUserOwner(courseId);
+
+    if (courseOwner) {
+      const result = await prisma.lesson.delete({
+        where: {
+          id: lessonId,
+        },
+      });
+
+      return result;
+    }
+    return null;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function deleteCourse(courseId: string) {
+  const courseOwner = await isUserOwner(courseId);
+  try {
+    if (courseOwner) {
+      const course = await prisma.course.delete({
+        where: {
+          id: courseId,
+        },
+      });
+
+      if (course) {
+        return course;
+      } else {
+        return null;
+      }
+    }
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function isUserOwner(courseId: string) {
+  const loggedInInstructor = await getLoggedInInstructor();
+  try {
+    const course = await prisma.course.findUnique({
+      where: {
+        id: courseId,
+        instructor_id: loggedInInstructor?.id,
+      },
+    });
+
+    if (course) return true;
+    return false;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function publishCourse(courseId: string) {
+  const courseOwner = await isUserOwner(courseId);
+  try {
+    if (courseOwner) {
+      const course = await prisma.course.update({
+        where: {
+          id: courseId,
+        },
+        data: {
+          isPublished: true,
+        },
+      });
+
+      if (course) return course;
+      return null;
+    }
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function unpublishCourse(courseId: string) {
+  const courseOwner = await isUserOwner(courseId);
+  try {
+    if (courseOwner) {
+      const course = await prisma.course.update({
+        where: {
+          id: courseId,
+        },
+        data: {
+          isPublished: false,
+        },
+      });
+
+      if (course) return course;
+      return null;
+    }
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getCategory(categoryId: string) {
+  try {
+    const category = await prisma.category.findUnique({
+      where: {
+        id: categoryId,
+      },
+    });
+
+    if (category) return category;
+    return null;
   } catch (err) {
     throw err;
   }

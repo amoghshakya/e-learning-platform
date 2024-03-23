@@ -24,7 +24,7 @@ export function LessonsForm({
   initialData,
   courseId,
 }: {
-  initialData: Course & { Lesson: Lesson[] };
+  initialData: Course & { lessons: Lesson[] };
   courseId: string;
 }) {
   const router = useRouter();
@@ -40,7 +40,7 @@ export function LessonsForm({
   const initialState = {
     data: {
       courseId: courseId,
-      courseLesson: initialData.Lesson,
+      courseLesson: initialData.lessons,
     },
     errorMessage: null,
     successMessage: null,
@@ -139,14 +139,14 @@ export function LessonsForm({
       {!isCreating && (
         <div
           className={clsx("text-sm mt-2 transition-all", {
-            "text-slate-500 italic": !initialData.Lesson.length,
+            "text-slate-500 italic": !initialData.lessons.length,
           })}
         >
-          {!initialData.Lesson.length && "No chapters"}
+          {!initialData.lessons.length && "No lessons"}
           <LessonsList
             onEdit={onEdit}
             onReorder={onReorder}
-            items={initialData.Lesson || []}
+            items={initialData.lessons || []}
           />
         </div>
       )}

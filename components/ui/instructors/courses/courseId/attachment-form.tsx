@@ -20,7 +20,7 @@ import prisma from "@/lib/prisma";
 import { LoadingCircleIcon } from "@/components/loading-spinner";
 
 interface AttachmentFormProps {
-  initialData: Course & { Attachment: Attachment[] };
+  initialData: Course & { attachments: Attachment[] };
   courseId: string;
 }
 
@@ -116,14 +116,14 @@ export function AttachmentForm({ initialData, courseId }: AttachmentFormProps) {
 
       {!isEditing && (
         <>
-          {initialData.Attachment.length === 0 && (
+          {initialData.attachments.length === 0 && (
             <p className="text-sm mt-2 text-slate-400 italic">
               No attachments yet
             </p>
           )}
-          {initialData.Attachment.length > 0 && (
+          {initialData.attachments.length > 0 && (
             <div className="space-y-2">
-              {initialData.Attachment.map((attachment) => (
+              {initialData.attachments.map((attachment) => (
                 <div
                   className="flex items-center p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md"
                   key={attachment.id}

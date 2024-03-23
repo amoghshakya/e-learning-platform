@@ -66,28 +66,28 @@ export function ImageForm({
 
   return (
     <div
-      className={`${body.className} mt-6 border bg-slate-100 rounded-md p-4 shadow`}
+      className={`${body.className} mt-6 rounded-md border bg-slate-100 p-4 shadow`}
     >
-      <div className="font-medium flex items-center justify-between">
+      <div className="flex items-center justify-between font-medium">
         Course thumbnail
         <Button variant="ghost" onClick={toggleEdit}>
           {isEditing && (
             <>
-              <XMarkIcon className="h-4 w-4 mr-2" />
+              <XMarkIcon className="mr-2 h-4 w-4" />
               Cancel
             </>
           )}
 
           {!isEditing && !initialData.thumbnail && (
             <>
-              <PlusIcon className="h-4 w-4 mr-2" />
+              <PlusIcon className="mr-2 h-4 w-4" />
               Add an image
             </>
           )}
 
           {!isEditing && initialData.thumbnail && (
             <>
-              <PencilIcon className="h-4 w-4 mr-2" />
+              <PencilIcon className="mr-2 h-4 w-4" />
               Edit image
             </>
           )}
@@ -96,16 +96,17 @@ export function ImageForm({
 
       {!isEditing &&
         (!initialData.thumbnail ? (
-          <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
+          <div className="flex h-60 items-center justify-center rounded-md bg-slate-200">
             <PhotoIcon className="h-10 w-10 text-slate-500" />
           </div>
         ) : (
-          <div className="relative aspect-video mt-2">
+          <div className="relative mt-2 aspect-video">
             <Image
               alt="upload"
-              fill
-              className="object-cover rounded-md"
+              className="rounded-md object-cover"
               src={initialData.thumbnail}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              fill
               priority
             />
           </div>
@@ -114,7 +115,7 @@ export function ImageForm({
       {isEditing && (
         <div>
           <FileUpload endpoint="courseThumbnail" onChange={handleFileChange} />
-          <div className="text-xs text-muted-foreground mt-4">
+          <div className="mt-4 text-xs text-muted-foreground">
             16:4 aspect ratio recommended
           </div>
         </div>

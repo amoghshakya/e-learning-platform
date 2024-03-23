@@ -1,9 +1,23 @@
-import "@uploadthing/react/styles.css";
+"use client";
 
-export default function InstructorLayout({
+import NavBar from "@/components/ui/landing/Navbar";
+import { body } from "../fonts";
+import { usePathname } from "next/navigation";
+
+export default function InstructorsPageLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <div>{children}</div>;
+  const pathname = usePathname();
+  return (
+    <main className={`${body.className}`}>
+      {pathname.startsWith("/instructors/courses/") ? (
+        <NavBar showSearch={false} showLinks={false} />
+      ) : (
+        <NavBar showSearch={false} showLinks={true} />
+      )}
+      {children}
+    </main>
+  );
 }

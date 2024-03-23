@@ -1,21 +1,25 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { useEffect, useState } from "react";
-import { Session } from "@auth/core/types";
-import { useSession } from "next-auth/react";
 import { isUserLoggedIn } from "@/lib/actions";
+import { type Session } from "@auth/core/types";
+import { usePathname, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export function NavButtons() {
-  const [user, setUser] = useState(false);
-  useEffect(() => {
-    const fetchSession = async () => {
-      const userLoggedIn = await isUserLoggedIn();
-      setUser(userLoggedIn);
-    };
+  const pathname = usePathname();
+  const instructorsPage = pathname.startsWith("/instructors");
+  const { data: session, status } = useSession();
+  const [user, setUser] = useState<boolean>(false);
 
-    fetchSession();
-  }, []);
+  useEffect(() => {
+    if (session?.user.id) {
+      setUser(true);
+    }
+  }, [session]);
 
   return user ? (
     <Link href="/dashboard">

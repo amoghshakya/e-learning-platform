@@ -14,6 +14,8 @@ import { Button } from "@/components/ui/button";
 import { authenticateLogin } from "@/lib/login";
 import Link from "next/link";
 import { SocialLogins } from "./social-login";
+import { LoadingCircleIcon } from "@/components/loading-spinner";
+import { Separator } from "../separator";
 
 export function LoginForm() {
   const initialState = { errorMessage: null, successMessage: null };
@@ -24,8 +26,8 @@ export function LoginForm() {
       action={dispatch}
       className="flex h-2/3 flex-col items-center justify-around drop-shadow *:transition-all"
     >
-      <div className="flex flex-col gap-4 rounded-lg bg-gray-50 px-12 py-12 h-full">
-        <h1 className={`text-3xl font-black text-center ${heading.className}`}>
+      <div className="flex h-full flex-col gap-4 rounded-lg bg-gray-50 px-12 py-12">
+        <h1 className={`text-center text-3xl font-black ${heading.className}`}>
           Log in to your account
         </h1>
         {/* Username */}
@@ -40,7 +42,7 @@ export function LoginForm() {
               placeholder="Enter your username"
             />
             {/* an icon maybe */}
-            <UserIcon className="w-4 top-[0.6rem] left-2 absolute peer-focus:text-black text-gray-500" />
+            <UserIcon className="absolute left-2 top-[0.6rem] w-4 text-gray-500 peer-focus:text-black" />
           </div>
         </div>
 
@@ -49,14 +51,14 @@ export function LoginForm() {
           <Label htmlFor="password">Password</Label>
           <div className="relative">
             <Input
-              className="pl-8 peer"
+              className="peer pl-8"
               type="password"
               name="password"
               id="password"
               placeholder="Enter your password"
             />
             {/* an icon maybe */}
-            <KeyIcon className="w-4 top-[0.6rem] left-2 absolute peer-focus:text-black text-gray-500" />
+            <KeyIcon className="absolute left-2 top-[0.6rem] w-4 text-gray-500 peer-focus:text-black" />
           </div>
         </div>
 
@@ -84,6 +86,7 @@ export function LoginForm() {
           )
         )}
         <SocialLogins />
+        <Separator orientation="horizontal" />
         <LogInButton />
       </div>
     </form>
@@ -99,7 +102,11 @@ function LogInButton() {
       disabled={pending}
       className="m-auto w-fit items-center justify-center"
     >
-      Log in
+      {pending ? (
+        <LoadingCircleIcon className="h-4 w-4 animate-spin" />
+      ) : (
+        "Log in"
+      )}
     </Button>
   );
 }
