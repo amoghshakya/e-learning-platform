@@ -48,7 +48,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ---
 
-# About the project
+## About the project
 
 Software Engineering Assignment - 2nd year
 This is for an assignment for our Software Engineering module
