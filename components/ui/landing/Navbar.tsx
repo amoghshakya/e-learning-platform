@@ -63,7 +63,7 @@ export default function NavBar({
               links.map((link) => (
                 <>
                   {link.href === "/courses" ? (
-                    <CourseNavMenu />
+                    <CourseNavMenu key={link.key} />
                   ) : (
                     <Link
                       className={clsx(

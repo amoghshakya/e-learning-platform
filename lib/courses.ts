@@ -175,8 +175,8 @@ export async function enrollCourse(courseId?: string, userId?: string) {
   try {
     const enrollment = await prisma.enrollment.create({
       data: {
-        user_id: userId,
         course_id: courseId,
+        user_id: userId,
         progress: 0,
       },
     });

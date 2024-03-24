@@ -16,11 +16,11 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import React from "react";
+import React, { Key } from "react";
 
-export default function CourseNavMenu() {
+export default function CourseNavMenu({ key }: { key: Key }) {
   return (
-    <NavigationMenu>
+    <NavigationMenu key={key}>
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Courses</NavigationMenuTrigger>

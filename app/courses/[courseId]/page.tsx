@@ -72,7 +72,7 @@ export default async function CourseIdPage({
               fill
             />
           </section>
-          <div className="flex flex-col gap-y-4 bg-slate-50 pl-24">
+          <div className="flex flex-col gap-y-4 bg-slate-50 md:pl-24 p-8">
             <div className="flex flex-col">
               <h1
                 className={`${body.className} text-2xl font-semibold md:text-3xl`}
@@ -92,7 +92,7 @@ export default async function CourseIdPage({
             </div>
             <div>
               {isEnrolled ? (
-                <div className="w-1/2">
+                <div className="w-full md:w-1/2 space-y-3 md:space-y-2">
                   <div className="flex items-center gap-x-2 text-xs text-muted-foreground">
                     Progress
                     <Progress value={progress} />
@@ -101,7 +101,7 @@ export default async function CourseIdPage({
                   <Link
                     href={`/courses/${course.id}/lessons/${course.lessons[0].id}`}
                   >
-                    <Button variant="ghost" className="hover:shadow">
+                    <Button variant="ghost" className="shadow md:hover:shadow">
                       Continue
                     </Button>
                   </Link>
@@ -115,7 +115,7 @@ export default async function CourseIdPage({
               )}
             </div>
           </div>
-          <div className="flex flex-col gap-y-4 space-y-3 bg-slate-50 pr-16 md:col-start-2">
+          <div className="flex flex-col gap-y-4 space-y-3 bg-slate-50 p-8 md:pr-16 md:col-start-2">
             <h3 className="text-xl font-medium md:text-xl">Course contents</h3>
             <div className="flex flex-col gap-y-2 rounded-md border border-slate-200 bg-slate-100 p-2 text-sm shadow">
               {course.lessons.map((lesson) => (

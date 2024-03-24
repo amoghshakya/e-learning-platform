@@ -55,7 +55,7 @@ export function SearchBar({ hasButton, className, ...rest }: SearchProps) {
   };
 
   return (
-    <div className={clsx("relative flex gap-x-2", className)}>
+    <div className={clsx("relative flex items-center gap-x-2", className)}>
       <Input
         onChange={(e) => setValue(e.target.value)}
         value={value ?? ""}

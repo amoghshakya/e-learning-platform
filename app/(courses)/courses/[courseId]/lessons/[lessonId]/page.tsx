@@ -7,6 +7,9 @@ import { useSession } from "next-auth/react";
 import { toast } from "@/components/ui/use-toast";
 import { auth } from "@/auth";
 import LessonVideo from "@/components/lesson-video";
+import { ArrowLeftIcon, Bars2Icon } from "@heroicons/react/24/outline";
+import MobileLessonSidebar from "@/components/ui/courses/[courseId]/[lessonId]/lesson-sidebar-mobile";
+import Link from "next/link";
 
 export default async function LessonPage({
   params,
@@ -27,9 +30,18 @@ export default async function LessonPage({
 
   return (
     <div className="p-4 md:ml-[25%]">
+      <Link href="/dashboard">
+        <ArrowLeftIcon className="h-r mr-2 w-4" />
+      </Link>
+      <div className="absolute right-4 md:hidden">
+        <MobileLessonSidebar
+          courseId={params.courseId}
+          lessonId={params.lessonId}
+        />
+      </div>
       <div className="grid grid-cols-1 grid-rows-[repeat(3,fit-content)] items-center gap-y-2">
         <div className="border-b border-slate-300 p-2 py-3">
-          <h2 className="font-semibold">{lesson.title}</h2>
+          <h2 className="text-lg font-semibold md:text-lg">{lesson.title}</h2>
         </div>
         <div className="space-y-2">
           <h5 className="text-lg font-medium">Lesson video</h5>
