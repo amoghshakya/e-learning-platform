@@ -7,7 +7,7 @@ import { unstable_noStore as noStore } from "next/cache";
 
 // for cases like logging in using USERNAME
 export async function getUserByUsername(
-  username: string
+  username: string,
 ): Promise<User | undefined> {
   try {
     const user = await prisma.user.findUnique({
@@ -37,7 +37,8 @@ export async function getUserByEmail(email: string): Promise<User | undefined> {
   }
 }
 
-export async function getUserById(id: string): Promise<User | undefined> {
+export async function getUserById(id?: string): Promise<User | null> {
+  if (!id) return null;
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -45,7 +46,7 @@ export async function getUserById(id: string): Promise<User | undefined> {
       },
     });
 
-    return user ? user : undefined;
+    return user ? user : null;
   } catch (err) {
     throw err;
   }

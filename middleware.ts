@@ -11,7 +11,7 @@ import { auth } from "./auth";
 export default async function middleware(req: NextRequest) {
   const checkSession = async () => {
     const session = await auth();
-    return session?.user ? true : false;
+    return session?.user.id ? true : false;
   };
 
   const isLoggedIn = await checkSession();
