@@ -2,11 +2,11 @@ import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
-import { z } from "zod";
+import z from "zod";
 import { getUserByUsername } from "./lib/actions";
 
-export const authConfig = {
-  // debug: true,
+export default {
+  trustHost: true,
   pages: {
     signIn: "/join/login",
     newUser: "/join/signup",

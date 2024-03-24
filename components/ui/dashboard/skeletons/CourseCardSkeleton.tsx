@@ -16,9 +16,9 @@ export default function CourseCardSkeleton() {
   const isDashboardRoute = pathname === "/dashboard";
   return (
     <Card className="mt-2 items-center justify-start gap-x-2 md:grid md:w-[55vw] md:grid-cols-[100px,1fr,min-content] md:grid-rows-[fit-content,min-content]">
-      <div className="mx-4 h-fit w-full rounded md:col-start-1 md:row-span-2 md:row-start-1 md:h-max">
+      <Skeleton className="mx-4 h-fit w-full rounded md:col-start-1 md:row-span-2 md:row-start-1 md:h-max">
         <Skeleton className="aspect-video h-auto w-[100px] md:aspect-square" />
-      </div>
+      </Skeleton>
       <CardHeader className="flex-grow overflow-hidden md:col-start-2 md:row-span-1">
         <CardTitle className="peer hover:text-sky-800 hover:underline">
           <Skeleton className="h-4 w-full" />

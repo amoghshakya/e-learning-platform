@@ -2,30 +2,25 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { useEffect, useState } from "react";
-import { isUserLoggedIn } from "@/lib/actions";
-import { type Session } from "@auth/core/types";
-import { usePathname, useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 
 export function NavButtons() {
-  const [user, setUser] = useState<boolean>(false);
+  const [isLoggedIn, setUser] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchSession = async () => {
       try {
         const session = await auth();
-        if (session?.user.id) {
-          setUser(true);
-        }
+        console.log(session?.user.id);
+        setUser(!!session?.user.id);
       } catch (err) {
         console.log("Fetch Session Auth Error: ", err);
       }
-
-      fetchSession();
     };
+    fetchSession();
   }, []);
+  console.log("User logged in: ", isLoggedIn);
 
-  return user ? (
+  return isLoggedIn ? (
     <Link href="/dashboard">
       <Button>Go to dashboard</Button>
     </Link>
