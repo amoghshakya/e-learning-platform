@@ -12,6 +12,7 @@ import { SearchBar } from "@/components/Search";
 import { useSession } from "next-auth/react";
 import SearchBarSkeleton from "@/components/skeletons/SearchSkeleton";
 import { Suspense } from "react";
+import CourseNavMenu from "../CourseNavMenu";
 
 export default function NavBar({
   showSearch,
@@ -60,16 +61,22 @@ export default function NavBar({
           <ul className="md:cols-start-2 hidden h-full items-center gap-10 text-nowrap text-sm text-gray-600 md:flex">
             {links &&
               links.map((link) => (
-                <Link
-                  className={clsx(
-                    "hover:text-text w-max font-medium transition-all",
-                    { "text-text font-semibold  ": pathname === link.href },
+                <>
+                  {link.href === "/courses" ? (
+                    <CourseNavMenu />
+                  ) : (
+                    <Link
+                      className={clsx(
+                        "hover:text-text w-max font-medium transition-all",
+                        { "text-text font-semibold  ": pathname === link.href },
+                      )}
+                      href={link.href}
+                      key={link.key}
+                    >
+                      {link.label}
+                    </Link>
                   )}
-                  href={link.href}
-                  key={link.key}
-                >
-                  {link.label}
-                </Link>
+                </>
               ))}
           </ul>
         )}

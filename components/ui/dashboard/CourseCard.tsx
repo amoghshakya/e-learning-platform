@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import {
   Card,
   CardContent,
@@ -11,10 +12,12 @@ import {
   getCourseDetails,
   getInstructorName,
   getNextLesson,
+  getUserProgress,
 } from "@/lib/courses";
 import { Enrollment } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export async function CourseCard({
   enrollment,
@@ -23,6 +26,13 @@ export async function CourseCard({
   enrollment: Enrollment;
   isDashboardRoute?: boolean;
 }) {
+  const session = await auth();
+  let userId;
+  if (session?.user.id) {
+    userId = session.user.id;
+  } else {
+    return redirect("/");
+  }
   const course = await getCourseDetails(enrollment.course_id);
   if (course) {
     const instructor = await getInstructorName(course.instructor_id);
@@ -31,6 +41,8 @@ export async function CourseCard({
       enrollment.course_id,
       enrollment.user_id,
     );
+
+    const userProgress = await getUserProgress(userId, course.id);
 
     return (
       <Card className="mt-2 items-center justify-start gap-x-2 md:grid md:w-[55vw] md:grid-cols-[100px,1fr,min-content] md:grid-rows-[fit-content,min-content]">
@@ -55,23 +67,32 @@ export async function CourseCard({
         </CardHeader>
         {isDashboardRoute && (
           <CardContent className="group my-8 hidden border-l border-l-slate-400 *:text-gray-700 md:col-start-3 md:row-span-2 md:block md:w-40">
-            <Link href="" className="group-hover:underline">
-              <p className="font-bold">Next up</p>
-            </Link>
-            <Link
-              href={`/courses/${course.id}/lessons/${nextLesson?.id}`}
-              className="group-hover:underline"
-            >
-              <p className="break-words text-xs">
-                {nextLesson?.title ?? "Next lesson"}
-              </p>
-            </Link>
+            {!nextLesson ? (
+              <></>
+            ) : (
+              <>
+                <Link
+                  href={`/courses/${course.id}/lessons/${nextLesson.id}`}
+                  className="group-hover:underline"
+                >
+                  <p className="font-bold">Next up</p>
+                </Link>
+                <Link
+                  href={`/courses/${course.id}/lessons/${nextLesson.id}`}
+                  className="group-hover:underline"
+                >
+                  <p className="break-words text-xs">
+                    {nextLesson?.title ?? "Next lesson"}
+                  </p>
+                </Link>
+              </>
+            )}
           </CardContent>
         )}
         <CardFooter className="flex items-center justify-center gap-1 md:col-start-2 md:row-start-2">
           <p className="mr-1 text-xs">Progress: </p>
-          <Progress value={enrollment.progress} />
-          <p className="text-xs md:m-1">{enrollment.progress}%</p>
+          <Progress value={userProgress} />
+          <p className="text-xs md:m-1">{userProgress}%</p>
         </CardFooter>
       </Card>
     );

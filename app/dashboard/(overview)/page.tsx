@@ -54,7 +54,7 @@ export default async function Dashboard() {
         </div>
         <Card className="my-[3.687rem] hidden bg-gray-100 md:block">
           <CardHeader>Courses</CardHeader>
-          <CardContent className="flex flex-col gap-2 *:text-gray-500 *:underline hover:*:text-gray-600">
+          <CardContent className="flex flex-col gap-2 text-sm *:text-gray-500 *:underline hover:*:text-gray-600">
             <Link href="/dashboard/courses/inprogress">
               In progress ({inProgressCourses.length})
             </Link>

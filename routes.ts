@@ -9,6 +9,10 @@ export const publicRoutes = [
   "/courses",
   "/api/uploadthing",
   "/courses/search",
+  "/instructors",
+  "/about",
+  "/faq",
+  "/contact",
 ];
 
 /**

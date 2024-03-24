@@ -30,9 +30,9 @@ model User {
   isInstructor      Boolean      @default(false)
   role              Role         @default(USER)
   acc_creation_date DateTime     @default(now())
-  instructors        Instructor[]
-  enrollments        Enrollment[]
-  accounts           Account[]
+  instructors       Instructor[]
+  enrollments       Enrollment[]
+  accounts          Account[]
 }
 
 model Account {
@@ -65,9 +65,9 @@ model Course {
   isPublished   Boolean      @default(false)
   created_at    DateTime     @default(now())
   updated_at    DateTime     @updatedAt
-  lessons        Lesson[]
-  enrollments    Enrollment[]
-  attachments    Attachment[]
+  lessons       Lesson[]
+  enrollments   Enrollment[]
+  attachments   Attachment[]
 
   instructor Instructor? @relation(fields: [instructor_id], references: [id], onDelete: Cascade)
   category   Category?   @relation(fields: [category_id], references: [id], onDelete: SetNull)
@@ -84,8 +84,10 @@ model Lesson {
 
   muxData MuxData?
 
-  course_id String
-  course    Course @relation(fields: [course_id], references: [id], onDelete: Cascade)
+  course_id    String
+  course       Course      @relation(fields: [course_id], references: [id], onDelete: Cascade)
+  Enrollment   Enrollment? @relation(fields: [enrollmentId], references: [id])
+  enrollmentId String?
 }
 
 model MuxData {
@@ -131,7 +133,7 @@ model Enrollment {
   course_id        String
   enrolled_at      DateTime  @default(now())
   progress         Int       @default(0)
-  completedLessons Int       @default(0)
+  completedLessons Lesson[]
   completed_at     DateTime?
   last_accessed    DateTime?
 

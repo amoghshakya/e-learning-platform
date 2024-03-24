@@ -25,6 +25,7 @@ import { Button } from "../../button";
 import { Input } from "../../input";
 import Link from "next/link";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import CreateCourseButton from "./create-course";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -66,12 +67,7 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <Link href="/instructors/create">
-          <Button>
-            <PlusIcon className="mr-2 h-4 w-4" />
-            New course
-          </Button>
-        </Link>
+        <CreateCourseButton />
       </div>
       <div className="rounded-md border">
         <Table>

@@ -8,7 +8,7 @@ import { unstable_noStore as noStore } from "next/cache";
 // for cases like logging in using USERNAME
 export async function getUserByUsername(
   username: string,
-): Promise<User | undefined> {
+): Promise<User | null> {
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -16,14 +16,14 @@ export async function getUserByUsername(
       },
     });
 
-    return user ? user : undefined;
+    return user || null;
   } catch (err) {
     throw err;
   }
 }
 
 // for cases like logging in using EMAIL
-export async function getUserByEmail(email: string): Promise<User | undefined> {
+export async function getUserByEmail(email: string): Promise<User | null> {
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -31,7 +31,7 @@ export async function getUserByEmail(email: string): Promise<User | undefined> {
       },
     });
 
-    return user ? user : undefined;
+    return user || null;
   } catch (err) {
     throw err;
   }
@@ -46,7 +46,7 @@ export async function getUserById(id?: string): Promise<User | null> {
       },
     });
 
-    return user ? user : null;
+    return user || null;
   } catch (err) {
     throw err;
   }
@@ -144,6 +144,25 @@ export async function getLoggedInInstructor() {
     } else {
       return null;
     }
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function setUserInstructor(userId?: string) {
+  if (!userId) return null;
+  try {
+    const user = await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        isInstructor: true,
+      },
+    });
+
+    if (user) return user;
+    return null;
   } catch (err) {
     throw err;
   }

@@ -19,7 +19,7 @@ export function ProfileImage() {
 
   return (
     <>
-      <Avatar className="aspect-square rounded-full object-cover md:col-start-3 md:block place-self-end self-center max-sm:h-7 max-sm:w-7">
+      <Avatar className="aspect-square rounded-full object-cover">
         <AvatarImage src={userImage ?? "/static/default-profile.svg"} />
       </Avatar>
     </>

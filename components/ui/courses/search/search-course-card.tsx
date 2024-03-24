@@ -46,7 +46,10 @@ export default function SearchCourseCard({
             </div>
           </div>
           {progress !== null ? (
-            <Progress value={progress} />
+            <>
+              <p className="text-xs text-muted-foreground">{progress}% complete</p>
+              <Progress value={progress} />
+            </>
           ) : (
             <p className="text-sm font-semibold md:text-xs">
               {price !== 0 ? formatPrice(price) : "Free"}

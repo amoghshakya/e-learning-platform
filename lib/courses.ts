@@ -84,7 +84,6 @@ export async function getUserProgress(userId?: string, courseId?: string) {
         },
       },
       select: {
-        progress: true,
         completedLessons: true,
       },
     });
@@ -98,8 +97,8 @@ export async function getUserProgress(userId?: string, courseId?: string) {
     const totalLessons = courseLessons.length;
 
     if (enrollment && totalLessons) {
-      const progress = enrollment.completedLessons / totalLessons;
-      if (progress) return progress;
+      const progress = enrollment.completedLessons.length / totalLessons;
+      if (progress) return progress * 100;
       return 0;
     } else {
       return null;
@@ -179,7 +178,6 @@ export async function enrollCourse(courseId?: string, userId?: string) {
         user_id: userId,
         course_id: courseId,
         progress: 0,
-        completedLessons: 0,
       },
     });
 
@@ -252,11 +250,21 @@ export async function updateCourseProgress(
       },
       select: {
         progress: true,
-        completedLessons: true,
+        completedLessons: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
 
-    if (!currentProgress) return null;
+    if (
+      !currentProgress ||
+      currentProgress.completedLessons.some((obj) => obj.id === lessonId)
+    ) {
+      console.log("Lesson already completed, not updating progress.");
+      return null; // Or provide user feedback that lesson is complete
+    }
 
     const currentLesson = await prisma.lesson.findUnique({
       where: {
@@ -280,6 +288,11 @@ export async function updateCourseProgress(
         },
         data: {
           progress: currentProgress.progress + 1,
+          completedLessons: {
+            connect: {
+              id: lessonId,
+            },
+          },
         },
       });
 
@@ -294,6 +307,11 @@ export async function updateCourseProgress(
         },
         data: {
           progress: currentLesson.position + 1,
+          completedLessons: {
+            connect: {
+              id: lessonId,
+            },
+          },
         },
       });
       return enrollmentProgress;

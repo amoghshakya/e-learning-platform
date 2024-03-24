@@ -29,12 +29,12 @@ export const links = [
     key: "courses",
     icon: BookOpenIcon,
   },
-  {
-    label: "Settings",
-    href: "/dashboard/settings",
-    key: "settings",
-    icon: Cog6ToothIcon,
-  },
+  // {
+  //   label: "Settings",
+  //   href: "/dashboard/settings",
+  //   key: "settings",
+  //   icon: Cog6ToothIcon,
+  // },
 ];
 
 export default function DashboardLinks() {
@@ -56,7 +56,7 @@ export default function DashboardLinks() {
               },
               {
                 "border-b-primary": pathname === link.href,
-              }
+              },
             )}
           >
             <ListIcon className="peer w-6" />

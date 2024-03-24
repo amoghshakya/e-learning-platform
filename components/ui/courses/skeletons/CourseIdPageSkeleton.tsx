@@ -27,7 +27,7 @@ export default function CourseIdPageSkeleton() {
           </div>
         </div>
         <div className="flex flex-col gap-y-4 space-y-3 bg-slate-50 pr-16 md:col-start-2">
-          <h3 className="text-xl font-medium md:text-xl">Course contents</h3>
+          <Skeleton className="h-4 w-16" />
           <div className="flex flex-col gap-y-2 rounded-md border border-slate-200 bg-slate-100 p-2 text-sm shadow">
             <Skeleton className="h-8 w-full" />
             <Skeleton className="h-8 w-full" />

@@ -9,6 +9,7 @@ import { SearchBar } from "../../Search";
 import { ProfileImage } from "./ProfileImage";
 import { body } from "@/app/fonts";
 import SearchBarSkeleton from "@/components/skeletons/SearchSkeleton";
+import AvatarDropdown from "./AvatarDropdown";
 
 export function DNavbar() {
   const [isClicked, setIsClicked] = useState(false);
@@ -36,7 +37,9 @@ export function DNavbar() {
         </Suspense>
       </div>
 
-      <ProfileImage />
+      <div className="mr-4 place-self-end self-center max-sm:h-7 max-sm:w-7 md:col-start-3 md:mr-0 md:block">
+        <AvatarDropdown />
+      </div>
 
       <div className="col-span-3 row-start-2 flex place-items-center md:flex-row md:gap-1 md:pl-6">
         <DashboardLinks />
