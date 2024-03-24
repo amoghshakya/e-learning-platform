@@ -7,9 +7,10 @@ import {
   publicRoutes,
 } from "@/routes";
 import { auth } from "./auth";
+import { getSession, useSession } from "next-auth/react";
 
 export default async function middleware(req: NextRequest) {
-  const session = await auth();
+  const { data: session, status } = useSession();
   const isLoggedIn = !!session?.user.id;
 
   const isApiAuthRoute = req.nextUrl.pathname.startsWith(apiAuthPrefix);
