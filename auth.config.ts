@@ -6,6 +6,7 @@ import z from "zod";
 import { getUserByUsername } from "./lib/actions";
 
 export default {
+  secret: process.env.AUTH_SECRET,
   trustHost: true,
   pages: {
     signIn: "/join/login",

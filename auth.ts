@@ -5,7 +5,6 @@ import prisma from "./lib/prisma";
 import { $Enums, User } from "@prisma/client";
 
 import authConfig from "./auth.config";
-import { getUserById } from "./lib/actions";
 
 export const {
   handlers: { GET, POST },

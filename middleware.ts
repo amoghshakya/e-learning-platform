@@ -8,9 +8,11 @@ import {
 } from "@/routes";
 import { auth } from "./auth";
 import { isUserLoggedIn } from "./lib/actions";
+import { getSession } from "next-auth/react";
 
 export default async function middleware(req: NextRequest) {
-  const isLoggedIn = await isUserLoggedIn();
+  const session = await getSession();
+  const isLoggedIn = !!session?.user.id;
 
   const isApiAuthRoute = req.nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(req.nextUrl.pathname);
