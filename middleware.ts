@@ -7,14 +7,10 @@ import {
   publicRoutes,
 } from "@/routes";
 import { auth } from "./auth";
+import { isUserLoggedIn } from "./lib/actions";
 
 export default async function middleware(req: NextRequest) {
-  const checkSession = async () => {
-    const session = await auth();
-    return session?.user.id ? true : false;
-  };
-
-  const isLoggedIn = await checkSession();
+  const isLoggedIn = await isUserLoggedIn();
 
   const isApiAuthRoute = req.nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(req.nextUrl.pathname);
