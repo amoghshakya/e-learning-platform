@@ -20,7 +20,6 @@ export default function NavBar({
   showSearch?: boolean;
   showLinks?: boolean;
 }) {
-  const { data: session, status } = useSession();
   const pathname = usePathname();
 
   const isCoursesIdPage = pathname.startsWith("/courses/cl");

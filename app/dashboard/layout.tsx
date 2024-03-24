@@ -17,14 +17,12 @@ export default async function Layout({
   const session = await auth();
   return (
     <main className="h-screen flex-col md:flex-row">
-      <SessionProvider session={session}>
-        <DNavbar />
-        <div
-          className={`${body.className} flex-grow md:overflow-y-auto md:overflow-x-clip`}
-        >
-          {children}
-        </div>
-      </SessionProvider>
+      <DNavbar />
+      <div
+        className={`${body.className} flex-grow md:overflow-y-auto md:overflow-x-clip`}
+      >
+        {children}
+      </div>
     </main>
   );
 }

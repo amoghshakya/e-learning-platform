@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { auth } from "@/auth";
@@ -10,8 +8,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 export function NavButtons() {
-  const pathname = usePathname();
-  const instructorsPage = pathname.startsWith("/instructors");
   const { data: session, status } = useSession();
   const [user, setUser] = useState<boolean>(false);
 
@@ -19,7 +15,7 @@ export function NavButtons() {
     if (session?.user.id) {
       setUser(true);
     }
-  }, [session]);
+  }, [user, session]);
 
   return user ? (
     <Link href="/dashboard">
