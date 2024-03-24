@@ -12,17 +12,20 @@ export const metadata: Metadata = {
   description: "se project 4204",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
   return (
-    <html lang="en">
-      <body className={clsx(body.className, "antialiased")}>
-        <Toaster />
-        {children}
-      </body>
-    </html>
+    <SessionProvider session={session}>
+      <html lang="en">
+        <body className={clsx(body.className, "antialiased")}>
+          <Toaster />
+          {children}
+        </body>
+      </html>
+    </SessionProvider>
   );
 }
