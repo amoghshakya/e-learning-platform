@@ -20,10 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={clsx(body.className, "antialiased")}>
-        <SessionProvider refetchOnWindowFocus>
-          <Toaster />
-          {children}
-        </SessionProvider>
+        <Toaster />
+        {children}
       </body>
     </html>
   );

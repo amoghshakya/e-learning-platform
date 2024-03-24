@@ -8,14 +8,22 @@ import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 export function NavButtons() {
-  const { data: session, status } = useSession();
   const [user, setUser] = useState<boolean>(false);
 
   useEffect(() => {
-    if (session?.user.id) {
-      setUser(true);
-    }
-  }, [user, session]);
+    const fetchSession = async () => {
+      try {
+        const session = await auth();
+        if (session?.user.id) {
+          setUser(true);
+        }
+      } catch (err) {
+        console.log("Fetch Session Auth Error: ", err);
+      }
+
+      fetchSession();
+    };
+  }, []);
 
   return user ? (
     <Link href="/dashboard">
