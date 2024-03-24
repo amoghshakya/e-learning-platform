@@ -25,7 +25,6 @@ export default function LessonVideo({
     );
 
     if (updatedEnrollment) {
-      console.log("Updated progress!!");
       toast({ title: "Progress updated" });
     } else {
       console.error("Something went wrong.");

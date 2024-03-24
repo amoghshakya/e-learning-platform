@@ -53,7 +53,6 @@ export async function getUserById(id?: string): Promise<User | null> {
 }
 
 export async function getUserImage() {
-  noStore();
   const session = await auth();
   if (session) {
     return session.user.image;

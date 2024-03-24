@@ -45,18 +45,18 @@ export async function CourseCard({
     const userProgress = await getUserProgress(userId, course.id);
 
     return (
-      <Card className="mt-2 items-center justify-start gap-x-2 md:grid md:w-[55vw] md:grid-cols-[100px,1fr,min-content] md:grid-rows-[fit-content,min-content]">
-        <div className="mx-4 h-fit w-full rounded md:col-start-1 md:row-span-2 md:row-start-1 md:h-max">
+      <Card className="mt-2 h-full justify-start gap-x-2 p-3 md:grid md:w-[55vw] md:grid-cols-[fit-content,1fr,min-content] md:grid-rows-[fit-content,min-content]">
+        <div className="relative w-full flex-grow justify-center overflow-hidden rounded transition md:col-start-1 md:row-span-2 md:row-start-1 md:mx-4 md:h-max">
           <Image
             src={course.thumbnail ?? "/static/favioc.png"}
             alt="thumbnail"
             height={100}
             width={100}
-            className="aspect-video rounded object-cover md:aspect-square"
+            className="aspect-video h-fit w-full rounded object-cover md:aspect-square"
             priority
           />
         </div>
-        <CardHeader className="flex-grow overflow-hidden md:col-start-2 md:row-span-1">
+        <CardHeader className="overflow-hidden md:col-start-2 md:row-span-1">
           <CardTitle className="peer hover:text-sky-800 hover:underline">
             <Link href={`/courses/${course.id}`}>{course.title}</Link>
           </CardTitle>
@@ -65,8 +65,14 @@ export async function CourseCard({
           </CardDescription>
           <p className="text-xs text-gray-500">{instructor}</p>
         </CardHeader>
+
+        <CardFooter className="flex items-center justify-center gap-1 md:col-start-2 md:row-start-2">
+          <p className="mr-1 text-xs">Progress: </p>
+          <Progress value={userProgress} />
+          <p className="text-xs md:mx-1">{userProgress}%</p>
+        </CardFooter>
         {isDashboardRoute && (
-          <CardContent className="group my-8 hidden border-l border-l-slate-400 *:text-gray-700 md:col-start-3 md:row-span-2 md:block md:w-40">
+          <CardContent className="group flex items-center gap-2 border-l-slate-400 *:text-gray-700 md:col-start-3 md:row-span-2 md:my-8 md:block md:w-40 md:border-l">
             {!nextLesson ? (
               <></>
             ) : (
@@ -89,11 +95,6 @@ export async function CourseCard({
             )}
           </CardContent>
         )}
-        <CardFooter className="flex items-center justify-center gap-1 md:col-start-2 md:row-start-2">
-          <p className="mr-1 text-xs">Progress: </p>
-          <Progress value={userProgress} />
-          <p className="text-xs md:m-1">{userProgress}%</p>
-        </CardFooter>
       </Card>
     );
   }

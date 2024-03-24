@@ -9,7 +9,6 @@ import { useFormState, useFormStatus } from "react-dom";
 import {
   createLesson,
   onReorderLesson,
-  updateCourseDescription,
 } from "@/lib/instructor";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
@@ -17,7 +16,6 @@ import clsx from "clsx";
 import { heading, body } from "@/app/fonts";
 import { Input } from "@/components/ui/input";
 import { LessonsList } from "./lesson-list";
-import prisma from "@/lib/prisma";
 import { LoadingCircleIcon } from "@/components/loading-spinner";
 
 export function LessonsForm({

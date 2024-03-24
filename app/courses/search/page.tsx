@@ -25,7 +25,6 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
   const courses = await getCourses({ userId, ...searchParams });
 
-  console.log(courses);
   return (
     <>
       <div className="block px-6 pt-6 md:mb-0 md:hidden">

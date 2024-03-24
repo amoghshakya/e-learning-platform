@@ -32,11 +32,11 @@ export default async function LessonSidebar({
   return (
     <div className="hidden h-screen w-1/4 flex-col gap-y-2 border-slate-200 bg-slate-100 md:absolute md:flex">
       <div className="flex h-fit w-full items-center justify-start border-b border-slate-300 p-2 py-4 pr-8 shadow">
-        <Button variant="ghost">
-          <Link href="/dashboard">
+        <Link href="/dashboard">
+          <Button variant="ghost">
             <ArrowLeftIcon className="mr-2 h-4 w-4" />
-          </Link>
-        </Button>
+          </Button>
+        </Link>
         <h1 className={`${body.className} font-semibold`}>{course.title}</h1>
       </div>
       <div className="">

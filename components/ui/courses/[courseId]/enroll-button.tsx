@@ -26,7 +26,6 @@ export default function EnrollButton({
         description: "You should now see the course in your dashboard",
       });
       router.push("/dashboard");
-      revalidatePath("/dashboard");
     } else {
       toast({
         title: "Failed to enroll",

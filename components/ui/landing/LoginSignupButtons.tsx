@@ -17,7 +17,6 @@ export function NavButtons() {
     };
     fetchSession();
   }, []);
-  console.log("User logged in: ", isLoggedIn);
 
   return isLoggedIn ? (
     <Link href="/dashboard">

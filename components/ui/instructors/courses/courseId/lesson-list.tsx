@@ -33,6 +33,7 @@ export function LessonsList({ items, onEdit, onReorder }: LessonsListProps) {
     if (!result.destination) return;
 
     const items = Array.from(lessons);
+
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
@@ -44,8 +45,9 @@ export function LessonsList({ items, onEdit, onReorder }: LessonsListProps) {
 
     const bulkUpdateData = updatedLessons.map((lesson) => ({
       id: lesson.id,
-      position: items.findIndex((item) => item.id === lesson.id),
+      position: items.findIndex((item) => item.id === lesson.id) + 1,
     }));
+
 
     onReorder(bulkUpdateData);
   };

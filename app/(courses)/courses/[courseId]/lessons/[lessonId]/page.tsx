@@ -30,7 +30,7 @@ export default async function LessonPage({
 
   return (
     <div className="p-4 md:ml-[25%]">
-      <Link href="/dashboard">
+      <Link href="/dashboard" className="md:hidden">
         <ArrowLeftIcon className="h-r mr-2 w-4" />
       </Link>
       <div className="absolute right-4 md:hidden">

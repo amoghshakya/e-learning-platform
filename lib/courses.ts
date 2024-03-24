@@ -27,18 +27,17 @@ export async function getUserEnrolledCourses() {
 }
 
 export async function getCompletedCourses() {
-  noStore();
   const enrollments = await getUserEnrolledCourses();
   return enrollments.filter((enrollment) => enrollment.progress === 100);
 }
 
 export async function getInProgressCourses() {
-  noStore();
   const enrollments = await getUserEnrolledCourses();
   return enrollments.filter((enrollment) => enrollment.progress < 100);
 }
 
 export async function getCourseDetails(courseId: string) {
+  noStore();
   try {
     const course = await prisma.course.findUnique({
       where: {
@@ -190,6 +189,7 @@ export async function enrollCourse(courseId?: string, userId?: string) {
 }
 
 export async function getNextLesson(courseId?: string, userId?: string) {
+  noStore();
   if (!courseId || !userId) {
     return null;
   }
@@ -224,6 +224,8 @@ export async function getNextLesson(courseId?: string, userId?: string) {
           (lesson) => lesson.position === enrollment.progress + 1,
         );
         if (nextLesson) {
+          console.log(enrollment.progress);
+          console.log(nextLesson);
           return nextLesson[0];
         }
       }
@@ -287,7 +289,9 @@ export async function updateCourseProgress(
           },
         },
         data: {
-          progress: currentProgress.progress + 1,
+          progress: {
+            increment: 1,
+          },
           completedLessons: {
             connect: {
               id: lessonId,
