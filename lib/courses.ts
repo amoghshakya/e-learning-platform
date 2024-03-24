@@ -235,3 +235,72 @@ export async function getNextLesson(courseId?: string, userId?: string) {
     throw err;
   }
 }
+
+export async function updateCourseProgress(
+  courseId?: string,
+  lessonId?: string,
+  userId?: string,
+) {
+  if (!courseId || !lessonId || !userId) return null;
+  try {
+    const currentProgress = await prisma.enrollment.findUnique({
+      where: {
+        user_id_course_id: {
+          user_id: userId,
+          course_id: courseId,
+        },
+      },
+      select: {
+        progress: true,
+        completedLessons: true,
+      },
+    });
+
+    if (!currentProgress) return null;
+
+    const currentLesson = await prisma.lesson.findUnique({
+      where: {
+        id: lessonId,
+        course_id: courseId,
+        position: currentProgress.progress,
+      },
+      select: {
+        position: true,
+      },
+    });
+
+    // first lesson
+    if (!currentLesson) {
+      const enrollmentProgress = await prisma.enrollment.update({
+        where: {
+          user_id_course_id: {
+            user_id: userId,
+            course_id: courseId,
+          },
+        },
+        data: {
+          progress: currentProgress.progress + 1,
+        },
+      });
+
+      return enrollmentProgress;
+    } else {
+      const enrollmentProgress = await prisma.enrollment.update({
+        where: {
+          user_id_course_id: {
+            user_id: userId,
+            course_id: courseId,
+          },
+        },
+        data: {
+          progress: currentLesson.position + 1,
+        },
+      });
+      return enrollmentProgress;
+    }
+
+    return null;
+  } catch (err) {
+    throw err;
+  }
+}

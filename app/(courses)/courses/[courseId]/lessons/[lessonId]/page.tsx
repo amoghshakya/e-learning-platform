@@ -2,6 +2,11 @@ import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Video from "next-video";
 import { Preview } from "@/components/preview";
+import { updateCourseProgress } from "@/lib/courses";
+import { useSession } from "next-auth/react";
+import { toast } from "@/components/ui/use-toast";
+import { auth } from "@/auth";
+import LessonVideo from "@/components/lesson-video";
 
 export default async function LessonPage({
   params,
@@ -13,6 +18,10 @@ export default async function LessonPage({
       id: params.lessonId,
     },
   });
+  const session = await auth();
+  const userId = session?.user.id;
+
+  if (!userId) return redirect("/join/login");
 
   if (!lesson) return redirect("/dashboard");
 
@@ -26,7 +35,11 @@ export default async function LessonPage({
           <h5 className="text-lg font-medium">Lesson video</h5>
           <div className="rounded bg-slate-200 p-2 shadow">
             {lesson.video_url ? (
-              <Video src={lesson.video_url} />
+              <LessonVideo
+                src={lesson.video_url}
+                params={params}
+                userId={userId}
+              />
             ) : (
               <div className="flex w-full items-center justify-center rounded bg-slate-200 text-xs text-slate-800 md:h-60">
                 No video for this lesson
