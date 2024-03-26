@@ -26,7 +26,7 @@ model User {
   email             String       @unique
   name              String
   image             String?
-  emailVerified     DateTime?    @default(now())
+  emailVerified     DateTime?    @default(now()) @map("email_verified")
   isInstructor      Boolean      @default(false)
   role              Role         @default(USER)
   acc_creation_date DateTime     @default(now())
@@ -34,7 +34,7 @@ model User {
   enrollments       Enrollment[]
   accounts          Account[]
 
-  @@map(name: "users")
+  @@map("users")
 }
 
 model Account {
