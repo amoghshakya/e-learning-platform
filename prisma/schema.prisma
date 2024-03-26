@@ -33,6 +33,8 @@ model User {
   instructors       Instructor[]
   enrollments       Enrollment[]
   accounts          Account[]
+
+  @@map(name: "users")
 }
 
 model Account {
