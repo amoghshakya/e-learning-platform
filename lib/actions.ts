@@ -166,3 +166,22 @@ export async function setUserInstructor(userId?: string) {
     throw err;
   }
 }
+
+export async function getUserFullName(userId?: string) {
+  if (!userId) return null;
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        name: true,
+      },
+    });
+
+    if (user) return user.name;
+    return null;
+  } catch (err) {
+    throw err;
+  }
+}

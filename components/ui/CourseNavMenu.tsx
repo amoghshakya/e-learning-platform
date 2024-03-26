@@ -18,29 +18,31 @@ import {
 import Link from "next/link";
 import React, { Key } from "react";
 
-export default function CourseNavMenu({ key }: { key: Key }) {
+export default function CourseNavMenu() {
   return (
-    <NavigationMenu key={key}>
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Courses</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ListItem href="/courses/" title="Browse Courses">
-              <span className="flex">
-                <AcademicCapIcon className="mr-2 h-4 w-4" />
-                Browse available courses
-              </span>
-            </ListItem>
-            <ListItem href="/courses/search" title="Search Courses">
-              <span className="flex">
-                <MagnifyingGlassIcon className="mr-2 h-4 w-4" />
-                Search for a specific course
-              </span>
-            </ListItem>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+    <div>
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Courses</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ListItem href="/courses/" title="Browse Courses">
+                <span className="flex">
+                  <AcademicCapIcon className="mr-2 h-4 w-4" />
+                  Browse available courses
+                </span>
+              </ListItem>
+              <ListItem href="/courses/search" title="Search Courses">
+                <span className="flex">
+                  <MagnifyingGlassIcon className="mr-2 h-4 w-4" />
+                  Search for a specific course
+                </span>
+              </ListItem>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </div>
   );
 }
 

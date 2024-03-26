@@ -11,7 +11,6 @@ import { ImageForm } from "@/components/ui/instructors/courses/courseId/image-fo
 import { LessonsForm } from "@/components/ui/instructors/courses/courseId/lessons-form";
 import { PriceForm } from "@/components/ui/instructors/courses/courseId/price-form";
 import { TitleForm } from "@/components/ui/instructors/courses/courseId/title-form";
-import NavBar from "@/components/ui/landing/Navbar";
 import { fetchCategories } from "@/lib/categories";
 import { isUserOwner } from "@/lib/instructor";
 import prisma from "@/lib/prisma";

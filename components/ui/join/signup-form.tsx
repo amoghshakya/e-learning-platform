@@ -53,9 +53,9 @@ export function SignUpForm() {
     <form
       id="sign-up-form"
       action={dispatch}
-      className="flex h-2/3 flex-col items-center justify-around drop-shadow *:transition-all md:w-full"
+      className="flex h-full flex-col items-center justify-around border-slate-200 bg-slate-100 *:transition-all md:w-full md:border"
     >
-      <div className="flex w-fit flex-col gap-4 rounded-lg bg-gray-50 p-12">
+      <div className="flex w-fit flex-col gap-4 rounded-lg p-12 md:bg-slate-50 md:shadow">
         <h1 className={`text-3xl ${heading.className} text-center font-black`}>
           Create an account
         </h1>

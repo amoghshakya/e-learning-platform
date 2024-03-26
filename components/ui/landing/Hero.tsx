@@ -38,16 +38,18 @@ function Hero() {
         alt="an illustration of a woman watching a video on a computer"
         draggable={false}
         className="hidden md:col-start-2 md:row-span-3 md:block md:w-max"
+        priority
       />
 
-      <Suspense fallback={<SearchBarSkeleton />}>
-        <SearchBar
-          type="search"
-          className="hidden md:col-start-1 md:row-start-3 md:block md:w-3/4 md:self-start"
-          placeholder="Search for courses..."
-          hasButton={true}
-        />
-      </Suspense>
+      <div className="hidden content-center md:col-start-1 md:row-start-3 md:block">
+        <Suspense fallback={<SearchBarSkeleton />}>
+          <SearchBar
+            type="search"
+            placeholder="Search for courses..."
+            hasButton={true}
+          />
+        </Suspense>
+      </div>
     </section>
   );
 }

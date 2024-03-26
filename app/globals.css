@@ -116,20 +116,6 @@
   transition: all 0.15s ease-in;
 }
 
-.menu::before {
-  transform: translateX(11px) translateY(-2px) rotate(0deg);
-}
-.menu::after {
-  transform: translateX(0px) translateY(2px) rotate(0deg);
-}
-
-.menu-expanded::before {
-  transform: translateX(11px) rotate(45deg);
-}
-.menu-expanded::after {
-  transform: translateY(0) rotate(-45deg);
-}
-
 .sheet-close-button {
   font-size: 24px;  
 }

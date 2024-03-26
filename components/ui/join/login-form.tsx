@@ -24,9 +24,9 @@ export function LoginForm() {
   return (
     <form
       action={dispatch}
-      className="flex h-2/3 flex-col items-center justify-around drop-shadow *:transition-all"
+      className="flex h-full w-full flex-col items-center justify-center md:border border-slate-200 bg-slate-100 *:transition-all md:h-full"
     >
-      <div className="flex h-full flex-col gap-4 rounded-lg bg-gray-50 px-12 py-12">
+      <div className="justify-items flex flex-col justify-center gap-4 rounded-lg p-12 md:shadow md:h-fit md:bg-slate-50">
         <h1 className={`text-center text-3xl font-black ${heading.className}`}>
           Log in to your account
         </h1>
@@ -63,7 +63,7 @@ export function LoginForm() {
         </div>
 
         <p className="text-center text-sm opacity-90">
-          Don&apos;t have an account?
+          Don&apos;t have an account?{" "}
           <Link href="/join/signup" className="text-blue-700 hover:underline">
             Sign up here
           </Link>

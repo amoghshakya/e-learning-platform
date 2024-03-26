@@ -10,7 +10,7 @@ export function GitHubLogin() {
     <button
       title="Sign in with GitHub"
       type="reset"
-      className="w-full rounded border border-gray-200 p-3 shadow hover:bg-gray-200 hover:shadow-md"
+      className="w-full rounded border border-slate-200 p-3 shadow hover:bg-slate-200 hover:shadow-md"
       onClick={() => signIn("github", { callbackUrl: "/dashboard" })}
     >
       <div className="flex items-center justify-evenly gap-2">

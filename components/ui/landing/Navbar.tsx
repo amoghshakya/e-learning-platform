@@ -61,7 +61,7 @@ export default function NavBar({
           <ul className="md:cols-start-2 hidden h-full items-center gap-10 text-nowrap text-sm text-gray-600 md:flex">
             {links &&
               links.map((link) => (
-                <>
+                <div key={link.key}>
                   {link.href === "/courses" ? (
                     <CourseNavMenu key={link.key} />
                   ) : (
@@ -76,7 +76,7 @@ export default function NavBar({
                       {link.label}
                     </Link>
                   )}
-                </>
+                </div>
               ))}
           </ul>
         )}

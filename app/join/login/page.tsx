@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function Login() {
   return (
-    <div className="flex h-full w-full items-center justify-center">
+    <div className="h-full flex-grow">
       <LoginForm />
     </div>
   );
