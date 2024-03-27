@@ -8,6 +8,7 @@ import { Category, Course, Enrollment, Lesson } from "@prisma/client";
 
 export async function getUserEnrolledCourses() {
   const session = await auth();
+  if (!session?.user.id) return [];
   try {
     const enrolledCourses = await prisma.enrollment.findMany({
       where: {
