@@ -1,10 +1,10 @@
+import { authConfig } from "./auth.config";
 import NextAuth from "next-auth";
 
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "./lib/prisma";
 import { $Enums, User } from "@prisma/client";
-
-import authConfig from "./auth.config";
+import { getUserById } from "./lib/actions";
 
 export const {
   handlers: { GET, POST },
@@ -33,25 +33,31 @@ export const {
     },
 
     async jwt({ token, user }) {
-      if (user && "id" in user) {
-        // Assuming 'user_id' is a property on the User type
-        token.sub = (user as User).id;
-      }
+      console.log(token);
+      if (!token.sub) return token;
+      const existingUser = await getUserById(token.sub);
 
-      if (user && "role" in user) {
-        // Assuming 'role' is a property on the User type
-        token.role = (user as User).role as "ADMIN" | "USER";
-      }
+      if (!existingUser) return token;
 
-      if (user && "name" in user) {
-        // Assuming 'name' is a property on the User type
-        token.name = (user as User).name;
-      }
+      // if (user && "id" in user) {
+      //   // Assuming 'user_id' is a property on the User type
+      //   token.sub = (user as User).id;
+      // }
 
-      if (user && "email" in user) {
-        // Assuming 'email' is a property on the User type
-        token.email = (user as User).email;
-      }
+      // if (user && "role" in user) {
+      //   // Assuming 'role' is a property on the User type
+      //   token.role = (user as User).role as "ADMIN" | "USER";
+      // }
+
+      // if (user && "name" in user) {
+      //   // Assuming 'name' is a property on the User type
+      //   token.name = (user as User).name;
+      // }
+
+      // if (user && "email" in user) {
+      //   // Assuming 'email' is a property on the User type
+      //   token.email = (user as User).email;
+      // }
 
       return token;
     },

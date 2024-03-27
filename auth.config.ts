@@ -5,7 +5,7 @@ import Google from "next-auth/providers/google";
 import z from "zod";
 import { getUserByUsername } from "./lib/actions";
 
-export default {
+export const authConfig = {
   secret: process.env.AUTH_SECRET,
   trustHost: true,
   pages: {
