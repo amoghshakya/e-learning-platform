@@ -1,3 +1,4 @@
+
 import {
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
@@ -7,6 +8,7 @@ import {
 
 import { auth } from "./auth";
 
+// @ts-ignore
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
@@ -39,5 +41,5 @@ export default auth((req) => {
 
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
-  runtime: "experimental-edge",
+  // runtime: "experimental-edge",
 };

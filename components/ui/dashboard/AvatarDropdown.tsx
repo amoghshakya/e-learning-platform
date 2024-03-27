@@ -34,7 +34,7 @@ export default function AvatarDropdown() {
     };
 
     getUserName();
-  }, [userName]);
+  }, [userName, session]);
 
   return (
     <DropdownMenu>
