@@ -6,10 +6,12 @@ import {
   authRoutes,
   publicRoutes,
 } from "@/routes";
-import { getSession } from "next-auth/react";
 import { auth } from "./auth";
+import NextAuth from "next-auth";
+import authConfig from "./auth.config";
 
 export default async function middleware(req: NextRequest) {
+  await NextAuth(authConfig);
   const session = await auth();
   const isLoggedIn = !!session?.user.id;
 
@@ -32,3 +34,5 @@ export default async function middleware(req: NextRequest) {
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
+
+// export const { auth: middleware } = NextAuth(authConfig);
