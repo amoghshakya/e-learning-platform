@@ -1,19 +1,16 @@
 import { auth } from "@/auth";
 import {
-  enrollCourse,
   getInstructorName,
   getUserProgress,
 } from "@/lib/courses";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
-import { body, heading } from "@/app/fonts";
+import { body } from "@/app/fonts";
 import Image from "next/image";
 import { BookOpenIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/components/ui/button";
-import { formatPrice } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
 import Link from "next/link";
-import { useToast } from "@/components/ui/use-toast";
 import EnrollButton from "@/components/ui/courses/[courseId]/enroll-button";
 import { Suspense } from "react";
 import CourseIdPageSkeleton from "@/components/ui/courses/skeletons/CourseIdPageSkeleton";

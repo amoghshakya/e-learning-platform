@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "../input";
 import { Label } from "../label";
 import { Switch } from "../switch";
-import { heading } from "../../../app/fonts";
-import { ToggleSwitch } from "./toggle-switch";
+import { heading } from "@/app/fonts";
 import {
   AtSymbolIcon,
   KeyIcon,

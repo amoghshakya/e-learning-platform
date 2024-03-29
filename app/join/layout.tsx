@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { heading } from "../fonts";
 
 export default function JoinLayout({
   children,

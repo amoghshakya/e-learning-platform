@@ -642,6 +642,7 @@ export async function deleteCourse(courseId: string) {
 
 export async function isUserOwner(courseId: string) {
   const loggedInInstructor = await getLoggedInInstructor();
+  if (!loggedInInstructor) return false;
   try {
     const course = await prisma.course.findUnique({
       where: {
@@ -650,8 +651,8 @@ export async function isUserOwner(courseId: string) {
       },
     });
 
-    if (course) return true;
-    return false;
+    return !!course;
+
   } catch (err) {
     throw err;
   }

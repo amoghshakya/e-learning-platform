@@ -1,4 +1,3 @@
-import { heading } from "@/app/fonts";
 import { redirect } from "next/navigation";
 
 export default function MyCoursesPage() {

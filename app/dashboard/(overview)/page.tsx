@@ -12,7 +12,6 @@ import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/outline";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import CourseCardSkeleton from "@/components/ui/dashboard/skeletons/CourseCardSkeleton";
 import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function Dashboard() {
   const enrollments = await getUserEnrolledCourses();

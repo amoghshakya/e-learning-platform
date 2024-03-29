@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { body } from "@/app/fonts";
 import { DataTable } from "@/components/ui/instructors/courses/data-table";
 import { columns } from "@/components/ui/instructors/courses/columns";

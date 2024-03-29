@@ -1,13 +1,10 @@
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import Video from "next-video";
 import { Preview } from "@/components/preview";
-import { updateCourseProgress } from "@/lib/courses";
-import { useSession } from "next-auth/react";
-import { toast } from "@/components/ui/use-toast";
+
 import { auth } from "@/auth";
 import LessonVideo from "@/components/lesson-video";
-import { ArrowLeftIcon, Bars2Icon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import MobileLessonSidebar from "@/components/ui/courses/[courseId]/[lessonId]/lesson-sidebar-mobile";
 import Link from "next/link";
 

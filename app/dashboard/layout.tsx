@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { DNavbar } from "@/components/ui/dashboard/DashboardNavbar";
 import { body } from "../fonts";
-import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 
 export const metadata: Metadata = {
@@ -14,7 +13,6 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
   return (
     <main className="h-screen flex-col md:flex-row">
       <DNavbar />

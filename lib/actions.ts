@@ -1,9 +1,8 @@
 "use server";
 
 import prisma from "./prisma";
-import { Category, User } from "@prisma/client";
-import { auth } from "@/auth";
-import { unstable_noStore as noStore } from "next/cache";
+import {User} from "@prisma/client";
+import {auth} from "@/auth";
 
 // for cases like logging in using USERNAME
 export async function getUserByUsername(
@@ -76,8 +75,8 @@ export async function isInstructor(userId: string) {
       },
     });
 
-    if (instructor) return true;
-    return false;
+    return !!instructor;
+
   } catch (err) {
     throw err;
   }
@@ -89,13 +88,11 @@ export async function getInstructorDetails(userId?: string) {
     const isUserInstructor = await isInstructor(userId);
 
     if (isUserInstructor) {
-      const instructor = await prisma.instructor.findUnique({
+      return await prisma.instructor.findUnique({
         where: {
           user_id: userId,
         },
       });
-
-      return instructor;
     } else {
       return null;
     }
@@ -104,7 +101,7 @@ export async function getInstructorDetails(userId?: string) {
   }
 }
 
-// for loggedin user
+// for logged user
 export async function isLoggedInInstructor() {
   const session = await auth();
   const userId = session?.user.id;
@@ -117,8 +114,8 @@ export async function isLoggedInInstructor() {
       },
     });
 
-    if (instructor) return true;
-    return false;
+    return !!instructor;
+
   } catch (err) {
     throw err;
   }
@@ -133,13 +130,11 @@ export async function getLoggedInInstructor() {
     const isUserInstructor = await isLoggedInInstructor();
 
     if (isUserInstructor) {
-      const instructor = await prisma.instructor.findUnique({
+      return await prisma.instructor.findUnique({
         where: {
           user_id: userId,
         },
       });
-
-      return instructor;
     } else {
       return null;
     }

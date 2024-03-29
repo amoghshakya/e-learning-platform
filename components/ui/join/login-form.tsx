@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { heading } from "../../../app/fonts";
+import { heading } from "@/app/fonts";
 import { useFormState, useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { authenticateLogin } from "@/lib/login";

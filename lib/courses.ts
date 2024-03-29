@@ -1,10 +1,10 @@
 "use server";
 
-import { auth } from "@/auth";
+import {auth} from "@/auth";
 import prisma from "./prisma";
-import { getUserById } from "./actions";
-import { unstable_noStore as noStore } from "next/cache";
-import { Category, Course, Enrollment, Lesson } from "@prisma/client";
+import {getUserById} from "./actions";
+import {unstable_noStore as noStore} from "next/cache";
+import {Category, Course, Enrollment} from "@prisma/client";
 
 export async function getUserEnrolledCourses() {
   const session = await auth();
@@ -282,7 +282,7 @@ export async function updateCourseProgress(
 
     // first lesson
     if (!currentLesson) {
-      const enrollmentProgress = await prisma.enrollment.update({
+      return await prisma.enrollment.update({
         where: {
           user_id_course_id: {
             user_id: userId,
@@ -300,10 +300,8 @@ export async function updateCourseProgress(
           },
         },
       });
-
-      return enrollmentProgress;
     } else {
-      const enrollmentProgress = await prisma.enrollment.update({
+      return await prisma.enrollment.update({
         where: {
           user_id_course_id: {
             user_id: userId,
@@ -319,10 +317,7 @@ export async function updateCourseProgress(
           },
         },
       });
-      return enrollmentProgress;
     }
-
-    return null;
   } catch (err) {
     throw err;
   }

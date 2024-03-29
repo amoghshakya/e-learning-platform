@@ -1,5 +1,4 @@
 import { SearchBar } from "@/components/Search";
-import CoursesList from "@/components/courses-list";
 import SearchBarSkeleton from "@/components/skeletons/SearchSkeleton";
 import { Suspense } from "react";
 import prisma from "@/lib/prisma";
@@ -7,7 +6,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { BookOpenIcon } from "@heroicons/react/24/outline";
 import { IconBadge } from "@/components/icon-badge";
-import { title } from "process";
 
 export default async function CoursesPage() {
   const courses = await prisma.course.findMany({

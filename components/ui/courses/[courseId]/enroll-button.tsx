@@ -2,10 +2,9 @@
 
 import { enrollCourse } from "@/lib/courses";
 import { Button } from "../../button";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { formatPrice } from "@/lib/utils";
 import { useToast } from "../../use-toast";
-import { revalidatePath } from "next/cache";
 
 export default function EnrollButton({
   courseId,

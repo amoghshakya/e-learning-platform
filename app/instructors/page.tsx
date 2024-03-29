@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { heading } from "../fonts";
 import InstructorsButtons from "@/components/ui/instructors/instructors-button";
 import { Suspense } from "react";
