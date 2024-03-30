@@ -4,7 +4,6 @@ import { heading } from "@/app/fonts";
 import {
   getCompletedCourses,
   getInProgressCourses,
-  getUserEnrolledCourses,
 } from "@/lib/courses";
 import Link from "next/link";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
@@ -14,7 +13,6 @@ import CourseCardSkeleton from "@/components/ui/dashboard/skeletons/CourseCardSk
 import { Suspense } from "react";
 
 export default async function Dashboard() {
-  const enrollments = await getUserEnrolledCourses();
   const completedCourses = await getCompletedCourses();
   const inProgressCourses = await getInProgressCourses();
 
@@ -30,9 +28,9 @@ export default async function Dashboard() {
           <h2 className={`${heading.className} text-lg font-[555] md:text-xl`}>
             Continue learning
           </h2>
-          <div className="">
-            {enrollments.length ? (
-              enrollments.slice(0, 2).map((enrollment) => (
+          <div className="flex w-full gap-1">
+            {inProgressCourses.length ? (
+              inProgressCourses.slice(0, 2).map((enrollment) => (
                 <Suspense fallback={<CourseCardSkeleton />} key={enrollment.id}>
                   <CourseCard enrollment={enrollment} isDashboardRoute={true} />
                 </Suspense>

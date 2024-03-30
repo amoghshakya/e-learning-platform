@@ -20,6 +20,7 @@ import {
   PaintBrushIcon,
   PaperClipIcon,
 } from "@heroicons/react/24/outline";
+import clsx from "clsx";
 import { redirect } from "next/navigation";
 
 export default async function CourseIdPage({
@@ -63,13 +64,20 @@ export default async function CourseIdPage({
     course.description,
     course.thumbnail,
     course.category_id,
-    course.lessons.some((lesson) => lesson.title),
+    course.lessons.every(
+      (lesson) => lesson.title && lesson.description && lesson.video_url,
+    ),
   ];
+
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
   const completionText = `(${completedFields}/${totalFields})`;
 
   const isComplete = requiredFields.every(Boolean);
+
+  const lessonsMissing = !course.lessons.every(
+    (lesson) => lesson.title && lesson.description && lesson.video_url,
+  );
 
   return (
     <>
@@ -130,13 +138,21 @@ export default async function CourseIdPage({
                 <h2 className={`text-xl font-semibold ${heading.className}`}>
                   Add course lessons
                 </h2>
+                <span
+                  className={clsx("text-xs", {
+                    "block text-muted-foreground": lessonsMissing,
+                    hidden: !lessonsMissing,
+                  })}
+                >
+                  Lesson details missing
+                </span>
               </div>
               <LessonsForm initialData={course} courseId={params.courseId} />
             </div>
 
             {/* Price section */}
             {/* Comment this if no price for any course :) */}
-            <div>
+            {/* <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={CurrencyDollarIcon} />
                 <h2 className={`text-xl font-semibold ${heading.className}`}>
@@ -147,7 +163,7 @@ export default async function CourseIdPage({
                 initialData={JSON.parse(JSON.stringify(course))}
                 courseId={params.courseId}
               />
-            </div>
+            </div> */}
 
             <div>
               <div className="flex items-center gap-x-2">

@@ -12,11 +12,17 @@ import {
   HiOutlineBeaker,
   HiOutlineCalculator,
   HiOutlineBuildingStorefront,
+  HiOutlineCpuChip,
+  HiOutlineChartBar,
 } from "react-icons/hi2";
+import { LiaPeopleCarrySolid } from "react-icons/lia";
+import { GiSkills } from "react-icons/gi";
+
 import { IconType } from "react-icons";
 import CategoryItem from "./category-item";
 
 const iconMap: Record<Category["name"], IconType> = {
+  "Computer Science": HiOutlineCpuChip,
   "Programming & Development": HiOutlineCodeBracket,
   "Business & Entrepreneuship": HiOutlineBuildingStorefront,
   "Creative Arts & Design": HiOutlinePaintBrush,
@@ -26,6 +32,9 @@ const iconMap: Record<Category["name"], IconType> = {
   "STEM (Science, Technology, Engineering, Mathematics)": HiOutlineBeaker,
   "Test Preparation": HiOutlineCalculator,
   "Career-Specific Skills": HiOutlineBriefcase,
+  "Data & Analytics": HiOutlineChartBar,
+  "Humanities & Social Sciences": LiaPeopleCarrySolid,
+  "Life Skills": GiSkills,
 };
 
 interface CategoriesProps {

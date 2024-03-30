@@ -17,12 +17,12 @@ export const links = [
     key: "dashboard_home",
     icon: HomeIcon,
   },
-  {
-    label: "My lists",
-    href: "/dashboard/lists",
-    key: "progress",
-    icon: ClipboardDocumentListIcon,
-  },
+  // {
+  //   label: "My lists",
+  //   href: "/dashboard/lists",
+  //   key: "progress",
+  //   icon: ClipboardDocumentListIcon,
+  // },
   {
     label: "My courses",
     href: "/dashboard/courses",

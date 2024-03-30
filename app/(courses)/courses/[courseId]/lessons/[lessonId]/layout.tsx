@@ -11,7 +11,7 @@ export default function LessonLayout({
   };
 }) {
   return (
-    <main>
+    <main className="relative">
       <LessonSidebar courseId={params.courseId} lessonId={params.lessonId} />
       {children}
     </main>

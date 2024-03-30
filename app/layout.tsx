@@ -22,8 +22,8 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en">
         <body className={clsx(body.className, "antialiased")}>
-          <Toaster />
           {children}
+          <Toaster />
         </body>
       </html>
     </SessionProvider>

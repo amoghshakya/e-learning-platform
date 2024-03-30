@@ -17,7 +17,7 @@ export default function CreateCourseButton() {
     <Dialog>
       <DialogTrigger>
         <Button>
-          <PlusIcon className="mr-2 h-4 w-4" />
+          <PlusIcon className="mr-2 h-4 w-4" title="New course" />
           New course
         </Button>
       </DialogTrigger>

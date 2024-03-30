@@ -6,6 +6,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import prisma from "@/lib/prisma";
+import { getUserProgress } from "@/lib/courses";
+import { auth } from "@/auth";
+import { Progress } from "@/components/ui/progress";
+import AttachmentList from "./attachments-list";
 
 export default async function LessonSidebar({
   courseId,
@@ -14,6 +18,9 @@ export default async function LessonSidebar({
   courseId: string;
   lessonId: string;
 }) {
+  const session = await auth();
+  const userId = session?.user.id;
+
   const course = await prisma.course.findUnique({
     where: {
       id: courseId,
@@ -26,11 +33,12 @@ export default async function LessonSidebar({
       },
     },
   });
+  const userProgress = await getUserProgress(userId, courseId);
 
   if (!course) return redirect("/dashboard");
 
   return (
-    <div className="hidden h-screen w-1/4 flex-col gap-y-2 border-slate-200 bg-slate-100 md:absolute md:flex">
+    <div className="hidden h-screen w-1/4 flex-col gap-y-2 border-slate-200 bg-slate-100 md:fixed md:flex">
       <div className="flex h-fit w-full items-center justify-start border-b border-slate-300 p-2 py-4 pr-8 shadow">
         <Link href="/dashboard">
           <Button variant="ghost">
@@ -41,8 +49,10 @@ export default async function LessonSidebar({
       </div>
       <div className="flex h-full flex-col justify-between">
         <div>
-          <div className="mx-2">
-            <h3 className="text-sm">Course lessons</h3>
+          <div className="mx-4 flex items-center justify-center gap-x-2">
+            <p className="text-xs">Progress</p>
+            <Progress value={userProgress} />
+            <span className="text-xs">{userProgress}%</span>
           </div>
           <div className="flex flex-col overflow-y-scroll">
             {course.lessons.map((lesson) => (
@@ -69,7 +79,9 @@ export default async function LessonSidebar({
             ))}
           </div>
         </div>
-        {/* <div className="m-2 h-4 w-full bg-slate-200 p-4">Hi</div> */}
+        <div className="m-2 bg-slate-200 p-4">
+          <AttachmentList courseId={courseId} />
+        </div>
       </div>
     </div>
   );

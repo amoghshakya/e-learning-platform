@@ -1,9 +1,13 @@
+import { auth } from "@/auth";
+import { Progress } from "@/components/ui/progress";
 import { SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { getUserProgress } from "@/lib/courses";
 import prisma from "@/lib/prisma";
 import { BookOpenIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import AttachmentList from "./attachments-list";
 
 export default async function MobileLessonContent({
   courseId,
@@ -12,6 +16,8 @@ export default async function MobileLessonContent({
   courseId: string;
   lessonId: string;
 }) {
+  const session = await auth();
+  const userId = session?.user.id;
   const course = await prisma.course.findUnique({
     where: {
       id: courseId,
@@ -26,10 +32,17 @@ export default async function MobileLessonContent({
   });
 
   if (!course) return redirect("/dashboard");
+
+  const userProgress = await getUserProgress(userId, courseId);
   return (
-    <>
+    <div>
       <SheetHeader>
         <SheetTitle>{course.title}</SheetTitle>
+        <div className="mx-4 flex items-center justify-center gap-x-2">
+          <p className="text-xs">Progress</p>
+          <Progress value={userProgress} />
+          <span className="text-xs">{userProgress}%</span>
+        </div>
       </SheetHeader>
       <div className="flex flex-col overflow-y-scroll">
         {course.lessons.map((lesson) => (
@@ -55,6 +68,6 @@ export default async function MobileLessonContent({
           </Link>
         ))}
       </div>
-    </>
+    </div>
   );
 }

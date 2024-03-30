@@ -1,10 +1,10 @@
 "use server";
 
-import {auth} from "@/auth";
+import { auth } from "@/auth";
 import prisma from "./prisma";
-import {getUserById} from "./actions";
-import {unstable_noStore as noStore} from "next/cache";
-import {Category, Course, Enrollment} from "@prisma/client";
+import { getUserById } from "./actions";
+import { unstable_noStore as noStore } from "next/cache";
+import { Category, Course, Enrollment } from "@prisma/client";
 
 export async function getUserEnrolledCourses() {
   const session = await auth();
@@ -29,12 +29,12 @@ export async function getUserEnrolledCourses() {
 
 export async function getCompletedCourses() {
   const enrollments = await getUserEnrolledCourses();
-  return enrollments.filter((enrollment) => enrollment.progress === 100);
+  return enrollments.filter((enrollment) => enrollment.completed_at);
 }
 
 export async function getInProgressCourses() {
   const enrollments = await getUserEnrolledCourses();
-  return enrollments.filter((enrollment) => enrollment.progress < 100);
+  return enrollments.filter((enrollment) => !enrollment.completed_at);
 }
 
 export async function getCourseDetails(courseId: string) {
@@ -98,7 +98,7 @@ export async function getUserProgress(userId?: string, courseId?: string) {
 
     if (enrollment && totalLessons) {
       const progress = enrollment.completedLessons.length / totalLessons;
-      if (progress) return progress * 100;
+      if (progress) return Number((progress * 100).toFixed(0));
       return 0;
     } else {
       return null;
@@ -244,7 +244,18 @@ export async function updateCourseProgress(
 ) {
   if (!courseId || !lessonId || !userId) return null;
   try {
-    const currentProgress = await prisma.enrollment.findUnique({
+    const course = await prisma.course.findUnique({
+      where: {
+        id: courseId,
+      },
+      include: {
+        lessons: true,
+      },
+    });
+
+    if (!course) return null;
+
+    const userProgress = await prisma.enrollment.findUnique({
       where: {
         user_id_course_id: {
           user_id: userId,
@@ -252,18 +263,34 @@ export async function updateCourseProgress(
         },
       },
       select: {
+        id: true,
         progress: true,
         completedLessons: {
           select: {
             id: true,
           },
         },
+        completed_at: true,
       },
     });
 
+    if (!userProgress) return null;
+
+    if (userProgress.completedLessons.length === course.lessons.length) {
+      const updatedProgress = await prisma.enrollment.update({
+        where: {
+          id: userProgress.id,
+        },
+        data: {
+          completed_at: new Date(),
+        },
+      });
+      return updatedProgress;
+    }
+
     if (
-      !currentProgress ||
-      currentProgress.completedLessons.some((obj) => obj.id === lessonId)
+      !userProgress ||
+      userProgress.completedLessons.some((obj) => obj.id === lessonId)
     ) {
       console.log("Lesson already completed, not updating progress.");
       return null; // Or provide user feedback that lesson is complete
@@ -273,7 +300,7 @@ export async function updateCourseProgress(
       where: {
         id: lessonId,
         course_id: courseId,
-        position: currentProgress.progress,
+        position: userProgress.progress,
       },
       select: {
         position: true,
