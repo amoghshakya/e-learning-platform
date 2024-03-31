@@ -24,7 +24,9 @@ export default function CourseNavMenu() {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Courses</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="bg-primary-foreground">
+              Courses
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ListItem href="/courses/" title="Browse Courses">
                 <span className="flex">

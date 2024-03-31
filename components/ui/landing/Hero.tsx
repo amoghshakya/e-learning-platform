@@ -7,6 +7,8 @@ import { SearchBar } from "../../Search";
 import { Space_Grotesk } from "next/font/google";
 import { Suspense } from "react";
 import SearchBarSkeleton from "@/components/skeletons/SearchSkeleton";
+import Link from "next/link";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
 const space_grotesk = Space_Grotesk({ subsets: ["latin"] });
 
 function Hero() {
@@ -49,6 +51,13 @@ function Hero() {
             hasButton={true}
           />
         </Suspense>
+        <Link
+          href="/courses"
+          className="group ml-1 flex items-center text-xs text-muted-foreground hover:underline"
+        >
+          Browse all courses{" "}
+          <ArrowRightIcon className="ml-1 h-3 w-3 transition-all group-hover:translate-x-1" />
+        </Link>
       </div>
     </section>
   );

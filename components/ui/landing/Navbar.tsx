@@ -9,7 +9,6 @@ import { usePathname } from "next/navigation";
 import { body } from "@/app/fonts";
 import MobileSidebar from "./MobileSidebar";
 import { SearchBar } from "@/components/Search";
-import { useSession } from "next-auth/react";
 import SearchBarSkeleton from "@/components/skeletons/SearchSkeleton";
 import { Suspense } from "react";
 import CourseNavMenu from "../CourseNavMenu";

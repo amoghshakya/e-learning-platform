@@ -21,7 +21,7 @@ export const NAV_LINKS = [
   },
   {
     label: "About us",
-    href: "/about",
+    href: "#about",
     key: "about_us",
     icon: InformationCircleIcon,
   },
@@ -33,7 +33,7 @@ export const NAV_LINKS = [
   },
   {
     label: "FAQ",
-    href: "/faq",
+    href: "#faq",
     key: "faq",
     icon: QuestionMarkCircleIcon,
   },
