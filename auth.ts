@@ -12,6 +12,18 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  events: {
+    async linkAccount({ user }) {
+      await prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          emailVerified: new Date(),
+        },
+      });
+    },
+  },
   session: { strategy: "jwt" },
   adapter: PrismaAdapter(prisma),
   callbacks: {
