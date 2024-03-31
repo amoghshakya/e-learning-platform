@@ -9,7 +9,7 @@ export function GitHubLogin() {
   return (
     <button
       title="Sign in with GitHub"
-      type="reset"
+      type="button"
       className="w-full rounded border border-slate-200 p-3 shadow hover:bg-slate-200 hover:shadow-md"
       onClick={() => signIn("github", { callbackUrl: "/dashboard" })}
     >

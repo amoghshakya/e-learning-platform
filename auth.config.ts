@@ -8,10 +8,6 @@ import { getUserByUsername } from "./lib/actions";
 export const authConfig = {
   secret: process.env.AUTH_SECRET,
   trustHost: true,
-  pages: {
-    signIn: "/join/login",
-    newUser: "/join/signup",
-  },
   providers: [
     GitHub({
       clientId: process.env.GITHUB_ID,
@@ -51,4 +47,8 @@ export const authConfig = {
       },
     }),
   ],
+  pages: {
+    signIn: "/join/login",
+    error: "/join/error",
+  },
 } satisfies NextAuthConfig;

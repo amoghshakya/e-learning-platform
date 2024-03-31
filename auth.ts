@@ -27,7 +27,25 @@ export const {
   session: { strategy: "jwt" },
   adapter: PrismaAdapter(prisma),
   callbacks: {
-    async signIn({ user, account }) {
+    async redirect({ url, baseUrl }) {
+      const { pathname, searchParams } = new URL(url);
+      if (searchParams.get("error") === "OAuthAccountNotLinked") {
+        return `${baseUrl}/join/login`;
+      }
+      return url;
+    },
+    async jwt({ token, user }) {
+      if (!token.sub) return token;
+
+      if (!user) return token;
+      token.email = user.email;
+      token.name = user.name;
+      if (user && "isInstructor" in user)
+        token.isInstructor = user.isInstructor;
+      if (user && "role" in user) token.role = user.role;
+      return token;
+    },
+    async signIn({ account }) {
       if (account?.provider !== "credentials") return true;
 
       return true;
@@ -42,30 +60,6 @@ export const {
       }
 
       return session;
-    },
-
-    async jwt({ token, user }) {
-      if (user && "id" in user) {
-        // Assuming 'user_id' is a property on the User type
-        token.sub = (user as User).id;
-      }
-
-      if (user && "role" in user) {
-        // Assuming 'role' is a property on the User type
-        token.role = (user as User).role as "ADMIN" | "USER";
-      }
-
-      if (user && "name" in user) {
-        // Assuming 'name' is a property on the User type
-        token.name = (user as User).name;
-      }
-
-      if (user && "email" in user) {
-        // Assuming 'email' is a property on the User type
-        token.email = (user as User).email;
-      }
-
-      return token;
     },
   },
   ...authConfig,

@@ -7,9 +7,9 @@ export function GoogleLogin() {
   return (
     <button
       title="Sign in with Google"
-      type="reset"
+      type="button"
       className="w-full rounded border border-slate-200 p-3 shadow hover:bg-slate-200 hover:shadow-md"
-      onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+      onClick={() => signIn("google", { callbackUrl: "/dashboard", })}
     >
       <div className="flex items-center justify-evenly gap-2">
         <div className="">

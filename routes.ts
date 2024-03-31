@@ -20,7 +20,7 @@ export const publicRoutes = [
  *
  * @type {string[]}
  */
-export const authRoutes = ["/join/login", "/join/signup"];
+export const authRoutes = ["/join/login", "/join/signup", "/join/error"];
 
 /**
  * Prefix for api authentication routes
