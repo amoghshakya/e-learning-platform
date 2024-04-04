@@ -1,10 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { CourseCard } from "@/components/ui/dashboard/CourseCard";
 import { heading } from "@/app/fonts";
-import {
-  getCompletedCourses,
-  getInProgressCourses,
-} from "@/lib/courses";
+import { getCompletedCourses, getInProgressCourses } from "@/lib/courses";
 import Link from "next/link";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/outline";
@@ -28,7 +25,7 @@ export default async function Dashboard() {
           <h2 className={`${heading.className} text-lg font-[555] md:text-xl`}>
             Continue learning
           </h2>
-          <div className="flex w-full gap-1">
+          <div className="flex w-full flex-col gap-1">
             {inProgressCourses.length ? (
               inProgressCourses.slice(0, 2).map((enrollment) => (
                 <Suspense fallback={<CourseCardSkeleton />} key={enrollment.id}>
