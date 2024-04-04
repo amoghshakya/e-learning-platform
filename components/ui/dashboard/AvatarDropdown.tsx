@@ -10,7 +10,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { cn } from "@/lib/utils";
-import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowLeftStartOnRectangleIcon,
+  BuildingLibraryIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
 
 import React, { Suspense, useEffect, useState } from "react";
 import { ProfileImage } from "./ProfileImage";
@@ -41,14 +45,25 @@ export default function AvatarDropdown() {
       <DropdownMenuTrigger>
         <ProfileImage />
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent className="w-full space-y-1" sideOffset={1}>
         <DropdownMenuLabel>{userName}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
+          <MagnifyingGlassIcon className="mr-2 h-5 w-5" />
+          <Link href="/courses/search">Courses</Link>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem>
+          <BuildingLibraryIcon className="mr-2 h-5 w-5" />
           <Link href="/instructors">Instructors Page</Link>
         </DropdownMenuItem>
 
-        <DropdownMenuItem className="cursor-pointer" onClick={() => signOut()}>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          className="cursor-pointer bg-red-100 shadow"
+          onClick={() => signOut()}
+        >
+          <ArrowLeftStartOnRectangleIcon className="mr-2 h-5 w-5" />
           Log out
         </DropdownMenuItem>
       </DropdownMenuContent>

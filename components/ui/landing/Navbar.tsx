@@ -35,10 +35,10 @@ export default function NavBar({
       >
         <Link href="/" draggable="false">
           <Image
-            src={"/static/logo.png"}
-            className="ml-3 w-fit md:ml-0 md:w-fit md:px-6"
-            width={100}
-            height={100}
+            src={"/static/logosvg.svg"}
+            className="w-fit md:ml-0 md:w-fit md:px-6"
+            width={50}
+            height={50}
             alt="logo"
             draggable="false"
             priority

@@ -25,7 +25,7 @@ export default async function AttachmentList({
     <Collapsible>
       <CollapsibleTrigger asChild>
         <div className="flex w-full cursor-pointer justify-between text-sm">
-          Attachments
+          Attachments ({attachments.length})
           <ChevronUpDownIcon className="h-4 w-4" />
         </div>
       </CollapsibleTrigger>

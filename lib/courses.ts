@@ -178,6 +178,7 @@ export async function enrollCourse(courseId?: string, userId?: string) {
         course_id: courseId,
         user_id: userId,
         progress: 0,
+        last_accessed: new Date(),
       },
     });
 
@@ -342,6 +343,7 @@ export async function updateCourseProgress(
               id: lessonId,
             },
           },
+          last_accessed: new Date(),
         },
       });
     }

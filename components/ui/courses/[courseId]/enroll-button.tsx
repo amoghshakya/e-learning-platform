@@ -5,6 +5,7 @@ import { Button } from "../../button";
 import { useRouter } from "next/navigation";
 import { formatPrice } from "@/lib/utils";
 import { useToast } from "../../use-toast";
+import { revalidatePath } from "next/cache";
 
 export default function EnrollButton({
   courseId,
@@ -24,7 +25,8 @@ export default function EnrollButton({
         title: "Course enrolled",
         description: "You should now see the course in your dashboard",
       });
-      router.push("/dashboard");
+      router.refresh()
+      router.push("/dashboard/courses/inprogress");
     } else {
       toast({
         title: "Failed to enroll",

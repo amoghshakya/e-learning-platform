@@ -74,7 +74,7 @@ export default function FeaturedCategoryList() {
           return (
             <Card
               key={category.id}
-              className="group flex h-40 min-w-64 cursor-pointer snap-start flex-col items-center justify-center bg-slate-50 p-6 hover:bg-slate-100"
+              className="group flex h-40 min-w-48 cursor-pointer snap-start flex-col items-center justify-center bg-slate-50 p-6 hover:bg-slate-100 md:min-w-64"
               onClick={() =>
                 router.push(`/courses/search?categoryId=${category.id}`)
               }
