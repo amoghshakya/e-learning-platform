@@ -19,7 +19,7 @@ function Hero() {
       <h5
         className={`${space_grotesk.className} text-lg font-[500] md:col-start-1 md:row-start-1 md:self-end`}
       >
-        Welcome to ShikshaYatri,
+        Welcome to SikshaYatri,
       </h5>
       <h1
         className={clsx(

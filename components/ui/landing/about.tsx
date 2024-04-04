@@ -6,13 +6,13 @@ export default function AboutSection() {
       <div className="container mx-auto px-4 md:grid md:grid-cols-2 md:items-center">
         <div className="mb-8 w-full md:mb-0">
           <h2 className="mb-4 text-2xl font-bold leading-tight">
-            About ShikshaYatri
+            About SikshaYatri
           </h2>
           <p className="mb-2 text-sm leading-relaxed text-gray-700">
             We&apos;re a team of passionate students tired of the same old,
             boring e-learning platforms. We believe learning should be engaging,
             effective, and accessible to everyone. That&apos;s why we created
-            ShikshaYatri, a platform that cuts through the fluff and gets you
+            SikshaYatri, a platform that cuts through the fluff and gets you
             the skills you need, fast.
           </p>
           <p className="text-sm text-gray-800">
